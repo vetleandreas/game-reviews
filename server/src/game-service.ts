@@ -16,7 +16,6 @@ class GameService {
           'Client-ID': process.env.CLIENT_ID,
           Authorization: process.env.AUTHORIZATION,
         },
-        // data: `fields name, cover.url, genres.name, platforms.name, slug; offset ${offset}; limit 50; where cover != null;`,
         data: `fields name, cover.url, genres.name, slug; offset ${offset}; limit 5; where cover != null;`,
       })
         .then((response) => resolve(response.data))
@@ -33,8 +32,23 @@ class GameService {
           'Client-ID': process.env.CLIENT_ID,
           Authorization: process.env.AUTHORIZATION,
         },
-        // data: `fields name, cover.url, genres.name, platforms.name, slug; offset ${offset}; limit 50; where cover != null;`,
         data: `query games/count "Count of Games" {fields *;limit 1; where cover != null;}; query games "All Games" {fields name, cover.url, genres.name, slug; offset ${offset}; limit 20; where cover != null;};`,
+      })
+        .then((response) => resolve(response.data))
+        .catch((error) => reject(error));
+    });
+  }
+  getSelectedGame(slug: string) {
+    return new Promise((resolve, reject) => {
+      axios({
+        url: 'https://api.igdb.com/v4/games',
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Client-ID': process.env.CLIENT_ID,
+          Authorization: process.env.AUTHORIZATION,
+        },
+        data: `fields videos.name, videos.video_id, websites.*, release_dates.human, name,slug, summary, genres.name,cover.height, cover.width, cover.url, platforms.name, platforms.platform_logo.url, involved_companies.company.name,similar_games.cover.url, similar_games.name, similar_games.genres.name; where slug = "${slug}"; limit 1;`,
       })
         .then((response) => resolve(response.data))
         .catch((error) => reject(error));

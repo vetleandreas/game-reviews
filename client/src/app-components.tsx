@@ -103,7 +103,7 @@ export class AllGames extends Component {
                       } else {
                         this.offset = 0;
                       }
-                      history.push('/games/' + this.offset);
+                      history.push('/games/' + this.offset + '/');
                       window.scrollTo(0, 0);
                     }}
                   >
@@ -120,7 +120,8 @@ export class AllGames extends Component {
                       } else {
                         this.offset = this.games[0].count;
                       }
-                      history.push('/games/' + this.offset);
+                      history.push('/games/' + this.offset + '/');
+                      // location.reload(); Kan bruke denne til og laste siden på nytt slik at carousel blir oppdatert med nye slides
                       window.scrollTo(0, 0);
                     }}
                   >
@@ -140,6 +141,69 @@ export class AllGames extends Component {
     gameServices
       .getAllGames(this.offset)
       .then((response) => (this.games = response))
+      .catch((error) => console.log(error));
+  }
+}
+export class GetGame extends Component {
+  game = [];
+  slug = '';
+  render() {
+    return (
+      <>
+        <Container className="my-3 p-3 bg-dark rounded shadow-sm bg-primaty text-light">
+          {this.game.map((game) => (
+            <Row>
+              {console.log(game)}
+              <Col xs lg="2">
+                {game.cover ? (
+                  <Figure>
+                    <Figure.Image
+                      width={264}
+                      height={374}
+                      alt="171x180"
+                      src={String(game.cover.url).replace('t_thumb', 't_cover_big_2x')}
+                    />
+                  </Figure>
+                ) : null}
+              </Col>
+              <Col>
+                <Row>
+                  <Col>
+                    <h1>{game.name}</h1>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>{game.summary}</Col>
+                </Row>
+                {/* Badges for platforms */}
+                {game.platforms ? (
+                  <Row>
+                    <Col>
+                      <strong>Platforms: </strong>
+                      {game.platforms.map((platform) => (
+                        <Badge
+                          bg="warning"
+                          text="dark"
+                          style={{ marginRight: '5px', marginBottom: '5px' }}
+                        >
+                          {platform.name}
+                        </Badge>
+                      ))}
+                    </Col>
+                  </Row>
+                ) : null}
+              </Col>
+            </Row>
+          ))}
+        </Container>
+      </>
+    );
+  }
+  mounted() {
+    this.slug = this.props.match.params.slug ? this.props.match.params.slug : '';
+    gameServices
+      .getSelectedGame(this.slug)
+      .then((response) => (this.game = response))
       .catch((error) => console.log(error));
   }
 }

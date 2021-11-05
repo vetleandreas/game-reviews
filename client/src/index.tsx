@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Component } from 'react-simplified';
 import { HashRouter, Route } from 'react-router-dom';
 import { Container, Button, Form, FormControl, Nav, Navbar, Row, Col } from 'react-bootstrap';
-import { AllGames, MainCarousel, MainFooter, Navigation } from './app-components';
+import { AllGames, GetGame, MainCarousel, MainFooter, Navigation } from './app-components';
 // Import components
 
 class MainPage extends Component {
@@ -34,7 +34,7 @@ ReactDOM.render(
         <Navigation />
         <Route exact path="/games" component={AllGames} />
         <Route exact path="/games/:offset" component={AllGames} /> {/* for pagination */}
-        <Route exact path="/game/:slug" component={AllGames} />
+        <Route exact path="/game/:slug" component={GetGame} />
         <MainFooter />
       </div>
     </div>

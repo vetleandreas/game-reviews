@@ -11,6 +11,9 @@ class GameServices {
   getCarousel(offset: number) {
     return axios.post('/games', { offset: offset }).then((response) => response.data);
   }
+  getSelectedGame(slug: string) {
+    return axios.get('/game/' + slug).then((response) => response.data);
+  }
 }
 
 const gameServices = new GameServices();
