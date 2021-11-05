@@ -1,38 +1,11 @@
-# WebSocket example: Whiteboard
+# Web Development Project INFT2002: Game Review
 
-## Setup database connections
+## IGDB API Settings
 
-This example does not use any database. You can therefore create empty `config.ts` files:
-
-```sh
-touch server/config.ts server/test/config.ts
-```
-
-## Start server
-
-Install dependencies and start server:
+Create config.ts file in server folder. This is for the IGDB API Authorization
 
 ```sh
-cd server
-npm install
-npm start
-```
+process.env.CLIENT_ID = "client id";
+process.env.AUTHORIZATION = 'authorization';
 
-### Run server tests:
-
-```sh
-npm test
-```
-
-Compared to the previous example project, the only additional dependency is
-[ws](https://www.npmjs.com/package/ws).
-
-## Bundle client files to be served through server
-
-Install dependencies and bundle client files:
-
-```sh
-cd client
-npm install
-npm start
 ```
