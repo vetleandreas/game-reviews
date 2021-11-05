@@ -36,15 +36,16 @@ process.env.MYSQL_DATABASE = '...';
 Create a configuration file called "config.ts" in the server folder. This is for the IGDB API
 Authorization
 
-Example Client-ID: "retgzhvpsxjwun0rvrb1rfwheegu1yw"
-
-Example Authorization: "Bearer prau3ol6mg5glgek8m89ec2s9q5i3i"
-
 ```sh
 process.env.CLIENT_ID = '...';
 process.env.AUTHORIZATION = '...';
 
 ```
+
+# Example client id and authorization
+
+- Example Client-ID: "retgzhvpsxjwun0rvrb1rfwheegu1yw"
+- Example Authorization: "Bearer prau3ol6mg5glgek8m89ec2s9q5i3i"
 
 4. Run the API:
 
