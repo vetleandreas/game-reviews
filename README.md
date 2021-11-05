@@ -37,10 +37,13 @@ Create a configuration file called "config.ts" in the server folder. This is for
 Authorization
 
 ```sh
-process.env.CLIENT_ID = '...'; //Example Client-ID: retgzhvpsxjwun0rvrb1rfwheegu1yw
-process.env.AUTHORIZATION = '...'; //Example Authorization: Bearer prau3ol6mg5glgek8m89ec2s9q5i3i
+process.env.CLIENT_ID = '...';
+process.env.AUTHORIZATION = '...';
 
 ```
+
+Example Client-ID: retgzhvpsxjwun0rvrb1rfwheegu1yw Example Authorization: Bearer
+prau3ol6mg5glgek8m89ec2s9q5i3i
 
 4. Run the API:
 
