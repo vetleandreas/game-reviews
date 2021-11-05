@@ -44,8 +44,8 @@ process.env.AUTHORIZATION = '...';
 
 ### Example client id and authorization
 
-- ** Example Client-ID: "retgzhvpsxjwun0rvrb1rfwheegu1yw" **
-- ** Example Authorization: "Bearer prau3ol6mg5glgek8m89ec2s9q5i3i" **
+- Example Client-ID: `"retgzhvpsxjwun0rvrb1rfwheegu1yw"`
+- Example Authorization: `"Bearer prau3ol6mg5glgek8m89ec2s9q5i3i"`
 
 4. Run the API:
 
