@@ -1,0 +1,132 @@
+body {
+  background-color: #000;
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)),
+    url('./backgrounds/cover_art_m_xs_min.jpg');
+  background-repeat: repeat;
+}
+.background-center {
+  background-blend-mode: multiply;
+  /* background-size: cover; */
+  background-position: center;
+}
+
+#main-container {
+  position: relative;
+  /* height: 100vh; */
+  min-height: 100vh;
+}
+#content-wrapper {
+  padding-bottom: 15rem; /* Footer height */
+}
+#main-footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  min-height: 2.5rem;
+}
+
+.hero {
+  background-color: #000;
+  /* background-image: url(./images/game_covers.jpg); */
+  /* background-image: url(./images/arthas_covers.jpg); */
+  background-blend-mode: multiply;
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  padding: 1em;
+  color: #fff;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero h1 {
+  font-size: 5rem;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 15px;
+  outline: 8px solid #fff;
+  outline-offset: 0.25em;
+  display: inline-block;
+  margin: 0.25em 0 0.5em;
+  font-weight: 300;
+}
+
+.hero h2 {
+  font-size: 1.6rem;
+  margin-bottom: 0.5em;
+}
+
+.hero p {
+  color: #fff;
+}
+
+.resetPadding {
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/*  CUSTOM BOOSTRAP CSS */
+
+.card {
+  padding-top: 0;
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+
+  border: 1px solid rgba(0, 0, 0, 0.9);
+  margin: 5px 5px 10px 5px;
+  transition: all ease-in-out 50ms;
+}
+.card:hover {
+  scale: 1.05;
+  transition: all ease-in-out 0.15s;
+}
+.card-body {
+  /* background-color: rgba(229, 175, 1, 1); */
+  /* background-color: rgba(255, 79, 94, 1); */
+  /* background: #ff6a00;
+  transition: ease-in-out 0.15s; */
+}
+.card-body:hover {
+  /* background-color: #d25700;
+  transition: ease-in-out 0.15s; */
+}
+.row {
+  padding-top: 0;
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+}
+
+.carousel {
+  background-image: url(./backgrounds/carousel_background.jpg);
+  max-height: 500px;
+  overflow: hidden;
+}
+.shadow-class {
+  text-shadow: -1px -1px 0px rgba(0, 0, 0, 0.3), 1px 1px 0px #000000, 2px 2px 0px #000000,
+    3px 3px 0px #000000;
+}
+.carousel h1 {
+  text-shadow: -1px -1px 0px rgba(0, 0, 0, 0.3), 1px 1px 0px #000000, 2px 2px 0px #000000,
+    3px 3px 0px #000000;
+}
+.carousel-item img {
+  max-height: 500px;
+  overflow: hidden;
+}
+/* .item {
+  background-size: cover;
+  background-position: 50% 50%;
+  width: 100%;
+  height: 100%;
+}
+
+.item img {
+  visibility: hidden;
+} */

@@ -1,0 +1,38 @@
+{
+  "name": "whiteboard-server",
+  "version": "1.0.0",
+  "description": "A simple Whiteboard WebSocket server",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon src/server.ts --exec \"npx babel-node -x .ts --require ./config\"",
+    "test": "jest --setupFiles ./test/config.ts"
+  },
+  "browserslist": [
+    "maintained node versions"
+  ],
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverage": true
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
+    "ws": "^8.1.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.0",
+    "@babel/node": "^7.14.9",
+    "@babel/preset-env": "^7.15.0",
+    "@babel/preset-typescript": "^7.15.0",
+    "@types/express": "^4.17.13",
+    "@types/jest": "^27.0.0",
+    "@types/mysql": "^2.15.19",
+    "@types/ws": "^7.4.7",
+    "babel-jest": "^27.0.6",
+    "jest": "^27.0.6",
+    "nodemon": "^2.0.12",
+    "prettier": "^2.3.2",
+    "typescript": "^4.3.5"
+  }
+}
