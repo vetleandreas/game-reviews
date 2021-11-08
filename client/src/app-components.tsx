@@ -186,7 +186,7 @@ export class GetGame extends Component {
               <Col style={{ zIndex: 999 }}>
                 <Row style={{ zIndex: 99 }}>
                   <Col style={{ zIndex: 999 }}>
-                    <h1 className="display-6 .shadow-class"></h1>
+                    <h1 className="display-6 .shadow-class">{game.name}</h1>
                     {game.release_dates ? 'Released: ' + game.release_dates[0].human : null}
                   </Col>
                 </Row>
