@@ -45,7 +45,7 @@ export class Navigation extends Component {
                   className="me-2"
                   aria-label="Search"
                 />
-                <Button variant="outline-secondary">Search ee</Button>
+                <Button variant="outline-secondary">Search</Button>
               </Form>
             </Navbar.Collapse>
           </Container>
