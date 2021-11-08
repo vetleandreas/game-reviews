@@ -16,6 +16,7 @@ import {
   Col,
   ButtonGroup,
   Figure,
+  Modal,
 } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { tsMethodSignature } from '@babel/types';
@@ -29,12 +30,12 @@ export class Navigation extends Component {
       <>
         <Navbar sticky="top" collapseOnSelect expand="lg" bg="dark" variant="dark">
           <Container fluid>
-            <Navbar.Brand href="#">The game review project</Navbar.Brand>
+            <Navbar.Brand href="/">The game review project</Navbar.Brand>
             <Navbar.Toggle aria-controls="navbarScroll" />
             <Navbar.Collapse id="navbarScroll">
               <Nav className="me-auto my-2 my-lg-0" style={{ maxHeight: '100px' }} navbarScroll>
-                <Nav.Link href="#">Home</Nav.Link>
-                <Nav.Link href="#games">Games</Nav.Link>
+                <Nav.Link href="/">Home</Nav.Link>
+                <Nav.Link href="/#/games/">Games</Nav.Link>
                 <Nav.Link href="#">Latest Games</Nav.Link>
               </Nav>
               <Form className="d-flex">
@@ -150,14 +151,30 @@ export class GetGame extends Component {
   render() {
     return (
       <>
-        <Container className="my-3 p-3 bg-dark rounded shadow-sm bg-primaty text-light">
+        <Container
+          className="my-3 p-3 bg-dark rounded shadow-sm bg-primaty text-light"
+          style={{ zIndex: -999 }}
+        >
           {this.game.map((game) => (
-            <Row>
+            <Row style={{ zIndex: 999, position: 'relative' }}>
+              {game.cover ? (
+                <div
+                  className="game-hero w-100"
+                  style={{
+                    opacity: 0.5,
+                    backgroundImage: `linear-gradient(to top, rgba(33, 37, 41, 1), rgba(0,0,0,0.7)), url(${String(
+                      game.cover.url
+                    ).replace('t_thumb', 't_screenshot_big')})`,
+                  }}
+                ></div>
+              ) : null}
+
               {console.log(game)}
-              <Col xs lg="2">
+              <Col xs lg="3" style={{ zIndex: 999 }}>
                 {game.cover ? (
                   <Figure>
                     <Figure.Image
+                      className="img-fluid"
                       width={264}
                       height={374}
                       alt="171x180"
@@ -166,16 +183,34 @@ export class GetGame extends Component {
                   </Figure>
                 ) : null}
               </Col>
-              <Col>
-                <Row>
-                  <Col>
-                    <h1>{game.name}</h1>
+              <Col style={{ zIndex: 999 }}>
+                <Row style={{ zIndex: 99 }}>
+                  <Col style={{ zIndex: 999 }}>
+                    <h1 className="display-6 .shadow-class"></h1>
+                    {game.release_dates ? 'Released: ' + game.release_dates[0].human : null}
                   </Col>
                 </Row>
                 <Row>
-                  <Col>{game.summary}</Col>
+                  <Col>
+                    <p className="lead .shadow-class">{game.summary}</p>
+                  </Col>
                 </Row>
-                {/* Badges for platforms */}
+                {/* Badge for platforms */}
+                {game.parent_game ? (
+                  <Row style={{ zIndex: 999 }}>
+                    <Col>
+                      <p>
+                        This is an expansion of{' '}
+                        <Nav.Link
+                          id="expansion-link"
+                          href={'#/game/' + game.parent_game.slug + '/'}
+                        >
+                          {game.parent_game.name}
+                        </Nav.Link>
+                      </p>
+                    </Col>
+                  </Row>
+                ) : null}
                 {game.platforms ? (
                   <Row>
                     <Col>
@@ -192,7 +227,109 @@ export class GetGame extends Component {
                     </Col>
                   </Row>
                 ) : null}
+                {/* Badge for Developers */}
+                {game.involved_companies ? (
+                  <Row>
+                    <Col>
+                      <strong>Developers / Publishers: </strong>
+                      {game.involved_companies.map((company) => (
+                        <Badge
+                          bg="info"
+                          text="dark"
+                          style={{ marginRight: '5px', marginBottom: '5px' }}
+                        >
+                          {company.company.name}
+                        </Badge>
+                      ))}
+                    </Col>
+                  </Row>
+                ) : null}
+                {/* Badge for genres */}
+                {game.genres ? (
+                  <Row>
+                    <Col>
+                      <strong>Genres: </strong>
+                      {game.genres.map((genre) => (
+                        <Badge
+                          bg="light"
+                          text="dark"
+                          style={{ marginRight: '5px', marginBottom: '5px' }}
+                        >
+                          {genre.name}
+                        </Badge>
+                      ))}
+                    </Col>
+                  </Row>
+                ) : null}
               </Col>
+              <Row
+                className="d-flex justify-content-start"
+                style={{ marginLeft: '5px', zIndex: 999 }}
+              >
+                {/* Expansion */}
+                {game.expansions ? (
+                  <h1 className="display-6" style={{ paddingLeft: '2px' }}>
+                    Expansions
+                  </h1>
+                ) : null}
+                {game.expansions
+                  ? game.expansions.map((expansion) => (
+                      <Card style={{ width: '200px' }}>
+                        <Nav.Link
+                          href={'#/game/' + expansion.slug + '/'}
+                          style={{ color: '#000', padding: 0, margin: 0 }}
+                        >
+                          {expansion.cover ? (
+                            <Card.Img
+                              variant="top"
+                              src={String(expansion.cover.url).replace('t_thumb', 't_logo_med_2x')}
+                            />
+                          ) : null}
+                          <Card.Body className="text-shadow-1">
+                            <Card.Title style={{ fontSize: '14px' }}>{expansion.name}</Card.Title>
+                            {/* Badges */}
+                          </Card.Body>
+                        </Nav.Link>
+                      </Card>
+                    ))
+                  : null}
+              </Row>
+              {/* Recommended games */}
+              <Row
+                className="d-flex justify-content-start"
+                style={{ marginLeft: '5px', zIndex: 999 }}
+              >
+                <h1 className="display-6" style={{ paddingLeft: '2px' }}>
+                  Recommended games
+                </h1>
+                {game.similar_games
+                  ? game.similar_games.map((similar_game) => (
+                      <Card style={{ width: '200px' }}>
+                        <Nav.Link
+                          href={'#/game/' + similar_game.slug + '/'}
+                          style={{ color: '#000', padding: 0, margin: 0 }}
+                        >
+                          {similar_game.cover ? (
+                            <Card.Img
+                              variant="top"
+                              src={String(similar_game.cover.url).replace(
+                                't_thumb',
+                                't_logo_med_2x'
+                              )}
+                            />
+                          ) : null}
+                          <Card.Body className="text-shadow-1">
+                            <Card.Title style={{ fontSize: '14px' }}>
+                              {similar_game.name}
+                            </Card.Title>
+                            {/* Badges */}
+                          </Card.Body>
+                          {console.log('Similar game: ', similar_game.cover)}
+                        </Nav.Link>
+                      </Card>
+                    ))
+                  : null}
+              </Row>
             </Row>
           ))}
         </Container>
@@ -224,7 +361,7 @@ export class MainCarousel extends Component {
             <Carousel.Item key={game.id}>
               <img
                 src={String(game.cover.url).replace('t_thumb', 't_screenshot_huge')}
-                className="w-100"
+                className="w-100 img-fluid"
                 alt={`${game.name} image.`}
               />
               <Carousel.Caption style={{ paddingBottom: '55px' }}>

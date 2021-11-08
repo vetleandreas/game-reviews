@@ -25,6 +25,19 @@ body {
   min-height: 2.5rem;
 }
 
+.game-hero {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9));
+  position: absolute;
+  /* background-blend-mode: multiply; */
+  background-size: cover;
+  background-position: center;
+  height: 450px;
+  max-width: 1320px;
+  overflow: hidden;
+  margin-top: -15px;
+  z-index: 1;
+}
+
 .hero {
   background-color: #000;
   /* background-image: url(./images/game_covers.jpg); */
@@ -101,6 +114,7 @@ body {
   padding-left: 0;
   padding-right: 0;
   padding-bottom: 0;
+  --bs-gutter-x: 32px;
 }
 
 .carousel {
@@ -130,3 +144,14 @@ body {
 .item img {
   visibility: hidden;
 } */
+
+#expansion-link {
+  display: inline;
+  color: #fd7e0d;
+  transition: all ease-in-out 0.15s;
+}
+#expansion-link:hover {
+  color: #a3520b;
+  transition: all ease-in-out 0.15s;
+  /* text-decoration: underline; */
+}
