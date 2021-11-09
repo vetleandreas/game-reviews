@@ -29,7 +29,14 @@ export class Navigation extends Component {
   render() {
     return (
       <>
-        <Navbar sticky="top" collapseOnSelect expand="lg" bg="dark" variant="dark">
+        <Navbar
+          sticky="top"
+          collapseOnSelect
+          expand="lg"
+          bg="dark"
+          variant="dark"
+          style={{ marginBottom: '100px' }}
+        >
           <Container fluid>
             <Navbar.Brand href="/">The game review project</Navbar.Brand>
             <Navbar.Toggle aria-controls="navbarScroll" />
@@ -51,14 +58,14 @@ export class Navigation extends Component {
                   }}
                   onKeyDown={(event) => {
                     event.keyCode == 13
-                      ? history.push('/search/' + String(this.searchQuery))
+                      ? (history.push('/search/' + String(this.searchQuery)), scrollTo(0, 0))
                       : null;
                   }}
                 />
                 <Button
                   variant="outline-secondary"
                   onClick={(event) => {
-                    history.push('/search/' + String(this.searchQuery));
+                    history.push('/search/' + String(this.searchQuery)), scrollTo(0, 0);
                   }}
                 >
                   Search
@@ -187,19 +194,17 @@ export class GetGame extends Component {
               ) : null}
 
               {console.log(game)}
-              <Col xs lg="3" style={{ zIndex: 999 }}>
-                {game.cover ? (
+              {game.cover ? (
+                <Col sm lg="3" style={{ zIndex: 999 }}>
                   <Figure>
                     <Figure.Image
                       className="img-fluid"
-                      width={264}
-                      height={374}
                       alt="171x180"
                       src={String(game.cover.url).replace('t_thumb', 't_cover_big_2x')}
                     />
                   </Figure>
-                ) : null}
-              </Col>
+                </Col>
+              ) : null}
               <Col style={{ zIndex: 999 }}>
                 <Row style={{ zIndex: 99 }}>
                   <Col style={{ zIndex: 999 }}>
@@ -424,13 +429,38 @@ export class SearchGame extends Component {
   render() {
     return (
       <>
-        <Container
-          className="my-3 p-3 bg-dark rounded shadow-sm bg-primaty text-light"
-          style={{ paddingTop: '55px' }}
-        >
-          <Row className="w-100">
-            <Col>{this.searchQuery != '' ? 'Søk: ' + this.searchQuery : null}</Col>
+        <Container className="my-3 p-3 bg-dark rounded shadow-sm bg-primaty text-light">
+          <Row>
+            <h1 className="display-5">Search</h1>
+            <Form className="d-flex">
+              <FormControl
+                type="search"
+                placeholder="Search games"
+                className="me-2"
+                aria-label="Search games"
+                value={this.searchQuery}
+                onChange={(event) => {
+                  this.searchQuery = event.currentTarget.value;
+                }}
+                onKeyDown={(event) => {
+                  event.keyCode == 13
+                    ? (history.push('/search/' + String(this.searchQuery)), scrollTo(0, 0))
+                    : null;
+                }}
+              />
+              <Button
+                variant="outline-secondary"
+                onClick={(event) => {
+                  history.push('/search/' + String(this.searchQuery)), scrollTo(0, 0);
+                }}
+              >
+                Search
+              </Button>
+            </Form>
           </Row>
+          {/* <Row className="w-100">
+            <Col>{this.searchQuery != '' ? 'Søk: ' + this.searchQuery : null}</Col>
+          </Row> */}
           <Row>
             <Col className="w-100">
               {this.games
@@ -478,8 +508,36 @@ export class SearchGame extends Component {
           <Row style={{ paddingTop: '25px' }}>
             <Col className="d-flex justify-content-end">
               <ButtonGroup aria-label="Search navigation">
-                <Button variant="secondary">Previous</Button>
-                <Button variant="secondary">Next</Button>
+                {this.offset > 0 ? (
+                  <Button
+                    variant="secondary"
+                    onClick={(event) => {
+                      if (this.offset < 50) {
+                        this.offset = 0;
+                        history.push('/search/' + String(this.searchQuery) + '/' + this.offset),
+                          scrollTo(0, 0);
+                      } else {
+                        this.offset -= 50;
+                        history.push('/search/' + String(this.searchQuery) + '/' + this.offset),
+                          scrollTo(0, 0);
+                      }
+                    }}
+                  >
+                    Previous
+                  </Button>
+                ) : null}
+                {this.games.length >= 50 ? (
+                  <Button
+                    variant="secondary"
+                    onClick={(event) => {
+                      this.offset += 50;
+                      history.push('/search/' + String(this.searchQuery) + '/' + this.offset),
+                        scrollTo(0, 0);
+                    }}
+                  >
+                    Next
+                  </Button>
+                ) : null}
               </ButtonGroup>
             </Col>
           </Row>
