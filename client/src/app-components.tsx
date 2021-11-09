@@ -177,7 +177,7 @@ export class GetGame extends Component {
       <>
         <Container
           className="my-3 p-3 bg-dark rounded shadow-sm bg-primaty text-light"
-          style={{ zIndex: -999, minHeight: '450px' }}
+          style={{ zIndex: -999, minHeight: '550px' }}
         >
           {this.game.map((game) => (
             <Row style={{ zIndex: 999, position: 'relative' }}>
@@ -186,7 +186,7 @@ export class GetGame extends Component {
                   className="game-hero w-100"
                   style={{
                     opacity: 0.5,
-                    backgroundImage: `linear-gradient(to top, rgba(33, 37, 41, 1), rgba(0,0,0,0.7)), url(${String(
+                    backgroundImage: `linear-gradient(to top, rgba(33, 37, 41, 1), rgba(0,0,0,0.70)), url(${String(
                       game.cover.url
                     ).replace('t_thumb', 't_screenshot_big')})`,
                   }}
