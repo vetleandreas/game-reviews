@@ -155,3 +155,24 @@ body {
   transition: all ease-in-out 0.15s;
   /* text-decoration: underline; */
 }
+
+.search-link {
+  font-size: 1.5rem;
+  padding-top: 0;
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 1rem;
+  display: inline;
+  color: #fd7e0d;
+  transition: all ease-in-out 0.15s;
+}
+.search-link:hover {
+  color: #a3520b;
+  transition: all ease-in-out 0.15s;
+  /* text-decoration: underline; */
+}
+.search-link:focus {
+  color: #a3520b;
+  transition: all ease-in-out 0.15s;
+  /* text-decoration: underline; */
+}

@@ -14,6 +14,9 @@ class GameServices {
   getSelectedGame(slug: string) {
     return axios.get('/game/' + slug).then((response) => response.data);
   }
+  searchGame(query: string, offset: number) {
+    return axios.get('/search/' + query + '/' + offset).then((response) => response.data);
+  }
 }
 
 const gameServices = new GameServices();

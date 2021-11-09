@@ -6,10 +6,10 @@ import { Container, Button, Form, FormControl, Nav, Navbar, Row, Col } from 'rea
 import {
   AllGames,
   GetGame,
-  ImageModal,
   MainCarousel,
   MainFooter,
   Navigation,
+  SearchGame,
 } from './app-components';
 // Import components
 
@@ -37,12 +37,15 @@ ReactDOM.render(
   <HashRouter>
     <div id="main-container">
       <div id="content-wrapper">
-        <MainCarousel />
+        {/* <MainCarousel /> */}
         <Navigation />
         <Route exact path="/" component={MainPage} />
         <Route exact path="/games" component={AllGames} />
         <Route exact path="/games/:offset" component={AllGames} /> {/* for pagination */}
         <Route exact path="/game/:slug" component={GetGame} />
+        <Route exact path="/search/" component={SearchGame} />
+        <Route exact path="/search/:query/" component={SearchGame} />
+        <Route exact path="/search/:query/:offset" component={SearchGame} />
         <MainFooter />
       </div>
     </div>

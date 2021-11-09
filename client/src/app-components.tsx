@@ -25,6 +25,7 @@ import gameServices from './game-services';
 const history = createHashHistory();
 
 export class Navigation extends Component {
+  searchQuery = '';
   render() {
     return (
       <>
@@ -41,11 +42,27 @@ export class Navigation extends Component {
               <Form className="d-flex">
                 <FormControl
                   type="search"
-                  placeholder="Search"
+                  placeholder="Search games"
                   className="me-2"
-                  aria-label="Search"
+                  aria-label="Search games"
+                  value={this.searchQuery}
+                  onChange={(event) => {
+                    this.searchQuery = event.currentTarget.value;
+                  }}
+                  onKeyDown={(event) => {
+                    event.keyCode == 13
+                      ? history.push('/search/' + String(this.searchQuery))
+                      : null;
+                  }}
                 />
-                <Button variant="outline-secondary">Search</Button>
+                <Button
+                  variant="outline-secondary"
+                  onClick={(event) => {
+                    history.push('/search/' + String(this.searchQuery));
+                  }}
+                >
+                  Search
+                </Button>
               </Form>
             </Navbar.Collapse>
           </Container>
@@ -153,7 +170,7 @@ export class GetGame extends Component {
       <>
         <Container
           className="my-3 p-3 bg-dark rounded shadow-sm bg-primaty text-light"
-          style={{ zIndex: -999 }}
+          style={{ zIndex: -999, minHeight: '450px' }}
         >
           {this.game.map((game) => (
             <Row style={{ zIndex: 999, position: 'relative' }}>
@@ -396,5 +413,86 @@ export class MainFooter extends Component {
         </Container>
       </footer>
     );
+  }
+}
+
+export class SearchGame extends Component {
+  games = [];
+  searchQuery = '';
+  offset = '';
+  errormsg = '';
+  render() {
+    return (
+      <>
+        <Container
+          className="my-3 p-3 bg-dark rounded shadow-sm bg-primaty text-light"
+          style={{ paddingTop: '55px' }}
+        >
+          <Row className="w-100">
+            <Col>{this.searchQuery != '' ? 'Søk: ' + this.searchQuery : null}</Col>
+          </Row>
+          <Row>
+            <Col className="w-100">
+              {this.games
+                ? this.games.map((game) => (
+                    <div key={game.id} className="w-100 text-muted pt-3 border-bottom">
+                      <Row>
+                        <Col className="col col-lg-1">
+                          {game.cover ? (
+                            <Figure>
+                              <Figure.Image
+                                className="img-fluid rounded float-start"
+                                width={90}
+                                height={90}
+                                alt="171x180"
+                                src={String(game.cover.url)}
+                              />
+                            </Figure>
+                          ) : null}
+                        </Col>
+                        <Col className="col">
+                          <Nav.Link href={'#/game/' + game.slug} className="search-link">
+                            {game.name}
+                          </Nav.Link>
+                          {console.log(game)}
+                          <div style={{ display: 'block' }}>
+                            {game.genres
+                              ? game.genres.map((genre) => (
+                                  <Badge
+                                    bg="warning"
+                                    text="dark"
+                                    style={{ marginRight: '5px', marginBottom: '5px' }}
+                                  >
+                                    {genre.name}
+                                  </Badge>
+                                ))
+                              : null}
+                          </div>
+                        </Col>
+                      </Row>
+                    </div>
+                  ))
+                : null}
+            </Col>
+          </Row>
+          <Row style={{ paddingTop: '25px' }}>
+            <Col className="d-flex justify-content-end">
+              <ButtonGroup aria-label="Search navigation">
+                <Button variant="secondary">Previous</Button>
+                <Button variant="secondary">Next</Button>
+              </ButtonGroup>
+            </Col>
+          </Row>
+        </Container>
+      </>
+    );
+  }
+  mounted() {
+    this.offset = this.props.match.params.offset ? Number(this.props.match.params.offset) : 0;
+    this.searchQuery = this.props.match.params.query ? this.props.match.params.query : '';
+    gameServices
+      .searchGame(this.searchQuery, this.offset)
+      .then((response) => (this.games = response))
+      .catch((error) => (this.errormsg = error));
   }
 }

@@ -30,4 +30,14 @@ router.post('/games', (request, response) => {
     .catch((error) => response.status(500).send(error));
 });
 
+// Search
+router.get('/search/:query/:offset', (request, response) => {
+  const query: string = request.params.query ? String(request.params.query) : '';
+  const offset: number = request.params.offset ? Number(request.params.offset) : 0;
+  gameService
+    .getSearch(query, offset)
+    .then((rows) => response.send(rows))
+    .catch((error) => response.status(500).send(error));
+});
+
 export default router;
