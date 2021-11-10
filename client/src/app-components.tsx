@@ -17,6 +17,7 @@ import {
   ButtonGroup,
   Figure,
   Modal,
+  ProgressBar,
 } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { tsMethodSignature } from '@babel/types';
@@ -169,6 +170,7 @@ export class AllGames extends Component {
       .catch((error) => console.log(error));
   }
 }
+
 export class GetGame extends Component {
   game = [];
   slug = '';
@@ -230,6 +232,26 @@ export class GetGame extends Component {
                           {game.parent_game.name}
                         </Nav.Link>
                       </p>
+                    </Col>
+                  </Row>
+                ) : null}
+                {/* GameScore */}
+                {game.total_rating ? (
+                  <Row style={{ marginBottom: '20px' }}>
+                    <Col>
+                      <ProgressBar
+                        variant={
+                          game.total_rating < 25
+                            ? 'danger'
+                            : game.total_rating < 50
+                            ? 'warning'
+                            : game.total_rating < 75
+                            ? 'info'
+                            : 'success'
+                        }
+                        now={Math.round(game.total_rating)}
+                        label={`Ratings ${Math.round(game.total_rating)}%`}
+                      />
                     </Col>
                   </Row>
                 ) : null}
@@ -321,9 +343,11 @@ export class GetGame extends Component {
                 className="d-flex justify-content-start"
                 style={{ marginLeft: '5px', zIndex: 999 }}
               >
-                <h1 className="display-6" style={{ paddingLeft: '2px' }}>
-                  Recommended games
-                </h1>
+                {game.similar_games ? (
+                  <h1 className="display-6" style={{ paddingLeft: '2px' }}>
+                    Recommended games
+                  </h1>
+                ) : null}
                 {game.similar_games
                   ? game.similar_games.map((similar_game) => (
                       <Card style={{ width: '200px' }}>
