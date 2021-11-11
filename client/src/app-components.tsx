@@ -18,6 +18,7 @@ import {
   Figure,
   Modal,
   ProgressBar,
+  Spinner,
 } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { tsMethodSignature } from '@babel/types';
@@ -174,6 +175,10 @@ export class AllGames extends Component {
 export class GetGame extends Component {
   game = [];
   slug = '';
+  errormsg = '';
+  empty = setTimeout(() => {
+    this.empty = 1;
+  }, 2000);
   render() {
     return (
       <>
@@ -181,7 +186,16 @@ export class GetGame extends Component {
           className="my-3 p-3 bg-dark rounded shadow-sm bg-primaty text-light"
           style={{ zIndex: -999, minHeight: '550px' }}
         >
-          {this.game.map((game) => (
+          {this.game.length == 0 ? (
+            <div className="center-div">
+              {this.empty != 1 ? (
+                <Spinner animation="border" />
+              ) : (
+                <h3>Error: Could not locate game: {this.props.match.params.slug}</h3>
+              )}
+            </div>
+          ) : null}
+          {this.game.map((game: Foo | null) => (
             <Row style={{ zIndex: 999, position: 'relative' }}>
               {game.cover ? (
                 <div
@@ -208,7 +222,7 @@ export class GetGame extends Component {
                 </Col>
               ) : null}
               <Col style={{ zIndex: 999 }}>
-                <Row style={{ zIndex: 99 }}>
+                <Row style={{ zIndex: 999 }}>
                   <Col style={{ zIndex: 999 }}>
                     <h1 className="display-6 .shadow-class">{game.name}</h1>
                     {game.release_dates ? 'Released: ' + game.release_dates[0].human : null}
@@ -235,12 +249,13 @@ export class GetGame extends Component {
                     </Col>
                   </Row>
                 ) : null}
-                {/* GameScore */}
+                {/* Start: Game Rating from IGDB*/}
                 {game.total_rating ? (
                   <Row style={{ marginBottom: '20px' }}>
                     <Col>
                       <ProgressBar
                         variant={
+                          // Nested ternary to get different colours depending on game rating.
                           game.total_rating < 25
                             ? 'danger'
                             : game.total_rating < 50
@@ -255,6 +270,7 @@ export class GetGame extends Component {
                     </Col>
                   </Row>
                 ) : null}
+                {/* End: Game Rating from IGDB*/}
                 {game.platforms ? (
                   <Row>
                     <Col>
@@ -387,7 +403,7 @@ export class GetGame extends Component {
     gameServices
       .getSelectedGame(this.slug)
       .then((response) => (this.game = response))
-      .catch((error) => console.log(error));
+      .catch((error) => (this.errormsg = error));
   }
 }
 

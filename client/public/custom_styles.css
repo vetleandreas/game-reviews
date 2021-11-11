@@ -177,6 +177,14 @@ body {
   /* text-decoration: underline; */
 }
 
+.center-div {
+  position: relative;
+  min-width: 100px;
+  min-height: 100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
 /* Progressbar */
 .progress {
   /* background-color: #e9ecef56; */
@@ -186,6 +194,6 @@ body {
 /* Figure class */
 .figure img {
   border: 1px solid rgba(0, 0, 0, 0.4);
-  border-radius: 15px;
+  border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.5) 0px 13px 27px -5px, rgba(0, 0, 0, 0.7) 0px 8px 16px -8px;
 }

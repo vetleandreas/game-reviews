@@ -8,7 +8,7 @@ class GameService {
   Carousel(offset: number) {
     return new Promise((resolve, reject) => {
       axios({
-        url: 'https://api.igdb.com/v4/games',
+        url: process.env.IGDB_URL + 'games',
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -24,7 +24,7 @@ class GameService {
   getAllGames(offset: number) {
     return new Promise((resolve, reject) => {
       axios({
-        url: 'https://api.igdb.com/v4/multiquery',
+        url: process.env.IGDB_URL + 'multiquery',
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -37,10 +37,27 @@ class GameService {
         .catch((error) => reject(error));
     });
   }
+  getAllPlatforms() {
+    return new Promise((resolve, reject) => {
+      axios({
+        url: process.env.IGDB_URL + 'platforms',
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Client-ID': process.env.CLIENT_ID,
+          Authorization: process.env.AUTHORIZATION,
+        },
+        // Max limit to IGDB is 500. Gets all platfoms since number of platforms is less than limit.
+        data: `fields name, platform_logo.url, slug, category, id; limit 500;`,
+      })
+        .then((response) => resolve(response.data))
+        .catch((error) => reject(error));
+    });
+  }
   getSelectedGame(slug: string) {
     return new Promise((resolve, reject) => {
       axios({
-        url: 'https://api.igdb.com/v4/games',
+        url: process.env.IGDB_URL + 'games',
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -56,7 +73,7 @@ class GameService {
   getSearch(query: string, offset: number) {
     return new Promise((resolve, reject) => {
       axios({
-        url: 'https://api.igdb.com/v4/games',
+        url: process.env.IGDB_URL + 'games',
         method: 'POST',
         headers: {
           Accept: 'application/json',
