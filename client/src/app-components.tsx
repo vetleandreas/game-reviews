@@ -19,6 +19,9 @@ import {
   Modal,
   ProgressBar,
   Spinner,
+  Accordion,
+  Dropdown,
+  ListGroup,
 } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { tsMethodSignature } from '@babel/types';
@@ -592,5 +595,110 @@ export class SearchGame extends Component {
       .searchGame(this.searchQuery, this.offset)
       .then((response) => (this.games = response))
       .catch((error) => (this.errormsg = error));
+  }
+}
+
+export class GameCarousel extends Component {
+  render() {
+    return (
+      <>
+        <Container>
+          <Carousel>
+            <Carousel.Item>
+              <Card style={{ float: 'left' }} className="col-md-3">
+                <Card.Img variant="top" src="./backgrounds/carousel_background.jpg" />
+                <Card.Body>
+                  <Card.Title>Card Title 1</Card.Title>
+                  <Card.Text>
+                    Some quick example text to build on the card title and make up the bulk of the
+                    card's content.
+                  </Card.Text>
+                  <Button variant="primary">Go somewhere</Button>
+                </Card.Body>
+              </Card>
+              <Card style={{ float: 'left' }} className="col-md-3">
+                <Card.Img variant="top" src="./backgrounds/carousel_background.jpg" />
+                <Card.Body>
+                  <Card.Title>Card Title 1</Card.Title>
+                  <Card.Text>
+                    Some quick example text to build on the card title and make up the bulk of the
+                    card's content.
+                  </Card.Text>
+                  <Button variant="primary">Go somewhere</Button>
+                </Card.Body>
+              </Card>
+              <Card style={{ float: 'left' }} className="col-md-3">
+                <Card.Img variant="top" src="./backgrounds/carousel_background.jpg" />
+                <Card.Body>
+                  <Card.Title>Card Title 1</Card.Title>
+                  <Card.Text>
+                    Some quick example text to build on the card title and make up the bulk of the
+                    card's content.
+                  </Card.Text>
+                  <Button variant="primary">Go somewhere</Button>
+                </Card.Body>
+              </Card>
+              <Card style={{ float: 'left' }} className="col-md-3">
+                <Card.Img variant="top" src="./backgrounds/carousel_background.jpg" />
+                <Card.Body>
+                  <Card.Title>Card Title 1</Card.Title>
+                  <Card.Text>
+                    Some quick example text to build on the card title and make up the bulk of the
+                    card's content.
+                  </Card.Text>
+                  <Button variant="primary">Go somewhere</Button>
+                </Card.Body>
+              </Card>
+            </Carousel.Item>
+            <Carousel.Item>
+              <Card style={{ float: 'left' }} className="col-md-3">
+                <Card.Img variant="top" src="./backgrounds/carousel_background.jpg" />
+                <Card.Body>
+                  <Card.Title>Card Title 1</Card.Title>
+                  <Card.Text>
+                    Some quick example text to build on the card title and make up the bulk of the
+                    card's content.
+                  </Card.Text>
+                  <Button variant="primary">Go somewhere</Button>
+                </Card.Body>
+              </Card>
+              <Card style={{ float: 'left' }} className="col-md-3">
+                <Card.Img variant="top" src="./backgrounds/carousel_background.jpg" />
+                <Card.Body>
+                  <Card.Title>Card Title 1</Card.Title>
+                  <Card.Text>
+                    Some quick example text to build on the card title and make up the bulk of the
+                    card's content.
+                  </Card.Text>
+                  <Button variant="primary">Go somewhere</Button>
+                </Card.Body>
+              </Card>
+              <Card style={{ float: 'left' }} className="col-md-3">
+                <Card.Img variant="top" src="./backgrounds/carousel_background.jpg" />
+                <Card.Body>
+                  <Card.Title>Card Title 1</Card.Title>
+                  <Card.Text>
+                    Some quick example text to build on the card title and make up the bulk of the
+                    card's content.
+                  </Card.Text>
+                  <Button variant="primary">Go somewhere</Button>
+                </Card.Body>
+              </Card>
+              <Card style={{ float: 'left' }} className="col-md-3">
+                <Card.Img variant="top" src="./backgrounds/carousel_background.jpg" />
+                <Card.Body>
+                  <Card.Title>Card Title 1</Card.Title>
+                  <Card.Text>
+                    Some quick example text to build on the card title and make up the bulk of the
+                    card's content.
+                  </Card.Text>
+                  <Button variant="primary">Go somewhere</Button>
+                </Card.Body>
+              </Card>
+            </Carousel.Item>
+          </Carousel>
+        </Container>
+      </>
+    );
   }
 }

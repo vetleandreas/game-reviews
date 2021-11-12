@@ -3,6 +3,14 @@ import gameService from './game-service';
 
 const router = express.Router();
 
+// Gets all platforms
+export const getPlatforms = (request: any, response: any) => {
+  gameService
+    .getAllPlatforms()
+    .then((rows) => response.send(rows))
+    .catch((error) => response.status(500).send(error));
+};
+
 // Remake - Datatype any atm
 export const getGames = (request: any, response: any) => {
   const offset: number = request.body.offset;

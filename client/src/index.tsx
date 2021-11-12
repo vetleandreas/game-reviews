@@ -5,6 +5,7 @@ import { HashRouter, Route } from 'react-router-dom';
 import { Container, Button, Form, FormControl, Nav, Navbar, Row, Col } from 'react-bootstrap';
 import {
   AllGames,
+  GameCarousel,
   GetGame,
   MainCarousel,
   MainFooter,
@@ -46,6 +47,7 @@ ReactDOM.render(
         <Route exact path="/search/" component={SearchGame} />
         <Route exact path="/search/:query/" component={SearchGame} />
         <Route exact path="/search/:query/:offset" component={SearchGame} />
+        <GameCarousel />
         <MainFooter />
       </div>
     </div>

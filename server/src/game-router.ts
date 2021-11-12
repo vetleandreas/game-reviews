@@ -1,6 +1,6 @@
 import express, { request } from 'express';
 import gameService from './game-service';
-import { gameSearch, getGame, getGames, getGamesOffset } from './game-controller';
+import { gameSearch, getGame, getGames, getGamesOffset, getPlatforms } from './game-controller';
 
 const router = express.Router();
 
@@ -15,6 +15,9 @@ router.get('/games/:offset', getGamesOffset);
 
 // Gets the selected game - Datatype any atm
 router.get('/game/:slug', getGame);
+
+// Gets all platforms
+router.get('/platforms', getPlatforms);
 
 // Search games. Can only search for games at the moment.
 router.get('/search/:query/:offset', gameSearch);
