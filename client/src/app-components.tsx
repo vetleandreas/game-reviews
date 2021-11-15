@@ -17,6 +17,11 @@ import {
   ButtonGroup,
   Figure,
   Modal,
+  ProgressBar,
+  Spinner,
+  Accordion,
+  Dropdown,
+  ListGroup,
 } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { tsMethodSignature } from '@babel/types';
@@ -25,10 +30,18 @@ import gameServices from './game-services';
 const history = createHashHistory();
 
 export class Navigation extends Component {
+  searchQuery = '';
   render() {
     return (
       <>
-        <Navbar sticky="top" collapseOnSelect expand="lg" bg="dark" variant="dark">
+        <Navbar
+          sticky="top"
+          collapseOnSelect
+          expand="lg"
+          bg="dark"
+          variant="dark"
+          style={{ marginBottom: '100px' }}
+        >
           <Container fluid>
             <Navbar.Brand href="/">The game review project</Navbar.Brand>
             <Navbar.Toggle aria-controls="navbarScroll" />
@@ -41,11 +54,27 @@ export class Navigation extends Component {
               <Form className="d-flex">
                 <FormControl
                   type="search"
-                  placeholder="Search"
+                  placeholder="Search games"
                   className="me-2"
-                  aria-label="Search"
+                  aria-label="Search games"
+                  value={this.searchQuery}
+                  onChange={(event) => {
+                    this.searchQuery = event.currentTarget.value;
+                  }}
+                  onKeyDown={(event) => {
+                    event.keyCode == 13
+                      ? (history.push('/search/' + String(this.searchQuery)), scrollTo(0, 0))
+                      : null;
+                  }}
                 />
-                <Button variant="outline-secondary">Search</Button>
+                <Button
+                  variant="outline-secondary"
+                  onClick={(event) => {
+                    history.push('/search/' + String(this.searchQuery)), scrollTo(0, 0);
+                  }}
+                >
+                  Search
+                </Button>
               </Form>
             </Navbar.Collapse>
           </Container>
@@ -145,24 +174,38 @@ export class AllGames extends Component {
       .catch((error) => console.log(error));
   }
 }
+
 export class GetGame extends Component {
   game = [];
   slug = '';
+  errormsg = '';
+  empty = setTimeout(() => {
+    this.empty = 1;
+  }, 2000);
   render() {
     return (
       <>
         <Container
           className="my-3 p-3 bg-dark rounded shadow-sm bg-primaty text-light"
-          style={{ zIndex: -999 }}
+          style={{ zIndex: -999, minHeight: '550px' }}
         >
-          {this.game.map((game) => (
+          {this.game.length == 0 ? (
+            <div className="center-div">
+              {this.empty != 1 ? (
+                <Spinner animation="border" />
+              ) : (
+                <h3>Error: Could not locate game: {this.props.match.params.slug}</h3>
+              )}
+            </div>
+          ) : null}
+          {this.game.map((game: Foo | null) => (
             <Row style={{ zIndex: 999, position: 'relative' }}>
               {game.cover ? (
                 <div
                   className="game-hero w-100"
                   style={{
                     opacity: 0.5,
-                    backgroundImage: `linear-gradient(to top, rgba(33, 37, 41, 1), rgba(0,0,0,0.7)), url(${String(
+                    backgroundImage: `linear-gradient(to top, rgba(33, 37, 41, 1), rgba(0,0,0,0.70)), url(${String(
                       game.cover.url
                     ).replace('t_thumb', 't_screenshot_big')})`,
                   }}
@@ -170,23 +213,21 @@ export class GetGame extends Component {
               ) : null}
 
               {console.log(game)}
-              <Col xs lg="3" style={{ zIndex: 999 }}>
-                {game.cover ? (
+              {game.cover ? (
+                <Col sm lg="3" style={{ zIndex: 999 }}>
                   <Figure>
                     <Figure.Image
                       className="img-fluid"
-                      width={264}
-                      height={374}
                       alt="171x180"
                       src={String(game.cover.url).replace('t_thumb', 't_cover_big_2x')}
                     />
                   </Figure>
-                ) : null}
-              </Col>
+                </Col>
+              ) : null}
               <Col style={{ zIndex: 999 }}>
-                <Row style={{ zIndex: 99 }}>
+                <Row style={{ zIndex: 999 }}>
                   <Col style={{ zIndex: 999 }}>
-                    <h1 className="display-6 .shadow-class"></h1>
+                    <h1 className="display-6 .shadow-class">{game.name}</h1>
                     {game.release_dates ? 'Released: ' + game.release_dates[0].human : null}
                   </Col>
                 </Row>
@@ -211,6 +252,28 @@ export class GetGame extends Component {
                     </Col>
                   </Row>
                 ) : null}
+                {/* Start: Game Rating from IGDB*/}
+                {game.total_rating ? (
+                  <Row style={{ marginBottom: '20px' }}>
+                    <Col>
+                      <ProgressBar
+                        variant={
+                          // Nested ternary to get different colours depending on game rating.
+                          game.total_rating < 25
+                            ? 'danger'
+                            : game.total_rating < 50
+                            ? 'warning'
+                            : game.total_rating < 75
+                            ? 'info'
+                            : 'success'
+                        }
+                        now={Math.round(game.total_rating)}
+                        label={`Ratings ${Math.round(game.total_rating)}%`}
+                      />
+                    </Col>
+                  </Row>
+                ) : null}
+                {/* End: Game Rating from IGDB*/}
                 {game.platforms ? (
                   <Row>
                     <Col>
@@ -299,9 +362,11 @@ export class GetGame extends Component {
                 className="d-flex justify-content-start"
                 style={{ marginLeft: '5px', zIndex: 999 }}
               >
-                <h1 className="display-6" style={{ paddingLeft: '2px' }}>
-                  Recommended games
-                </h1>
+                {game.similar_games ? (
+                  <h1 className="display-6" style={{ paddingLeft: '2px' }}>
+                    Recommended games
+                  </h1>
+                ) : null}
                 {game.similar_games
                   ? game.similar_games.map((similar_game) => (
                       <Card style={{ width: '200px' }}>
@@ -341,7 +406,7 @@ export class GetGame extends Component {
     gameServices
       .getSelectedGame(this.slug)
       .then((response) => (this.game = response))
-      .catch((error) => console.log(error));
+      .catch((error) => (this.errormsg = error));
   }
 }
 
@@ -395,6 +460,245 @@ export class MainFooter extends Component {
           <p>Some footer text goes here</p>
         </Container>
       </footer>
+    );
+  }
+}
+
+export class SearchGame extends Component {
+  games = [];
+  searchQuery = '';
+  offset = '';
+  errormsg = '';
+  render() {
+    return (
+      <>
+        <Container className="my-3 p-3 bg-dark rounded shadow-sm bg-primaty text-light">
+          <Row>
+            <h1 className="display-5">Search</h1>
+            <Form className="d-flex">
+              <FormControl
+                type="search"
+                placeholder="Search games"
+                className="me-2"
+                aria-label="Search games"
+                value={this.searchQuery}
+                onChange={(event) => {
+                  this.searchQuery = event.currentTarget.value;
+                }}
+                onKeyDown={(event) => {
+                  event.keyCode == 13
+                    ? (history.push('/search/' + String(this.searchQuery)), scrollTo(0, 0))
+                    : null;
+                }}
+              />
+              <Button
+                variant="outline-secondary"
+                onClick={(event) => {
+                  history.push('/search/' + String(this.searchQuery)), scrollTo(0, 0);
+                }}
+              >
+                Search
+              </Button>
+            </Form>
+          </Row>
+          {/* <Row className="w-100">
+            <Col>{this.searchQuery != '' ? 'Søk: ' + this.searchQuery : null}</Col>
+          </Row> */}
+          <Row>
+            <Col className="w-100">
+              {this.games
+                ? this.games.map((game) => (
+                    <div key={game.id} className="w-100 text-muted pt-3 border-bottom">
+                      <Row>
+                        <Col className="col col-lg-1">
+                          {game.cover ? (
+                            <Figure>
+                              <Figure.Image
+                                className="img-fluid rounded float-start"
+                                width={90}
+                                height={90}
+                                alt="171x180"
+                                src={String(game.cover.url)}
+                              />
+                            </Figure>
+                          ) : null}
+                        </Col>
+                        <Col className="col">
+                          <Nav.Link href={'#/game/' + game.slug} className="search-link">
+                            {game.name}
+                          </Nav.Link>
+                          {console.log(game)}
+                          <div style={{ display: 'block' }}>
+                            {game.genres
+                              ? game.genres.map((genre) => (
+                                  <Badge
+                                    bg="warning"
+                                    text="dark"
+                                    style={{ marginRight: '5px', marginBottom: '5px' }}
+                                  >
+                                    {genre.name}
+                                  </Badge>
+                                ))
+                              : null}
+                          </div>
+                        </Col>
+                      </Row>
+                    </div>
+                  ))
+                : null}
+            </Col>
+          </Row>
+          <Row style={{ paddingTop: '25px' }}>
+            <Col className="d-flex justify-content-end">
+              <ButtonGroup aria-label="Search navigation">
+                {this.offset > 0 ? (
+                  <Button
+                    variant="secondary"
+                    onClick={(event) => {
+                      if (this.offset < 50) {
+                        this.offset = 0;
+                        history.push('/search/' + String(this.searchQuery) + '/' + this.offset),
+                          scrollTo(0, 0);
+                      } else {
+                        this.offset -= 50;
+                        history.push('/search/' + String(this.searchQuery) + '/' + this.offset),
+                          scrollTo(0, 0);
+                      }
+                    }}
+                  >
+                    Previous
+                  </Button>
+                ) : null}
+                {this.games.length >= 50 ? (
+                  <Button
+                    variant="secondary"
+                    onClick={(event) => {
+                      this.offset += 50;
+                      history.push('/search/' + String(this.searchQuery) + '/' + this.offset),
+                        scrollTo(0, 0);
+                    }}
+                  >
+                    Next
+                  </Button>
+                ) : null}
+              </ButtonGroup>
+            </Col>
+          </Row>
+        </Container>
+      </>
+    );
+  }
+  mounted() {
+    this.offset = this.props.match.params.offset ? Number(this.props.match.params.offset) : 0;
+    this.searchQuery = this.props.match.params.query ? this.props.match.params.query : '';
+    gameServices
+      .searchGame(this.searchQuery, this.offset)
+      .then((response) => (this.games = response))
+      .catch((error) => (this.errormsg = error));
+  }
+}
+
+export class GameCarousel extends Component {
+  render() {
+    return (
+      <>
+        <Container>
+          <Carousel>
+            <Carousel.Item>
+              <Card style={{ float: 'left' }} className="col-md-3">
+                <Card.Img variant="top" src="./backgrounds/carousel_background.jpg" />
+                <Card.Body>
+                  <Card.Title>Card Title 1</Card.Title>
+                  <Card.Text>
+                    Some quick example text to build on the card title and make up the bulk of the
+                    card's content.
+                  </Card.Text>
+                  <Button variant="primary">Go somewhere</Button>
+                </Card.Body>
+              </Card>
+              <Card style={{ float: 'left' }} className="col-md-3">
+                <Card.Img variant="top" src="./backgrounds/carousel_background.jpg" />
+                <Card.Body>
+                  <Card.Title>Card Title 1</Card.Title>
+                  <Card.Text>
+                    Some quick example text to build on the card title and make up the bulk of the
+                    card's content.
+                  </Card.Text>
+                  <Button variant="primary">Go somewhere</Button>
+                </Card.Body>
+              </Card>
+              <Card style={{ float: 'left' }} className="col-md-3">
+                <Card.Img variant="top" src="./backgrounds/carousel_background.jpg" />
+                <Card.Body>
+                  <Card.Title>Card Title 1</Card.Title>
+                  <Card.Text>
+                    Some quick example text to build on the card title and make up the bulk of the
+                    card's content.
+                  </Card.Text>
+                  <Button variant="primary">Go somewhere</Button>
+                </Card.Body>
+              </Card>
+              <Card style={{ float: 'left' }} className="col-md-3">
+                <Card.Img variant="top" src="./backgrounds/carousel_background.jpg" />
+                <Card.Body>
+                  <Card.Title>Card Title 1</Card.Title>
+                  <Card.Text>
+                    Some quick example text to build on the card title and make up the bulk of the
+                    card's content.
+                  </Card.Text>
+                  <Button variant="primary">Go somewhere</Button>
+                </Card.Body>
+              </Card>
+            </Carousel.Item>
+            <Carousel.Item>
+              <Card style={{ float: 'left' }} className="col-md-3">
+                <Card.Img variant="top" src="./backgrounds/carousel_background.jpg" />
+                <Card.Body>
+                  <Card.Title>Card Title 1</Card.Title>
+                  <Card.Text>
+                    Some quick example text to build on the card title and make up the bulk of the
+                    card's content.
+                  </Card.Text>
+                  <Button variant="primary">Go somewhere</Button>
+                </Card.Body>
+              </Card>
+              <Card style={{ float: 'left' }} className="col-md-3">
+                <Card.Img variant="top" src="./backgrounds/carousel_background.jpg" />
+                <Card.Body>
+                  <Card.Title>Card Title 1</Card.Title>
+                  <Card.Text>
+                    Some quick example text to build on the card title and make up the bulk of the
+                    card's content.
+                  </Card.Text>
+                  <Button variant="primary">Go somewhere</Button>
+                </Card.Body>
+              </Card>
+              <Card style={{ float: 'left' }} className="col-md-3">
+                <Card.Img variant="top" src="./backgrounds/carousel_background.jpg" />
+                <Card.Body>
+                  <Card.Title>Card Title 1</Card.Title>
+                  <Card.Text>
+                    Some quick example text to build on the card title and make up the bulk of the
+                    card's content.
+                  </Card.Text>
+                  <Button variant="primary">Go somewhere</Button>
+                </Card.Body>
+              </Card>
+              <Card style={{ float: 'left' }} className="col-md-3">
+                <Card.Img variant="top" src="./backgrounds/carousel_background.jpg" />
+                <Card.Body>
+                  <Card.Title>Card Title 1</Card.Title>
+                  <Card.Text>
+                    Some quick example text to build on the card title and make up the bulk of the
+                    card's content.
+                  </Card.Text>
+                  <Button variant="primary">Go somewhere</Button>
+                </Card.Body>
+              </Card>
+            </Carousel.Item>
+          </Carousel>
+        </Container>
+      </>
     );
   }
 }
