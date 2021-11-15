@@ -14,6 +14,7 @@ router.get('/games/:offset', (request, response) => {
     .then((rows) => response.send(rows))
     .catch((error) => response.status(500).send(error));
 });
+
 router.get('/game/:slug', (request, response) => {
   const slug: string = request.params.slug ? String(request.params.slug) : '';
   gameService
