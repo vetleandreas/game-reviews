@@ -25,7 +25,7 @@ import {
 } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { tsMethodSignature } from '@babel/types';
-import gameServices, { CarouselItems, AllGamesItems } from './game-services';
+import gameServices, { CarouselItems, AllGamesItems, GameReviewsItems } from './game-services';
 import reviewService from './review-services';
 
 const history = createHashHistory();
@@ -101,7 +101,7 @@ export class AllGames extends Component {
               <Card
                 key={game.id}
                 style={{ width: '320px' }}
-                className="card card-cover overflow-hidden text-white bg-dark rounded-5 shadow-lg"
+                className="card card-cover card-hover overflow-hidden text-white bg-dark rounded-5 shadow-lg"
               >
                 <Nav.Link
                   href={'#/game/' + game.slug + '/'}
@@ -178,6 +178,7 @@ export class AllGames extends Component {
 }
 
 export class GetGame extends Component {
+  gameReview: GameReviewsItems[] = [];
   gameScore = []; // TESTING ONLY
   score = 0;
   gameId = null;
@@ -188,6 +189,13 @@ export class GetGame extends Component {
     this.empty = 1;
   }, 2000);
   render() {
+    // function to prettify timestamp!
+    function dateTime(timestamp) {
+      let dt = new Date(timestamp);
+      return `${dt.getDay() + '.' + dt.getMonth() + '.' + dt.getFullYear()} @${
+        dt.getHours() + ':' + dt.getMinutes()
+      }`;
+    }
     if (this.game.length == 0) {
       return null;
     }
@@ -332,6 +340,27 @@ export class GetGame extends Component {
                   </Row>
                 ) : null}
               </Col>
+              <Row style={{ marginLeft: '5px', zIndex: 999 }}>
+                {console.log('Gamereviews', this.gameReview)}
+                <Col>
+                  <h3>Reviews</h3>
+                  {this.gameReview.map((review) => (
+                    // REVIEWS GOES HERE
+                    <Card text="dark" className="card-review ">
+                      <Card.Title className="card-title">{review.review_title}</Card.Title>
+                      <Card.Subtitle className="mb-2 text-muted card-subtitle">
+                        {dateTime(review.created_at)}
+                      </Card.Subtitle>
+                      <Card.Body>
+                        <Card.Text>{review.review_text}</Card.Text>
+                        <Button variant="primary">
+                          <i className="fas fa-heart"></i>
+                        </Button>
+                      </Card.Body>
+                    </Card>
+                  ))}
+                </Col>
+              </Row>
               <Row
                 className="d-flex justify-content-start"
                 style={{ marginLeft: '5px', zIndex: 999 }}
@@ -344,7 +373,7 @@ export class GetGame extends Component {
                 ) : null}
                 {game.expansions
                   ? game.expansions.map((expansion) => (
-                      <Card style={{ width: '200px' }}>
+                      <Card className="card-hover" style={{ width: '200px' }}>
                         <Nav.Link
                           href={'#/game/' + expansion.slug + '/'}
                           style={{ color: '#000', padding: 0, margin: 0 }}
@@ -376,7 +405,7 @@ export class GetGame extends Component {
                 ) : null}
                 {game.similar_games
                   ? game.similar_games.map((similar_game) => (
-                      <Card style={{ width: '200px' }}>
+                      <Card className="card-hover" style={{ width: '200px' }}>
                         <Nav.Link
                           href={'#/game/' + similar_game.slug + '/'}
                           style={{ color: '#000', padding: 0, margin: 0 }}
@@ -428,6 +457,10 @@ export class GetGame extends Component {
         reviewService
           .gameScores(response[0].id)
           .then((response) => (this.gameScore = response))
+          .catch((error) => console.log(error));
+        reviewService
+          .gameReviews(response[0].id)
+          .then((response) => (this.gameReview = response))
           .catch((error) => console.log(error));
       })
       .catch((error) => (this.errormsg = error));

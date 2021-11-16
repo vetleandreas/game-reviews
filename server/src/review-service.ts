@@ -6,7 +6,14 @@ export type ReviewGamescore = {
   gameId: number;
   score: number;
 };
-
+export type GameReviews = {
+  id: number;
+  reviewTitle: string;
+  created_at: string;
+  review_text: string;
+  created_by_id: number;
+  gameId: number;
+};
 export type ReviewUser = {
   id: number;
   userId: number;
@@ -25,6 +32,17 @@ class ReviewService {
   //     });
   //   });
   // }
+
+  // Get reviews of game with given game_id
+  getReviews(gameId: number) {
+    return new Promise((resolve, reject) => {
+      pool.query('SELECT * FROM game_review WHERE game_id = ?', [gameId], (error, results) => {
+        if (error) return reject(error);
+
+        return resolve(results);
+      });
+    });
+  }
   // Get mean score of game with given game_id
   getGamescore(gameId: number) {
     return new Promise((resolve, reject) => {

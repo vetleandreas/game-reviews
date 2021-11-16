@@ -20,6 +20,14 @@ export type AllGamesItems = {
   count: number;
   result: [];
 };
+export type GameReviewsItems = {
+  id: number;
+  review_title: string;
+  created_at: string;
+  review_text: string;
+  created_by_id: number;
+  gameId: number;
+};
 
 class GameServices {
   // getAllGames() {
