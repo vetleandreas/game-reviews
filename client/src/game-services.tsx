@@ -1,12 +1,32 @@
 import axios from 'axios';
 axios.defaults.baseURL = 'http://localhost:3000/api/v1';
 
+export type CarouselItems = {
+  id: number;
+  name: string;
+  cover: [];
+  url: string;
+  slug: string;
+  offset: number;
+};
+export type AllGamesItems = {
+  // name, cover.url, genres.name, slug; offset ${offset};
+  id: number;
+  name: string;
+  cover: [];
+  genres: [];
+  slug: string;
+  offset: number;
+  count: number;
+  result: [];
+};
+
 class GameServices {
   // getAllGames() {
   //   return axios.get('/games').then((response) => response.data);
   // }
   getAllGames(offset: number) {
-    return axios.get('/games/' + offset + '/').then((response) => response.data);
+    return axios.get<AllGamesItems[]>('/games/' + offset + '/').then((response) => response.data);
   }
   getCarousel(offset: number) {
     return axios.post('/games', { offset: offset }).then((response) => response.data);

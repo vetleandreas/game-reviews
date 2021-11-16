@@ -25,7 +25,8 @@ import {
 } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { tsMethodSignature } from '@babel/types';
-import gameServices from './game-services';
+import gameServices, { CarouselItems, AllGamesItems } from './game-services';
+import reviewService from './review-services';
 
 const history = createHashHistory();
 
@@ -85,7 +86,7 @@ export class Navigation extends Component {
 }
 
 export class AllGames extends Component {
-  games = [];
+  games: AllGamesItems[] = [];
   offset = 0;
   render() {
     if (this.games.length == 0) {
@@ -95,6 +96,7 @@ export class AllGames extends Component {
       <>
         <Container style={{ minHeight: '500px', marginTop: '55px' }}>
           <Row>
+            {console.log(this.games)}
             {this.games[1].result.map((game) => (
               <Card
                 key={game.id}
@@ -176,6 +178,9 @@ export class AllGames extends Component {
 }
 
 export class GetGame extends Component {
+  gameScore = []; // TESTING ONLY
+  score = 0;
+  gameId = null;
   game = [];
   slug = '';
   errormsg = '';
@@ -183,6 +188,9 @@ export class GetGame extends Component {
     this.empty = 1;
   }, 2000);
   render() {
+    if (this.game.length == 0) {
+      return null;
+    }
     return (
       <>
         <Container
@@ -211,7 +219,6 @@ export class GetGame extends Component {
                   }}
                 ></div>
               ) : null}
-
               {console.log(game)}
               {game.cover ? (
                 <Col sm lg="3" style={{ zIndex: 999 }}>
@@ -395,6 +402,17 @@ export class GetGame extends Component {
                     ))
                   : null}
               </Row>
+              <Row style={{ zIndex: 999 }}>
+                <Col>
+                  {/* {this.gameScore[0]['AVG(score)'] == undefined ? console.log('IS NULL') : console.log('NOT NULL')} */}
+                  {/* <p>Rating: {this.gameScore[0]['AVG(score)'].toFixed(2)}</p> */}
+                  {this.gameScore.length > 0 ? (
+                    <p>Rating: {this.gameScore[0]['AVG(score)'].toFixed(2)}</p>
+                  ) : (
+                    <p>Rating: No rating available for this game. Want to rate this game?</p>
+                  )}
+                </Col>
+              </Row>
             </Row>
           ))}
         </Container>
@@ -405,7 +423,13 @@ export class GetGame extends Component {
     this.slug = this.props.match.params.slug ? this.props.match.params.slug : '';
     gameServices
       .getSelectedGame(this.slug)
-      .then((response) => (this.game = response))
+      .then((response) => {
+        this.game = response;
+        reviewService
+          .gameScores(response[0].id)
+          .then((response) => (this.gameScore = response))
+          .catch((error) => console.log(error));
+      })
       .catch((error) => (this.errormsg = error));
   }
 }
