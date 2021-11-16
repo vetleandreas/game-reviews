@@ -272,6 +272,7 @@ export class GetGame extends Component {
                   <Row style={{ marginBottom: '20px' }}>
                     <Col>
                       <ProgressBar
+                        style={{ height: '32px' }}
                         variant={
                           // Nested ternary to get different colours depending on game rating.
                           game.total_rating < 25
@@ -283,7 +284,7 @@ export class GetGame extends Component {
                             : 'success'
                         }
                         now={Math.round(game.total_rating)}
-                        label={`Ratings ${Math.round(game.total_rating)}%`}
+                        label={`IGDB Overall ratings: ${Math.round(game.total_rating)}%`}
                       />
                     </Col>
                   </Row>
@@ -343,7 +344,7 @@ export class GetGame extends Component {
               <Row style={{ marginLeft: '5px', zIndex: 999 }}>
                 {console.log('Gamereviews', this.gameReview)}
                 <Col>
-                  <h3>Reviews</h3>
+                  {this.gameReview.length != 0 ? <h3>Reviews</h3> : null}
                   {this.gameReview.map((review) => (
                     // REVIEWS GOES HERE
                     <Card text="dark" className="card-review ">
@@ -351,10 +352,12 @@ export class GetGame extends Component {
                       <Card.Subtitle className="mb-2 text-muted card-subtitle">
                         {dateTime(review.created_at)}
                       </Card.Subtitle>
+                      <Card.Subtitle>Rated: {review.score}</Card.Subtitle>
                       <Card.Body>
                         <Card.Text>{review.review_text}</Card.Text>
-                        <Button variant="primary">
-                          <i className="fas fa-heart"></i>
+                        {/* TODO: Add upvote functionality */}
+                        <Button variant="warning">
+                          <i className="fas fa-thumbs-up"></i>
                         </Button>
                       </Card.Body>
                     </Card>
