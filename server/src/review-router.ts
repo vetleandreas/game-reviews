@@ -10,6 +10,17 @@ const router = express.Router();
 //     .then((rows) => response.send(rows))
 //     .catch((error) => response.status(500).send(error));
 // });
+
+router.post('/review/upvote/', (request, response) => {
+  const data = request.body;
+  if (data) {
+    reviewService
+      .upvoteReview(data.userId, data.reviewId, data.upvote)
+      .then((id) => response.send({ id: id }))
+      .catch((error) => response.status(500).send(error));
+  } else response.status(400).send('An unexpected error occurred.');
+});
+
 router.get('/review/score/:id', (request, response) => {
   const id = Number(request.params.id);
   reviewService

@@ -356,7 +356,16 @@ export class GetGame extends Component {
                       <Card.Body>
                         <Card.Text>{review.review_text}</Card.Text>
                         {/* TODO: Add upvote functionality */}
-                        <Button variant="warning">
+                        <Button
+                          variant="warning"
+                          onClick={(event) => {
+                            // Adds upvote. TODO: Needs to disable Upvotebutton if upvoted.
+                            reviewService
+                              .upvoteReview(123456789123456789, review.id, 1)
+                              .then() // history.push('/tasks/' + this.task.id))
+                              .catch((error) => console.log(error));
+                          }}
+                        >
                           <i className="fas fa-thumbs-up"></i>
                         </Button>
                       </Card.Body>

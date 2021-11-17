@@ -1,3 +1,4 @@
+import { resolveConfig } from 'prettier';
 import pool from '../mysql-pool';
 
 export type ReviewGamescore = {
@@ -20,6 +21,12 @@ export type ReviewUser = {
   loginId: number;
   admin: boolean;
 };
+export type UpvoteReview = {
+  id: number;
+  user_id: number;
+  review_id: number;
+  upvote: number;
+};
 
 class ReviewService {
   // Get all reviews with given id
@@ -33,6 +40,20 @@ class ReviewService {
   //   });
   // }
 
+  // Post upvote on review
+  upvoteReview(userId: number, reviewId: number, upvote: number) {
+    return new Promise((resolve, reject) => {
+      // pool.query('INSERT INTO game_review_relevance (id, user_id, review_id, upvote) VALUES (NULL, 123456789123456789, 1, 1)');
+      pool.query(
+        'INSERT INTO game_review_relevance (id, user_id, review_id, upvote) VALUES (NULL, ?, ?, ?)',
+        [userId, reviewId, upvote],
+        (error, results) => {
+          if (error) return reject(error);
+          resolve(results);
+        }
+      );
+    });
+  }
   // Get reviews of game with given game_id
   getReviews(gameId: number) {
     return new Promise((resolve, reject) => {

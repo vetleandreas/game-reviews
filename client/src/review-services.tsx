@@ -21,8 +21,20 @@ export type ReviewUser = {
   loginId: number;
   admin: boolean;
 };
+export type UpvoteReview = {
+  id: number;
+  user_id: number;
+  review_id: number;
+  upvote: number;
+};
 
 class ReviewService {
+  // Upvotes review with given id
+  upvoteReview(userId: number, reviewId: number, upvote: number) {
+    return axios
+      .post('/review/upvote/', { userId: userId, reviewId: reviewId, upvote: upvote })
+      .then((response) => response.data);
+  }
   // Get Gamescore with given id
   gameScores(id: number) {
     return axios.get<ReviewGamescore[]>('/review/score/' + id).then((response) => response.data);
