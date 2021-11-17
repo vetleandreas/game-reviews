@@ -179,6 +179,7 @@ export class AllGames extends Component {
 
 export class GetGame extends Component {
   user_id = 123456789123456789;
+  upvotes = [];
   gameReview: GameReviewsItems[] = [];
   gameScore = []; // TESTING ONLY
   score = 0;
@@ -359,6 +360,16 @@ export class GetGame extends Component {
                         {/* TODO: Add upvote functionality */}
                         <Button
                           variant="warning"
+                          onMounted={(event) => {
+                            reviewService
+                              .getUpvotes(this.user_id, review.id)
+                              .then((response) => {
+                                this.upvotes = response;
+                                console.log('Get Upvotes:', response);
+                              })
+                              .catch((error) => console.log(error));
+                            console.log('LOAD THIS');
+                          }}
                           onClick={(event) => {
                             // Adds upvote. TODO: Needs to disable Upvotebutton if upvoted.
                             reviewService
@@ -460,6 +471,13 @@ export class GetGame extends Component {
         </Container>
       </>
     );
+  }
+  getUpvote(userId: number, reviewId: number) {
+    // Get review upvotes for user. ## Not working
+    reviewService
+      .getUpvotes(reviewId, userId)
+      .then((response) => (this.upvotes = response))
+      .catch((error) => console.log(error));
   }
   mounted() {
     this.slug = this.props.match.params.slug ? this.props.match.params.slug : '';

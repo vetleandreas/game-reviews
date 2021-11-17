@@ -29,6 +29,9 @@ export type UpvoteReview = {
 };
 
 class ReviewService {
+  getUpvotes(reviewId: number, userId: number) {
+    return axios.get('/review/upvote/' + reviewId + '/' + userId).then((response) => response.data);
+  }
   // Upvotes review with given id
   upvoteReview(userId: number, reviewId: number, upvote: number) {
     return axios

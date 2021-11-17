@@ -12,7 +12,14 @@ const router = express.Router();
 // });
 
 // Get upvotes
-
+router.get('/review/upvote/:reviewId/:userId', (request, response) => {
+  const userId = Number(request.params.userId);
+  const reviewId = Number(request.params.reviewId);
+  reviewService
+    .getUpvotes(userId, reviewId)
+    .then((rows) => response.send(rows))
+    .catch((error) => response.status(500).send(error));
+});
 // Posts upvote
 router.post('/review/upvote/', (request, response) => {
   const data = request.body;
