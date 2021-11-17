@@ -1,5 +1,23 @@
 import axios from 'axios';
 
+export type Carousel = {
+  id: number;
+  name: string;
+  cover: string;
+  url: string;
+  slug: string;
+  offset: number;
+};
+export type AllGames = {
+  // name, cover.url, genres.name, slug; offset ${offset};
+  id: number;
+  name: string;
+  cover: string;
+  genres: [];
+  slug: string;
+  offset: number;
+};
+
 class GameService {
   Carousel(offset: number) {
     return new Promise((resolve, reject) => {
@@ -17,6 +35,7 @@ class GameService {
         .catch((error) => reject(error));
     });
   }
+
   getAllGames(offset: number) {
     return new Promise((resolve, reject) => {
       axios({

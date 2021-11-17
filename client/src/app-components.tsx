@@ -25,7 +25,8 @@ import {
 } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { tsMethodSignature } from '@babel/types';
-import gameServices from './game-services';
+import gameServices, { CarouselItems, AllGamesItems, GameReviewsItems } from './game-services';
+import reviewService from './review-services';
 
 const history = createHashHistory();
 
@@ -46,7 +47,7 @@ export class Navigation extends Component {
             <Navbar.Brand href="/">The game review project</Navbar.Brand>
             <Navbar.Toggle aria-controls="navbarScroll" />
             <Navbar.Collapse id="navbarScroll">
-              <Nav className="me-auto my-2 my-lg-0" style={{ maxHeight: '100px' }} navbarScroll>
+              <Nav className="me-auto my-2 my-lg-0" navbarScroll>
                 <Nav.Link href="/">Home</Nav.Link>
                 <Nav.Link href="/#/games/">Games</Nav.Link>
                 <Nav.Link href="#">Latest Games</Nav.Link>
@@ -85,7 +86,7 @@ export class Navigation extends Component {
 }
 
 export class AllGames extends Component {
-  games = [];
+  games: AllGamesItems[] = [];
   offset = 0;
   render() {
     if (this.games.length == 0) {
@@ -95,11 +96,12 @@ export class AllGames extends Component {
       <>
         <Container style={{ minHeight: '500px', marginTop: '55px' }}>
           <Row>
+            {console.log(this.games)}
             {this.games[1].result.map((game) => (
               <Card
                 key={game.id}
                 style={{ width: '320px' }}
-                className="card card-cover overflow-hidden text-white bg-dark rounded-5 shadow-lg"
+                className="card card-cover card-hover overflow-hidden text-white bg-dark rounded-5 shadow-lg"
               >
                 <Nav.Link
                   href={'#/game/' + game.slug + '/'}
@@ -176,6 +178,11 @@ export class AllGames extends Component {
 }
 
 export class GetGame extends Component {
+  user_id = 123456789123456789;
+  gameReview: GameReviewsItems[] = [];
+  gameScore = []; // TESTING ONLY
+  score = 0;
+  gameId = null;
   game = [];
   slug = '';
   errormsg = '';
@@ -183,6 +190,16 @@ export class GetGame extends Component {
     this.empty = 1;
   }, 2000);
   render() {
+    // function to prettify timestamp!
+    function dateTime(timestamp) {
+      let dt = new Date(timestamp);
+      return `${dt.getDay() + '.' + dt.getMonth() + '.' + dt.getFullYear()} @${
+        dt.getHours() + ':' + dt.getMinutes()
+      }`;
+    }
+    if (this.game.length == 0) {
+      return null;
+    }
     return (
       <>
         <Container
@@ -211,7 +228,6 @@ export class GetGame extends Component {
                   }}
                 ></div>
               ) : null}
-
               {console.log(game)}
               {game.cover ? (
                 <Col sm lg="3" style={{ zIndex: 999 }}>
@@ -257,6 +273,7 @@ export class GetGame extends Component {
                   <Row style={{ marginBottom: '20px' }}>
                     <Col>
                       <ProgressBar
+                        style={{ height: '32px' }}
                         variant={
                           // Nested ternary to get different colours depending on game rating.
                           game.total_rating < 25
@@ -268,7 +285,7 @@ export class GetGame extends Component {
                             : 'success'
                         }
                         now={Math.round(game.total_rating)}
-                        label={`Ratings ${Math.round(game.total_rating)}%`}
+                        label={`IGDB Overall ratings: ${Math.round(game.total_rating)}%`}
                       />
                     </Col>
                   </Row>
@@ -325,6 +342,38 @@ export class GetGame extends Component {
                   </Row>
                 ) : null}
               </Col>
+              <Row style={{ marginLeft: '5px', zIndex: 999 }}>
+                {console.log('Gamereviews', this.gameReview)}
+                <Col>
+                  {this.gameReview.length != 0 ? <h3>Reviews</h3> : null}
+                  {this.gameReview.map((review) => (
+                    // REVIEWS GOES HERE
+                    <Card text="dark" className="card-review ">
+                      <Card.Title className="card-title">{review.review_title}</Card.Title>
+                      <Card.Subtitle className="mb-2 text-muted card-subtitle">
+                        {dateTime(review.created_at)}
+                      </Card.Subtitle>
+                      <Card.Subtitle>Rated: {review.score}</Card.Subtitle>
+                      <Card.Body>
+                        <Card.Text>{review.review_text}</Card.Text>
+                        {/* TODO: Add upvote functionality */}
+                        <Button
+                          variant="warning"
+                          onClick={(event) => {
+                            // Adds upvote. TODO: Needs to disable Upvotebutton if upvoted.
+                            reviewService
+                              .upvoteReview(this.user_id, review.id, 1)
+                              .then() // history.push('/tasks/' + this.task.id))
+                              .catch((error) => console.log(error));
+                          }}
+                        >
+                          <i className="fas fa-thumbs-up"></i>
+                        </Button>
+                      </Card.Body>
+                    </Card>
+                  ))}
+                </Col>
+              </Row>
               <Row
                 className="d-flex justify-content-start"
                 style={{ marginLeft: '5px', zIndex: 999 }}
@@ -337,7 +386,7 @@ export class GetGame extends Component {
                 ) : null}
                 {game.expansions
                   ? game.expansions.map((expansion) => (
-                      <Card style={{ width: '200px' }}>
+                      <Card className="card-hover" style={{ width: '200px' }}>
                         <Nav.Link
                           href={'#/game/' + expansion.slug + '/'}
                           style={{ color: '#000', padding: 0, margin: 0 }}
@@ -369,7 +418,7 @@ export class GetGame extends Component {
                 ) : null}
                 {game.similar_games
                   ? game.similar_games.map((similar_game) => (
-                      <Card style={{ width: '200px' }}>
+                      <Card className="card-hover" style={{ width: '200px' }}>
                         <Nav.Link
                           href={'#/game/' + similar_game.slug + '/'}
                           style={{ color: '#000', padding: 0, margin: 0 }}
@@ -395,6 +444,17 @@ export class GetGame extends Component {
                     ))
                   : null}
               </Row>
+              <Row style={{ zIndex: 999 }}>
+                <Col>
+                  {/* {this.gameScore[0]['AVG(score)'] == undefined ? console.log('IS NULL') : console.log('NOT NULL')} */}
+                  {/* <p>Rating: {this.gameScore[0]['AVG(score)'].toFixed(2)}</p> */}
+                  {this.gameScore.length > 0 ? (
+                    <p>Rating: {this.gameScore[0]['AVG(score)'].toFixed(2)}</p>
+                  ) : (
+                    <p>Rating: No rating available for this game. Want to rate this game?</p>
+                  )}
+                </Col>
+              </Row>
             </Row>
           ))}
         </Container>
@@ -405,7 +465,17 @@ export class GetGame extends Component {
     this.slug = this.props.match.params.slug ? this.props.match.params.slug : '';
     gameServices
       .getSelectedGame(this.slug)
-      .then((response) => (this.game = response))
+      .then((response) => {
+        this.game = response;
+        reviewService
+          .gameScores(response[0].id)
+          .then((response) => (this.gameScore = response))
+          .catch((error) => console.log(error));
+        reviewService
+          .gameReviews(response[0].id)
+          .then((response) => (this.gameReview = response))
+          .catch((error) => console.log(error));
+      })
       .catch((error) => (this.errormsg = error));
   }
 }

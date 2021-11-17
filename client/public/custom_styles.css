@@ -84,8 +84,17 @@ body {
 }
 
 /*  CUSTOM BOOSTRAP CSS */
-
-.card {
+.card-subtitle {
+  padding-left: 1rem;
+}
+.card-title {
+  padding-left: 1rem;
+  padding-top: 1rem;
+}
+.card-review {
+  margin-bottom: 1rem;
+}
+.card-hover {
   padding-top: 0;
   padding-left: 0;
   padding-right: 0;
@@ -95,7 +104,7 @@ body {
   margin: 5px 5px 10px 5px;
   transition: all ease-in-out 50ms;
 }
-.card:hover {
+.card-hover:hover {
   scale: 1.05;
   transition: all ease-in-out 0.15s;
 }
@@ -119,7 +128,7 @@ body {
 
 .carousel {
   background-image: url(./backgrounds/carousel_background.jpg);
-  max-height: 200px;
+  max-height: 500px;
   overflow: hidden;
 }
 .shadow-class {
@@ -131,7 +140,7 @@ body {
     3px 3px 0px #000000;
 }
 .carousel-item img {
-  max-height: 200px;
+  max-height: 500px;
   overflow: hidden;
 }
 /* .item {
@@ -198,30 +207,5 @@ body {
   box-shadow: rgba(0, 0, 0, 0.5) 0px 13px 27px -5px, rgba(0, 0, 0, 0.7) 0px 8px 16px -8px;
 }
 
-@media (max-width: 1024px) {
-  .carousel-item {
-    max-height: 400px;
-    overflow: hidden;
-  }
-
-  #content-wrapper {
-    padding-bottom: 15rem; /* Footer height */
-    font-size: 4rem;
-  }
-
-  #main-footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    min-height: 15rem;
-    font-size: 3rem;
-  }
-
-  #main-footer h4 {
-    font-size: 3.4rem;
-  }
-
-  .navbar-brand a {
-    font-size: 3.4rem;
-  }
+.navbar {
 }
