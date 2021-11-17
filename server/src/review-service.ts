@@ -54,6 +54,33 @@ class ReviewService {
       );
     });
   }
+  // Get upvotes for review
+  getUpvotes(userId: number, reviewId: number) {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        'SELECT * FROM game_review_relevance WHERE user_id = ? AND review_id = ?',
+        [userId, reviewId],
+        (error, results) => {
+          if (error) return reject(error);
+          resolve(results);
+        }
+      );
+    });
+  }
+  // Updated Upvote
+  upvoteReviewUpdate(relevanceId: number) {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        // 'INSERT INTO game_review_relevance (id, user_id, review_id, upvote) VALUES (NULL, ?, ?, ?)',
+        'UPDATE game_review_relevance SET upvote = 0 WHERE id = ?',
+        [relevanceId],
+        (error, results) => {
+          if (error) return reject(error);
+          resolve(results);
+        }
+      );
+    });
+  }
   // Get reviews of game with given game_id
   getReviews(gameId: number) {
     return new Promise((resolve, reject) => {

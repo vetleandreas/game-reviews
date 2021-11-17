@@ -178,6 +178,7 @@ export class AllGames extends Component {
 }
 
 export class GetGame extends Component {
+  user_id = 123456789123456789;
   gameReview: GameReviewsItems[] = [];
   gameScore = []; // TESTING ONLY
   score = 0;
@@ -361,7 +362,7 @@ export class GetGame extends Component {
                           onClick={(event) => {
                             // Adds upvote. TODO: Needs to disable Upvotebutton if upvoted.
                             reviewService
-                              .upvoteReview(123456789123456789, review.id, 1)
+                              .upvoteReview(this.user_id, review.id, 1)
                               .then() // history.push('/tasks/' + this.task.id))
                               .catch((error) => console.log(error));
                           }}
