@@ -55,16 +55,24 @@ class ReviewService {
     });
   }
   // Get upvotes for review
-  getUpvotes(userId: number, reviewId: number) {
+  // getUpvotes(userId: number, reviewId: number) {
+  //   return new Promise((resolve, reject) => {
+  //     pool.query(
+  //       'SELECT * FROM game_review_relevance WHERE user_id = ? AND review_id = ?',
+  //       [userId, reviewId],
+  //       (error, results) => {
+  //         if (error) return reject(error);
+  //         resolve(results);
+  //       }
+  //     );
+  //   });
+  // }
+  getUpvotes() {
     return new Promise((resolve, reject) => {
-      pool.query(
-        'SELECT * FROM game_review_relevance WHERE user_id = ? AND review_id = ?',
-        [userId, reviewId],
-        (error, results) => {
-          if (error) return reject(error);
-          resolve(results);
-        }
-      );
+      pool.query('SELECT * FROM game_review_relevance', (error, results) => {
+        if (error) return reject(error);
+        resolve(results);
+      });
     });
   }
   // Updated Upvote

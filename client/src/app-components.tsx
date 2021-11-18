@@ -179,6 +179,7 @@ export class AllGames extends Component {
 
 export class GetGame extends Component {
   user_id = 123456789123456789;
+  upvotes = [];
   gameReview: GameReviewsItems[] = [];
   gameScore = []; // TESTING ONLY
   score = 0;
@@ -193,8 +194,16 @@ export class GetGame extends Component {
     // function to prettify timestamp!
     function dateTime(timestamp) {
       let dt = new Date(timestamp);
-      return `${dt.getDay() + '.' + dt.getMonth() + '.' + dt.getFullYear()} @${
-        dt.getHours() + ':' + dt.getMinutes()
+      return `${
+        (dt.getDay() < 10 ? '0' + dt.getDay() : dt.getDay()) +
+        '.' +
+        (dt.getMonth() < 10 ? '0' + dt.getMonth() : dt.getMonth()) +
+        '.' +
+        dt.getFullYear()
+      } @${
+        (dt.getHours() < 10 ? '0' + dt.getHours() : dt.getHours()) +
+        ':' +
+        (dt.getMinutes() < 10 ? '0' + dt.getMinutes() : dt.getMinutes())
       }`;
     }
     if (this.game.length == 0) {
@@ -291,6 +300,27 @@ export class GetGame extends Component {
                   </Row>
                 ) : null}
                 {/* End: Game Rating from IGDB*/}
+                {/* Start review rating */}
+                {this.gameScore.length > 0 ? (
+                  <ProgressBar
+                    style={{ height: '32px' }}
+                    variant={
+                      // Nested ternary to get different colours depending on game rating.
+                      this.gameScore[0]['AVG(score)'].toFixed(0) * 10 < 25
+                        ? 'danger'
+                        : this.gameScore[0]['AVG(score)'].toFixed(0) * 10 < 50
+                        ? 'warning'
+                        : this.gameScore[0]['AVG(score)'].toFixed(0) * 10 < 75
+                        ? 'info'
+                        : 'success'
+                    }
+                    now={this.gameScore[0]['AVG(score)'].toFixed(0) * 10}
+                    label={`Review ratings: ${this.gameScore[0]['AVG(score)'].toFixed(0) * 10}%`}
+                  />
+                ) : (
+                  <p>Rating: No review ratings available for this game.</p>
+                )}
+                {/* End review rating */}
                 {game.platforms ? (
                   <Row>
                     <Col>
@@ -342,6 +372,7 @@ export class GetGame extends Component {
                   </Row>
                 ) : null}
               </Col>
+              <Row>{/* Writing reviews goes here */}</Row>
               <Row style={{ marginLeft: '5px', zIndex: 999 }}>
                 {console.log('Gamereviews', this.gameReview)}
                 <Col>
@@ -357,18 +388,34 @@ export class GetGame extends Component {
                       <Card.Body>
                         <Card.Text>{review.review_text}</Card.Text>
                         {/* TODO: Add upvote functionality */}
-                        <Button
-                          variant="warning"
-                          onClick={(event) => {
-                            // Adds upvote. TODO: Needs to disable Upvotebutton if upvoted.
-                            reviewService
-                              .upvoteReview(this.user_id, review.id, 1)
-                              .then() // history.push('/tasks/' + this.task.id))
-                              .catch((error) => console.log(error));
-                          }}
-                        >
-                          <i className="fas fa-thumbs-up"></i>
-                        </Button>
+                        {this.upvotes.length > 0 ? (
+                          <Button
+                            variant="warning"
+                            onClick={(event) => {
+                              // Adds upvote. TODO: Needs to disable Upvotebutton if upvoted.
+                              console.log('Upvotes:', review);
+                              reviewService
+                                .upvoteReview(this.user_id, review.id, 1)
+                                .then(
+                                  // @ts-ignore
+                                  reviewService
+                                    .getUpvotes()
+                                    .then((results) => (this.upvotes = results))
+                                    .catch((error) => console.log(error))
+                                ) // history.push('/tasks/' + this.task.id))
+                                .catch((error) => console.log(error));
+                            }}
+                          >
+                            <i className="fas fa-thumbs-up"></i>
+                            <span>
+                              {' '}
+                              {
+                                this.upvotes.filter((upvote) => upvote.review_id == review.id)
+                                  .length
+                              }
+                            </span>
+                          </Button>
+                        ) : null}
                       </Card.Body>
                     </Card>
                   ))}
@@ -444,22 +491,18 @@ export class GetGame extends Component {
                     ))
                   : null}
               </Row>
-              <Row style={{ zIndex: 999 }}>
-                <Col>
-                  {/* {this.gameScore[0]['AVG(score)'] == undefined ? console.log('IS NULL') : console.log('NOT NULL')} */}
-                  {/* <p>Rating: {this.gameScore[0]['AVG(score)'].toFixed(2)}</p> */}
-                  {this.gameScore.length > 0 ? (
-                    <p>Rating: {this.gameScore[0]['AVG(score)'].toFixed(2)}</p>
-                  ) : (
-                    <p>Rating: No rating available for this game. Want to rate this game?</p>
-                  )}
-                </Col>
-              </Row>
             </Row>
           ))}
         </Container>
       </>
     );
+  }
+  getUpvote(userId: number, reviewId: number) {
+    // Get review upvotes for user. ## Not working
+    reviewService
+      .getUpvotes(reviewId, userId)
+      .then((response) => (this.upvotes = response))
+      .catch((error) => console.log(error));
   }
   mounted() {
     this.slug = this.props.match.params.slug ? this.props.match.params.slug : '';
@@ -477,6 +520,10 @@ export class GetGame extends Component {
           .catch((error) => console.log(error));
       })
       .catch((error) => (this.errormsg = error));
+    reviewService
+      .getUpvotes()
+      .then((results) => (this.upvotes = results))
+      .catch((error) => console.log(error));
   }
 }
 
@@ -800,6 +847,42 @@ export class GameCarousel extends Component {
             </Carousel.Item>
           </Carousel>
         </Container>
+      </>
+    );
+  }
+}
+
+export class AddGame extends Component {
+  game = [];
+  render() {
+    return (
+      <>
+        <Card title="Add a new video game">
+          <Row>
+            <Col width={2}>
+              <Form.Label>Title:</Form.Label>
+            </Col>
+            <Col>
+              <Form.Input
+                type="text"
+                value={this.game.title}
+                onChange={(event) => (this.game.title = event.currentTarget.value)}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col width={2}>
+              <Form.Label>Description:</Form.Label>
+            </Col>
+            <Col>
+              <Form.Textarea
+                value={this.game.description}
+                onChange={(event) => (this.game.description = event.currentTarget.value)}
+                rows={10}
+              />
+            </Col>
+          </Row>
+        </Card>
       </>
     );
   }

@@ -20,7 +20,7 @@ cd game-reviews/client/
 npm install
 ```
 
-3. Create a database configuration file called "config.js" in the root directory with the following
+3. Create a database configuration file called "config.ts" in the root directory with the following
    declarations:
 
 ```sh
