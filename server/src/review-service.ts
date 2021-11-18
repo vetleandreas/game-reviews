@@ -90,14 +90,19 @@ class ReviewService {
     });
   }
   // Post review
-  postReview(review_title: string, review_text: string, created_by: string, game_id: number) {
+  postReview(
+    review_title: string,
+    review_text: string,
+    review_created_by: string,
+    game_id: number
+  ) {
     return new Promise((resolve, reject) => {
       pool.query(
-        'INSERT INTO game_review (id, review_title, review_text, created_by_id, game_id) VALUES (NULL, ?, CURRENT_TIMESTAMP, ?, ?, ?);',
-        [review_title, review_text, created_by, game_id],
+        'INSERT INTO game_review (id, review_title, created_at, review_text, created_by_id, game_id) VALUES (NULL, ?, CURRENT_TIMESTAMP, ?, ?, ?);',
+        [review_title, review_text, review_created_by, game_id],
         (error, results) => {
           if (error) return reject(error);
-          return resolve(results);
+          return resolve(results.insertId);
         }
       );
     });
@@ -120,7 +125,7 @@ class ReviewService {
     return new Promise((resolve, reject) => {
       // pool.query('SELECT * FROM game_review WHERE game_id = ?', [gameId], (error, results) => {
       pool.query(
-        'SELECT game_review.id, game_review.review_title, game_review.created_at, game_review.review_text, game_review.created_by_id, game_review.game_id, gamescore.score_id, gamescore.game_id, gamescore.score FROM game_review INNER JOIN gamescore ON game_review.id = gamescore.score_id WHERE game_review.game_id = ?',
+        'SELECT game_review.id, game_review.review_title, game_review.created_at, game_review.review_text, game_review.created_by_id, game_review.game_id, gamescore.score_id, gamescore.game_id, gamescore.score FROM game_review INNER JOIN gamescore ON game_review.id = gamescore.score_id WHERE game_review.game_id = ? ORDER BY game_review.id DESC',
         [gameId],
         (error, results) => {
           if (error) return reject(error);

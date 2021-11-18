@@ -56,12 +56,17 @@ class ReviewService {
   //     })
   //     .then((response) => response.data);
   // }
-  postReview(review_title: string, review_text: string, created_by: number, game_id: number) {
+  postReview(
+    review_title: string,
+    review_text: string,
+    review_created_by: number,
+    game_id: number
+  ) {
     return axios
       .post('/review/', {
         review_title: review_title,
         review_text: review_text,
-        created_by: created_by,
+        review_created_by: review_created_by,
         game_id: game_id,
       })
       .then((response) => response.data);
