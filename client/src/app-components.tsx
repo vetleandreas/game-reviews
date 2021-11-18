@@ -331,7 +331,7 @@ export class GetGame extends Component {
                     label={`Review ratings: ${this.gameScore[0]['AVG(score)'].toFixed(2) * 10}%`}
                   />
                 ) : (
-                  <p>Rating: No review ratings available for this game.</p>
+                  <p>GRS User Rating: No review ratings available for this game.</p>
                 )}
                 {/* End review rating */}
                 {game.platforms ? (

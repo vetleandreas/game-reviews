@@ -46,7 +46,7 @@ class GameService {
           'Client-ID': process.env.CLIENT_ID,
           Authorization: process.env.AUTHORIZATION,
         },
-        data: `query games/count "Count of Games" {fields *;limit 1; where cover != null;}; query games "All Games" {fields name, cover.url, genres.name, slug, rating; sort rating desc; offset ${offset}; limit 20; where cover != null; where rating != null;};`,
+        data: `query games/count "Count of Games" {fields *;limit 1; where cover != null; where rating != null;}; query games "All Games" {fields name, cover.url, genres.name, slug, rating; sort rating desc; offset ${offset}; limit 20; where cover != null; where rating != null;};`,
       })
         .then((response) => resolve(response.data))
         .catch((error) => reject(error));
