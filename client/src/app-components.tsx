@@ -194,8 +194,16 @@ export class GetGame extends Component {
     // function to prettify timestamp!
     function dateTime(timestamp) {
       let dt = new Date(timestamp);
-      return `${dt.getDay() + '.' + dt.getMonth() + '.' + dt.getFullYear()} @${
-        dt.getHours() + ':' + dt.getMinutes()
+      return `${
+        (dt.getDay() < 10 ? '0' + dt.getDay() : dt.getDay()) +
+        '.' +
+        (dt.getMonth() < 10 ? '0' + dt.getMonth() : dt.getMonth()) +
+        '.' +
+        dt.getFullYear()
+      } @${
+        (dt.getHours() < 10 ? '0' + dt.getHours() : dt.getHours()) +
+        ':' +
+        (dt.getMinutes() < 10 ? '0' + dt.getMinutes() : dt.getMinutes())
       }`;
     }
     if (this.game.length == 0) {
@@ -298,16 +306,16 @@ export class GetGame extends Component {
                     style={{ height: '32px' }}
                     variant={
                       // Nested ternary to get different colours depending on game rating.
-                      this.gameScore[0]['AVG(score)'].toFixed(2) * 10 < 25
+                      this.gameScore[0]['AVG(score)'].toFixed(0) * 10 < 25
                         ? 'danger'
-                        : this.gameScore[0]['AVG(score)'].toFixed(2) * 10 < 50
+                        : this.gameScore[0]['AVG(score)'].toFixed(0) * 10 < 50
                         ? 'warning'
-                        : this.gameScore[0]['AVG(score)'].toFixed(2) * 10 < 75
+                        : this.gameScore[0]['AVG(score)'].toFixed(0) * 10 < 75
                         ? 'info'
                         : 'success'
                     }
-                    now={this.gameScore[0]['AVG(score)'].toFixed(2) * 10}
-                    label={`Review ratings: ${this.gameScore[0]['AVG(score)'].toFixed(2) * 10}%`}
+                    now={this.gameScore[0]['AVG(score)'].toFixed(0) * 10}
+                    label={`Review ratings: ${this.gameScore[0]['AVG(score)'].toFixed(0) * 10}%`}
                   />
                 ) : (
                   <p>Rating: No review ratings available for this game.</p>
@@ -482,17 +490,6 @@ export class GetGame extends Component {
                       </Card>
                     ))
                   : null}
-              </Row>
-              <Row style={{ zIndex: 999 }}>
-                <Col>
-                  {/* {this.gameScore[0]['AVG(score)'] == undefined ? console.log('IS NULL') : console.log('NOT NULL')} */}
-                  {/* <p>Rating: {this.gameScore[0]['AVG(score)'].toFixed(2)}</p> */}
-                  {this.gameScore.length > 0 ? (
-                    <p>Rating: {this.gameScore[0]['AVG(score)'].toFixed(2)}</p>
-                  ) : (
-                    <p>Rating: No rating available for this game. Want to rate this game?</p>
-                  )}
-                </Col>
               </Row>
             </Row>
           ))}
@@ -818,6 +815,42 @@ export class GameCarousel extends Component {
             </Carousel.Item>
           </Carousel>
         </Container>
+      </>
+    );
+  }
+}
+
+export class AddGame extends Component {
+  game = [];
+  render() {
+    return (
+      <>
+        <Card title="Add a new video game">
+          <Row>
+            <Col width={2}>
+              <Form.Label>Title:</Form.Label>
+            </Col>
+            <Col>
+              <Form.Input
+                type="text"
+                value={this.game.title}
+                onChange={(event) => (this.game.title = event.currentTarget.value)}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col width={2}>
+              <Form.Label>Description:</Form.Label>
+            </Col>
+            <Col>
+              <Form.Textarea
+                value={this.game.description}
+                onChange={(event) => (this.game.description = event.currentTarget.value)}
+                rows={10}
+              />
+            </Col>
+          </Row>
+        </Card>
       </>
     );
   }
