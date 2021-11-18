@@ -673,12 +673,12 @@ export class SearchGame extends Component {
                   <Button
                     variant="secondary"
                     onClick={(event) => {
-                      if (this.offset < 50) {
+                      if (this.offset < 20) {
                         this.offset = 0;
                         history.push('/search/' + String(this.searchQuery) + '/' + this.offset),
                           scrollTo(0, 0);
                       } else {
-                        this.offset -= 50;
+                        this.offset -= 20;
                         history.push('/search/' + String(this.searchQuery) + '/' + this.offset),
                           scrollTo(0, 0);
                       }
@@ -687,11 +687,11 @@ export class SearchGame extends Component {
                     Previous
                   </Button>
                 ) : null}
-                {this.games.length >= 50 ? (
+                {this.games.length >= 20 ? (
                   <Button
                     variant="secondary"
                     onClick={(event) => {
-                      this.offset += 50;
+                      this.offset += 20;
                       history.push('/search/' + String(this.searchQuery) + '/' + this.offset),
                         scrollTo(0, 0);
                     }}
