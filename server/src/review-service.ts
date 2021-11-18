@@ -54,19 +54,6 @@ class ReviewService {
       );
     });
   }
-  // Get upvotes for review
-  // getUpvotes(userId: number, reviewId: number) {
-  //   return new Promise((resolve, reject) => {
-  //     pool.query(
-  //       'SELECT * FROM game_review_relevance WHERE user_id = ? AND review_id = ?',
-  //       [userId, reviewId],
-  //       (error, results) => {
-  //         if (error) return reject(error);
-  //         resolve(results);
-  //       }
-  //     );
-  //   });
-  // }
   getUpvotes() {
     return new Promise((resolve, reject) => {
       pool.query('SELECT * FROM game_review_relevance', (error, results) => {
@@ -123,7 +110,6 @@ class ReviewService {
   // Get reviews of game with given game_id
   getReviews(gameId: number) {
     return new Promise((resolve, reject) => {
-      // pool.query('SELECT * FROM game_review WHERE game_id = ?', [gameId], (error, results) => {
       pool.query(
         'SELECT game_review.id, game_review.review_title, game_review.created_at, game_review.review_text, game_review.created_by_id, game_review.game_id, gamescore.score_id, gamescore.game_id, gamescore.score FROM game_review INNER JOIN gamescore ON game_review.id = gamescore.score_id WHERE game_review.game_id = ? ORDER BY game_review.id DESC',
         [gameId],
