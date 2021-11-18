@@ -819,39 +819,3 @@ export class GameCarousel extends Component {
     );
   }
 }
-
-export class AddGame extends Component {
-  game = [];
-  render() {
-    return (
-      <>
-        <Card title="Add a new video game">
-          <Row>
-            <Col width={2}>
-              <Form.Label>Title:</Form.Label>
-            </Col>
-            <Col>
-              <Form.Input
-                type="text"
-                value={this.game.title}
-                onChange={(event) => (this.game.title = event.currentTarget.value)}
-              />
-            </Col>
-          </Row>
-          <Row>
-            <Col width={2}>
-              <Form.Label>Description:</Form.Label>
-            </Col>
-            <Col>
-              <Form.Textarea
-                value={this.game.description}
-                onChange={(event) => (this.game.description = event.currentTarget.value)}
-                rows={10}
-              />
-            </Col>
-          </Row>
-        </Card>
-      </>
-    );
-  }
-}

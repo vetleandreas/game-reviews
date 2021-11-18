@@ -42,7 +42,6 @@ ReactDOM.render(
         {/* <MainCarousel /> */}
         <Navigation />
         <Route exact path="/" component={MainPage} />
-        <Route exact path="/addgame" component={AddGame} />
         <Route exact path="/games" component={AllGames} />
         <Route exact path="/games/:offset" component={AllGames} /> {/* for pagination */}
         <Route exact path="/game/:slug" component={GetGame} />
