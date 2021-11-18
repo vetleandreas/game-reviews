@@ -63,10 +63,10 @@ router.post('/review/', (request, response) => {
   console.log(data.review_title, data.review_text, data.review_created_by, data.game_id);
   if (
     data &&
-    request.body.review_title.length != 0 &&
-    request.body.review_text.length != 0 &&
-    request.body.review_created_by.length != 0 &&
-    request.body.game_id.length != 0
+    data.review_title.length != 0 &&
+    data.review_text.length != 0 &&
+    data.review_created_by.length != 0 &&
+    data.game_id.length != 0
   ) {
     reviewService
       .postReview(data.review_title, data.review_text, data.review_created_by, data.game_id)
