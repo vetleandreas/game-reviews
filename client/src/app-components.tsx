@@ -100,7 +100,7 @@ export class AllGames extends Component {
           className="my-3 p-3 bg-dark rounded shadow-sm bg-primaty text-light"
           style={{ minHeight: '500px', marginTop: '55px' }}
         >
-          <h1 className="display-5">Most recent video games </h1>
+          <h1 className="display-5">Highest rated video games</h1>
           <Row>
             {console.log(this.games)}
             {this.games[1].result.map((game) => (
