@@ -5,7 +5,6 @@ import { HashRouter, Route } from 'react-router-dom';
 import { Container, Button, Form, FormControl, Nav, Navbar, Row, Col } from 'react-bootstrap';
 import {
   AllGames,
-  GameCarousel,
   GetGame,
   MainCarousel,
   MainFooter,

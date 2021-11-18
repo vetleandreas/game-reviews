@@ -60,19 +60,18 @@ router.get('/review/score/:id', (request, response) => {
 // Post review goes here! TODO -> Add gamescore func to then.
 router.post('/review/', (request, response) => {
   const data = request.body;
+  console.log(data.review_title, data.review_text, data.review_created_by, data.game_id);
   if (
     data &&
-    data.review_title.length != 0 &&
-    data.review_text.length != 0 &&
-    data.review_created_by.length != 0 &&
-    data.game_id.length != 0
+    request.body.review_title.length != 0 &&
+    request.body.review_text.length != 0 &&
+    request.body.review_created_by.length != 0 &&
+    request.body.game_id.length != 0
   ) {
     reviewService
-      .postReview(data.review_title, data.review_text, data.created_by, data.game_id)
-      .then((id) => response.send(id))
-      .catch((error) =>
-        response.status(500).send('An unexpected error occurred. Culd not post to Database.')
-      );
+      .postReview(data.review_title, data.review_text, data.review_created_by, data.game_id)
+      .then((id) => response.send({ id: id }))
+      .catch((error) => response.status(500).send(error));
   } else response.status(400).send('An unexpected error occurred.');
 });
 
