@@ -292,6 +292,27 @@ export class GetGame extends Component {
                   </Row>
                 ) : null}
                 {/* End: Game Rating from IGDB*/}
+                {/* Start review rating */}
+                {this.gameScore.length > 0 ? (
+                  <ProgressBar
+                    style={{ height: '32px' }}
+                    variant={
+                      // Nested ternary to get different colours depending on game rating.
+                      this.gameScore[0]['AVG(score)'].toFixed(2) * 10 < 25
+                        ? 'danger'
+                        : this.gameScore[0]['AVG(score)'].toFixed(2) * 10 < 50
+                        ? 'warning'
+                        : this.gameScore[0]['AVG(score)'].toFixed(2) * 10 < 75
+                        ? 'info'
+                        : 'success'
+                    }
+                    now={this.gameScore[0]['AVG(score)'].toFixed(2) * 10}
+                    label={`Review ratings: ${this.gameScore[0]['AVG(score)'].toFixed(2) * 10}%`}
+                  />
+                ) : (
+                  <p>Rating: No review ratings available for this game.</p>
+                )}
+                {/* End review rating */}
                 {game.platforms ? (
                   <Row>
                     <Col>
@@ -343,6 +364,7 @@ export class GetGame extends Component {
                   </Row>
                 ) : null}
               </Col>
+              <Row>{/* Writing reviews goes here */}</Row>
               <Row style={{ marginLeft: '5px', zIndex: 999 }}>
                 {console.log('Gamereviews', this.gameReview)}
                 <Col>
@@ -358,28 +380,34 @@ export class GetGame extends Component {
                       <Card.Body>
                         <Card.Text>{review.review_text}</Card.Text>
                         {/* TODO: Add upvote functionality */}
-                        <Button
-                          variant="warning"
-                          onMounted={(event) => {
-                            reviewService
-                              .getUpvotes(this.user_id, review.id)
-                              .then((response) => {
-                                this.upvotes = response;
-                                console.log('Get Upvotes:', response);
-                              })
-                              .catch((error) => console.log(error));
-                            console.log('LOAD THIS');
-                          }}
-                          onClick={(event) => {
-                            // Adds upvote. TODO: Needs to disable Upvotebutton if upvoted.
-                            reviewService
-                              .upvoteReview(this.user_id, review.id, 1)
-                              .then() // history.push('/tasks/' + this.task.id))
-                              .catch((error) => console.log(error));
-                          }}
-                        >
-                          <i className="fas fa-thumbs-up"></i>
-                        </Button>
+                        {this.upvotes.length > 0 ? (
+                          <Button
+                            variant="warning"
+                            onClick={(event) => {
+                              // Adds upvote. TODO: Needs to disable Upvotebutton if upvoted.
+                              console.log('Upvotes:', review);
+                              reviewService
+                                .upvoteReview(this.user_id, review.id, 1)
+                                .then(
+                                  // @ts-ignore
+                                  reviewService
+                                    .getUpvotes()
+                                    .then((results) => (this.upvotes = results))
+                                    .catch((error) => console.log(error))
+                                ) // history.push('/tasks/' + this.task.id))
+                                .catch((error) => console.log(error));
+                            }}
+                          >
+                            <i className="fas fa-thumbs-up"></i>
+                            <span>
+                              {' '}
+                              {
+                                this.upvotes.filter((upvote) => upvote.review_id == review.id)
+                                  .length
+                              }
+                            </span>
+                          </Button>
+                        ) : null}
                       </Card.Body>
                     </Card>
                   ))}
@@ -495,6 +523,10 @@ export class GetGame extends Component {
           .catch((error) => console.log(error));
       })
       .catch((error) => (this.errormsg = error));
+    reviewService
+      .getUpvotes()
+      .then((results) => (this.upvotes = results))
+      .catch((error) => console.log(error));
   }
 }
 
