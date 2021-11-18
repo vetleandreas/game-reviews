@@ -306,16 +306,16 @@ export class GetGame extends Component {
                     style={{ height: '32px' }}
                     variant={
                       // Nested ternary to get different colours depending on game rating.
-                      this.gameScore[0]['AVG(score)'].toFixed(0) * 10 < 25
+                      this.gameScore[0]['AVG(score)'].toFixed(2) * 10 < 25
                         ? 'danger'
-                        : this.gameScore[0]['AVG(score)'].toFixed(0) * 10 < 50
+                        : this.gameScore[0]['AVG(score)'].toFixed(2) * 10 < 50
                         ? 'warning'
-                        : this.gameScore[0]['AVG(score)'].toFixed(0) * 10 < 75
+                        : this.gameScore[0]['AVG(score)'].toFixed(2) * 10 < 75
                         ? 'info'
                         : 'success'
                     }
-                    now={this.gameScore[0]['AVG(score)'].toFixed(0) * 10}
-                    label={`Review ratings: ${this.gameScore[0]['AVG(score)'].toFixed(0) * 10}%`}
+                    now={this.gameScore[0]['AVG(score)'].toFixed(2) * 10}
+                    label={`Review ratings: ${this.gameScore[0]['AVG(score)'].toFixed(2) * 10}%`}
                   />
                 ) : (
                   <p>Rating: No review ratings available for this game.</p>
@@ -392,6 +392,7 @@ export class GetGame extends Component {
                           <Button
                             variant="warning"
                             onClick={(event) => {
+                              event.currentTarget.disabled = true;
                               // Adds upvote. TODO: Needs to disable Upvotebutton if upvoted.
                               console.log('Upvotes:', review);
                               reviewService

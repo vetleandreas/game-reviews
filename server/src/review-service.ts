@@ -89,6 +89,32 @@ class ReviewService {
       );
     });
   }
+  // Post review
+  postReview(review_title: string, review_text: string, created_by: string, game_id: number) {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        'INSERT INTO game_review (id, review_title, review_text, created_by_id, game_id) VALUES (NULL, ?, CURRENT_TIMESTAMP, ?, ?, ?);',
+        [review_title, review_text, created_by, game_id],
+        (error, results) => {
+          if (error) return reject(error);
+          return resolve(results);
+        }
+      );
+    });
+  }
+  postReviewScore(score_id: number, game_id: number, score: number) {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        'INSERT INTO gamescore (id, score_id, game_id, score) VALUES (NULL, ?, ?, ?)',
+        [score_id, game_id, score],
+        (error, results) => {
+          if (error) return reject(error);
+          return resolve(results);
+        }
+      );
+    });
+  }
+
   // Get reviews of game with given game_id
   getReviews(gameId: number) {
     return new Promise((resolve, reject) => {

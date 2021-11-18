@@ -32,6 +32,7 @@ class ReviewService {
   // getUpvotes(reviewId: number, userId: number) {
   //   return axios.get('/review/upvote/' + reviewId + '/' + userId).then((response) => response.data);
   // }
+
   getUpvotes() {
     return axios.get('/review/upvote/').then((response) => response.data);
   }
@@ -44,6 +45,26 @@ class ReviewService {
   // Get Gamescore with given id
   gameScores(id: number) {
     return axios.get<ReviewGamescore[]>('/review/score/' + id).then((response) => response.data);
+  }
+  // postReview(review_title: string, review_text: string, created_by: number, game_id: number) {
+  //   return axios
+  //     .post('/review/', {
+  //       review_title: review_title,
+  //       review_text: review_text,
+  //       created_by: created_by,
+  //       game_id: game_id,
+  //     })
+  //     .then((response) => response.data);
+  // }
+  postReview(review_title: string, review_text: string, created_by: number, game_id: number) {
+    return axios
+      .post('/review/', {
+        review_title: review_title,
+        review_text: review_text,
+        created_by: created_by,
+        game_id: game_id,
+      })
+      .then((response) => response.data);
   }
   gameReviews(id: number) {
     return axios.get<GameReviews[]>('/reviews/' + id).then((response) => response.data);
