@@ -11,6 +11,7 @@ import {
   MainFooter,
   Navigation,
   SearchGame,
+  AddGame,
 } from './app-components';
 // Import components
 
@@ -18,7 +19,7 @@ class MainPage extends Component {
   render() {
     return (
       <>
-        <h1>Velkommen til mainComp</h1>
+        <h1>Velkommen til våre spillanmeldelser</h1>
       </>
     );
   }
@@ -44,10 +45,11 @@ ReactDOM.render(
         <Route exact path="/games" component={AllGames} />
         <Route exact path="/games/:offset" component={AllGames} /> {/* for pagination */}
         <Route exact path="/game/:slug" component={GetGame} />
+        <Route exact path="/addgames/" component={AddGame} />
         <Route exact path="/search/" component={SearchGame} />
         <Route exact path="/search/:query/" component={SearchGame} />
         <Route exact path="/search/:query/:offset" component={SearchGame} />
-        <GameCarousel />
+        {/* <GameCarousel />  */}
         <MainFooter />
       </div>
     </div>

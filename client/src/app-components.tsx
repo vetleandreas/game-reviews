@@ -50,7 +50,7 @@ export class Navigation extends Component {
               <Nav className="me-auto my-2 my-lg-0" navbarScroll>
                 <Nav.Link href="/">Home</Nav.Link>
                 <Nav.Link href="/#/games/">Games</Nav.Link>
-                <Nav.Link href="#">Latest Games</Nav.Link>
+                <Nav.Link href="/#/addgames/">Add new game</Nav.Link>
               </Nav>
               <Form className="d-flex">
                 <FormControl
@@ -532,6 +532,38 @@ export class MainFooter extends Component {
       </footer>
     );
   }
+}
+
+export class AddGame extends Component {
+  game: Game = { title: '', description: '' };
+
+  render() {
+    return (
+      <>
+        <Container>
+          <Card title="Add a new video game">
+            <Row>
+              <Col>
+                <Form>
+                  <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Label>Email address</Form.Label>
+                    <Form.Control type="email" placeholder="name@example.com" />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                    <Form.Label>Example textarea</Form.Label>
+                    <Form.Control as="textarea" rows={3} />
+                  </Form.Group>
+                </Form>
+              </Col>
+            </Row>
+            <Button />
+          </Card>
+        </Container>
+      </>
+    );
+  }
+
+  mounted() {}
 }
 
 export class SearchGame extends Component {
