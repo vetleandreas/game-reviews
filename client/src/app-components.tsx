@@ -19,6 +19,7 @@ import {
   Modal,
   ProgressBar,
   Spinner,
+  Link,
   Accordion,
   Dropdown,
   ListGroup,
@@ -44,13 +45,14 @@ export class Navigation extends Component {
           style={{ marginBottom: '100px' }}
         >
           <Container fluid>
-            <Navbar.Brand href="/">The game review project</Navbar.Brand>
+            <Navbar.Brand href="/">Game Review Service </Navbar.Brand>
             <Navbar.Toggle aria-controls="navbarScroll" />
             <Navbar.Collapse id="navbarScroll">
               <Nav className="me-auto my-2 my-lg-0" navbarScroll>
                 <Nav.Link href="/">Home</Nav.Link>
                 <Nav.Link href="/#/games/">Games</Nav.Link>
-                <Nav.Link href="#">Latest Games</Nav.Link>
+                <Nav.Link href="/#/addgames/">Add game</Nav.Link>
+                <Nav.Link href="/#/search/">Search</Nav.Link>
               </Nav>
               <Form className="d-flex">
                 <FormControl
@@ -94,7 +96,11 @@ export class AllGames extends Component {
     }
     return (
       <>
-        <Container style={{ minHeight: '500px', marginTop: '55px' }}>
+        <Container
+          className="my-3 p-3 bg-dark rounded shadow-sm bg-primaty text-light"
+          style={{ minHeight: '500px', marginTop: '55px' }}
+        >
+          <h1 className="display-5">Most recent video games </h1>
           <Row>
             {console.log(this.games)}
             {this.games[1].result.map((game) => (
@@ -190,6 +196,7 @@ export class GetGame extends Component {
   empty = setTimeout(() => {
     this.empty = 1;
   }, 2000);
+
   render() {
     // function to prettify timestamp!
     function dateTime(timestamp) {
@@ -209,6 +216,12 @@ export class GetGame extends Component {
     if (this.game.length == 0) {
       return null;
     }
+
+    // Function for disable button
+    function DisableButton() {
+      const [disable, setDisable] = React.useState(false);
+    }
+
     return (
       <>
         <Container
@@ -574,12 +587,117 @@ export class MainFooter extends Component {
         className="bg-dark text-light d-flex flex-wrap justify-content-between align-items-center py-3 border-top"
       >
         <Container>
-          <h4>Footer content goes here</h4>
-          <p>Some footer text goes here</p>
+          <h4>Made by Group 3</h4>
+          <p>© INFT2002 Fall 2021 - NTNU</p>
         </Container>
       </footer>
     );
   }
+}
+
+export class AddGame extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      name: '',
+    };
+  }
+
+  handleChange = (event) => {
+    this.setState({ name: event.target.value });
+  };
+
+  render() {
+    return (
+      <>
+        <Container className="my-3 p-3 bg-dark rounded shadow-sm bg-primaty text-light">
+          <h1 className="display-5"> Add a missing video game</h1>
+          <Card title="Add a new video game">
+            <Row>
+              <Col>
+                <Form>
+                  <Form.Group className="mb-3" controlId="formGridTitle">
+                    <Form.Label>Game title</Form.Label>
+                    <Form.Control type="input" placeholder="F. ex. Battlefield 4" />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="formGridTitle">
+                    <Form.Label>Release date</Form.Label>
+                    <Form.Control type="input" placeholder="MM/DD/YYYY" />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="formGridTitle">
+                    <Form.Label>Platforms</Form.Label>
+                    <Form.Control
+                      type="input"
+                      placeholder="F. ex. PC (Windows) and/or PlayStation 3"
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="formGridTitle">
+                    <Form.Label>Developers / Publishers</Form.Label>
+                    <Form.Control type="input" placeholder="F. ex. DICE and EA" />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="formGridTitle">
+                    <Form.Label>Genre(s)</Form.Label>
+                    <Form.Control
+                      type="input"
+                      name="email"
+                      placeholder="F. ex. Shooter, Simulator or Strategy"
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="formGridDesc">
+                    <Form.Label>Game description</Form.Label>
+                    <Form.Control
+                      placeholder="Description of the video game"
+                      as="textarea"
+                      onChange={this.handleChange}
+                      rows={3}
+                    />
+                  </Form.Group>
+                </Form>
+              </Col>
+            </Row>
+            <Button disabled={!this.state.name} variant="secondary" href="/#/submitgame/">
+              Submit new game
+            </Button>
+          </Card>
+        </Container>
+      </>
+    );
+  }
+
+  mounted() {}
+}
+
+export class SubmitGame extends Component {
+  render() {
+    return (
+      <>
+        <Container>
+          <Card title="noe nais">
+            <Row>
+              <Col>
+                <Form>
+                  <Form.Group className="mb-3" controlId="formGridTitle">
+                    <Form.Label>
+                      <h3>
+                        The submission has been sent to the administrators for approval, and you can
+                        expect the game to be added as soon as all the information has been
+                        cross-checked. {'\n'} Thank you!{' '}
+                      </h3>
+                    </Form.Label>
+                  </Form.Group>
+                </Form>
+              </Col>
+            </Row>
+            <Button variant="success" href="/#/addgames/">
+              Add another game
+            </Button>
+          </Card>
+        </Container>
+      </>
+    );
+  }
+  mounted() {}
 }
 
 export class SearchGame extends Component {
@@ -701,6 +819,12 @@ export class SearchGame extends Component {
                 ) : null}
               </ButtonGroup>
             </Col>
+            <div className="d-grid gap-2">
+              <br />
+              <Button variant="success" size="lg" href="/#/addgames/">
+                Can't find your game? Add it yourself!
+              </Button>
+            </div>
           </Row>
         </Container>
       </>
