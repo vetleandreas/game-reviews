@@ -66,11 +66,17 @@ router.post('/review/', (request, response) => {
     data.review_title.length != 0 &&
     data.review_text.length != 0 &&
     data.review_created_by.length != 0 &&
-    data.game_id.length != 0
+    data.game_id.length != 0 &&
+    data.game_score.length != 0
   ) {
     reviewService
       .postReview(data.review_title, data.review_text, data.review_created_by, data.game_id)
-      .then((id) => response.send({ id: id }))
+      //   postReviewScore(score_id: number, game_id: number, score: number) {
+      // .then((id) => response.send({ id: id }))
+      .then((id) => {
+        reviewService.postReviewScore(id, data.game_id, data.game_score).then().catch();
+        response.send({ id: id });
+      })
       .catch((error) => response.status(500).send(error));
   } else response.status(400).send('An unexpected error occurred.');
 });

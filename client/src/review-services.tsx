@@ -60,7 +60,8 @@ class ReviewService {
     review_title: string,
     review_text: string,
     review_created_by: number,
-    game_id: number
+    game_id: number,
+    game_score: number
   ) {
     return axios
       .post('/review/', {
@@ -68,6 +69,7 @@ class ReviewService {
         review_text: review_text,
         review_created_by: review_created_by,
         game_id: game_id,
+        game_score: game_score,
       })
       .then((response) => response.data);
   }
