@@ -393,129 +393,145 @@ export class GetGame extends Component {
                 ) : null}
               </Col>
               {/* START REVIEW FORM */}
-              <Container style={{ zIndex: 999 }} className="border-bottom pb-5 my-5">
-                <h3>Write a review of this game</h3>
-                <Form id="ReviewForm">
-                  <Form.Group className="mb-3" controlId="formReviewTitle">
-                    <Form.Label>Title</Form.Label>
-                    <Form.Control
-                      placeholder="Enter review title"
-                      required
-                      value={this.formTitle}
-                      onChange={(event) => (this.formTitle = event.currentTarget.value)}
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="formReviewName">
-                    <Form.Label>Name</Form.Label>
-                    <Form.Control
-                      placeholder="Enter your name"
-                      required
-                      value={this.formName}
-                      onChange={(event) => (this.formName = event.currentTarget.value)}
-                    />
-                  </Form.Group>
 
-                  <Row>
-                    <Col>
-                      <Form.Group className="mb-3" controlId="formReviewEmail">
-                        <Form.Label>Email address</Form.Label>
-                        <Form.Control
-                          type="email"
-                          placeholder="name@example.com"
+              <Container style={{ zIndex: 999 }} className="border-bottom pb-5 my-5">
+                <Accordion className="bg-dark">
+                  <Accordion.Item className="bg-dark" eventKey="0">
+                    <Accordion.Header>
+                      <h5>Write your review here!</h5>
+                    </Accordion.Header>
+                    <Accordion.Body>
+                      <h3>Write a review of this game</h3>
+                      <Form id="ReviewForm">
+                        <Form.Group className="mb-3" controlId="formReviewTitle">
+                          <Form.Label>Title</Form.Label>
+                          <Form.Control
+                            placeholder="Enter review title"
+                            required
+                            value={this.formTitle}
+                            onChange={(event) => (this.formTitle = event.currentTarget.value)}
+                          />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="formReviewName">
+                          <Form.Label>Name</Form.Label>
+                          <Form.Control
+                            placeholder="Enter your name"
+                            required
+                            value={this.formName}
+                            onChange={(event) => (this.formName = event.currentTarget.value)}
+                          />
+                        </Form.Group>
+
+                        <Row>
+                          <Col>
+                            <Form.Group className="mb-3" controlId="formReviewEmail">
+                              <Form.Label>Email address</Form.Label>
+                              <Form.Control
+                                type="email"
+                                placeholder="name@example.com"
+                                required
+                                value={this.formEmail}
+                                onChange={(event) => (this.formEmail = event.currentTarget.value)}
+                              />
+                              <Form.Text className="text-muted">
+                                We'll never share your email with anyone else.
+                              </Form.Text>
+                            </Form.Group>
+                          </Col>
+                          <Col>
+                            <Form.Group className="mb-3" controlId="formReviewPassword">
+                              <Form.Label>Password</Form.Label>
+                              <Form.Control
+                                type="password"
+                                placeholder="Password"
+                                required
+                                value={this.formPassword}
+                                onChange={(event) =>
+                                  (this.formPassword = event.currentTarget.value)
+                                }
+                              />
+                            </Form.Group>
+                          </Col>
+                        </Row>
+                        <Form.Select
+                          className="me-sm-2"
+                          id="inlineFormCustomSelect"
                           required
-                          value={this.formEmail}
-                          onChange={(event) => (this.formEmail = event.currentTarget.value)}
-                        />
-                        <Form.Text className="text-muted">
-                          We'll never share your email with anyone else.
-                        </Form.Text>
-                      </Form.Group>
-                    </Col>
-                    <Col>
-                      <Form.Group className="mb-3" controlId="formReviewPassword">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control
-                          type="password"
-                          placeholder="Password"
-                          required
-                          value={this.formPassword}
-                          onChange={(event) => (this.formPassword = event.currentTarget.value)}
-                        />
-                      </Form.Group>
-                    </Col>
-                  </Row>
-                  <Form.Select
-                    className="me-sm-2"
-                    id="inlineFormCustomSelect"
-                    required
-                    value={this.formSelect}
-                    onChange={(event) => (this.formSelect = event.currentTarget.value)}
-                  >
-                    <option value="0">Select rating</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                  </Form.Select>
-                  <Form.Group className="mb-3" controlId="formReviewReviewText">
-                    <Form.Label>Example textarea</Form.Label>
-                    <Form.Control
-                      as="textarea"
-                      rows={3}
-                      value={this.formReviewText}
-                      onChange={(event) => (this.formReviewText = event.currentTarget.value)}
-                      required
-                    />
-                  </Form.Group>
-                  <Button
-                    variant="primary"
-                    type="submit"
-                    disabled={
-                      !this.formTitle ||
-                      !this.formName ||
-                      !this.formEmail ||
-                      !this.formPassword ||
-                      !this.formSelect ||
-                      !this.formReviewText
-                    }
-                    // Denne må endres til en funksjon! Må også legges inn sjekk for mail
-                    onClick={(event) => {
-                      event.preventDefault();
-                      reviewService
-                        .postReview(
-                          this.formTitle,
-                          this.formReviewText,
-                          this.formEmail,
-                          this.game[0].id,
-                          this.formSelect,
-                          this.formPassword
-                        )
-                        .then(() => location.reload())
-                        .catch();
-                      event.currentTarget.disabled = true;
-                      history.push('#/game/' + this.game[0].slug);
-                      window.location.reload(false);
-                    }}
-                  >
-                    Submit review
-                  </Button>
-                </Form>
+                          value={this.formSelect}
+                          onChange={(event) => (this.formSelect = event.currentTarget.value)}
+                        >
+                          <option value="0">Select rating</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                          <option value="8">8</option>
+                          <option value="9">9</option>
+                          <option value="10">10</option>
+                        </Form.Select>
+                        <Form.Group className="mb-3" controlId="formReviewReviewText">
+                          <Form.Label>Example textarea</Form.Label>
+                          <Form.Control
+                            as="textarea"
+                            rows={3}
+                            value={this.formReviewText}
+                            onChange={(event) => (this.formReviewText = event.currentTarget.value)}
+                            required
+                          />
+                        </Form.Group>
+                        <Button
+                          variant="primary"
+                          type="submit"
+                          disabled={
+                            !this.formTitle ||
+                            !this.formName ||
+                            !this.formEmail ||
+                            !this.formPassword ||
+                            !this.formSelect ||
+                            !this.formReviewText
+                          }
+                          // Denne må endres til en funksjon! Må også legges inn sjekk for mail
+                          onClick={(event) => {
+                            event.preventDefault();
+                            reviewService
+                              .postReview(
+                                this.formTitle,
+                                this.formReviewText,
+                                this.formEmail,
+                                this.game[0].id,
+                                this.formSelect,
+                                this.formPassword
+                              )
+                              .then(() => location.reload())
+                              .catch();
+                            event.currentTarget.disabled = true;
+                            history.push('#/game/' + this.game[0].slug);
+                            window.location.reload(false);
+                          }}
+                        >
+                          Submit review
+                        </Button>
+                      </Form>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
               </Container>
+
               {/* END REVIEW FORM */}
-              <Row>{/* Writing reviews goes here */}</Row>
+              <Row id="reviews">{/* Writing reviews goes here */}</Row>
               <Row style={{ marginLeft: '5px', zIndex: 999 }}>
                 {console.log('Gamereviews', this.gameReview)}
                 <Col>
-                  {this.gameReview.length != 0 ? <h3>Reviews</h3> : null}
+                  <h3>Reviews</h3>
+                  {this.gameReview.length == 0 ? (
+                    <p>There are no reviews right now. Write one yourself! </p>
+                  ) : null}
                   {this.gameReview.map((review) => (
                     // REVIEWS GOES HERE
-                    <Card text="dark" className="card-review ">
+                    <Card text="dark" className="card-review">
                       <Card.Title className="card-title">{review.review_title}</Card.Title>
                       <Card.Subtitle className="mb-2 text-muted card-subtitle">
                         Created by: {review.created_by_id} - {dateTime(review.created_at)}
@@ -573,6 +589,30 @@ export class GetGame extends Component {
                       </Button>
                     </Card>
                   ))}
+                </Col>
+              </Row>
+              {/* Test review on every game */}
+              <Row style={{ marginLeft: '5px', zIndex: 999 }}>
+                <Col>
+                  <Card text="dark" className="card-review ">
+                    <Card.Title className="card-title">Alright video game</Card.Title>
+                    <Card.Subtitle className="mb-2 text-muted card-subtitle">
+                      Created by: andreas@ntnu.no - 19.11.2021 @ 18.29
+                    </Card.Subtitle>
+                    <Card.Subtitle>Rated: 5</Card.Subtitle>
+                    <Card.Body>
+                      <Card.Text>The game was alright but could be better. </Card.Text>
+
+                      <Button
+                        variant="dark"
+                        onClick={(event) => {
+                          this.showModal = !this.showModal;
+                        }}
+                      >
+                        Edit review
+                      </Button>
+                    </Card.Body>
+                  </Card>
                 </Col>
               </Row>
               <Row
@@ -1178,39 +1218,3 @@ export class MainPage extends Component {
       .catch((error) => console.log(error));
   }
 }
-
-//  // Bare for og få random carousel items
-//  offset = Math.floor(Math.random() * 1000);
-//  games = [];
-//  render() {
-//    if (this.games.length == 0) {
-//      return null;
-//    }
-//    return (
-//      <>
-//    <Carousel>
-//      {console.log(this.games)}
-//      {this.games.map((game) => (
-//        <Carousel.Item key={game.id}>
-//          <img
-//            src={String(game.cover.url).replace('t_thumb', 't_screenshot_huge')}
-//            className="w-100 img-fluid"
-//            alt={`${game.name} image.`}
-//          />
-//          <Carousel.Caption style={{ paddingBottom: '55px' }}>
-//            <h1>{game.name}</h1>
-//            <Button variant="dark">Read more</Button>{' '}
-//            <Button variant="warning">Review it!</Button>
-//          </Carousel.Caption>
-//        </Carousel.Item>
-//      ))}
-//    </Carousel>
-//  </>
-//    );
-//  }
-//  mounted() {
-//  gameServices
-//    .getCarousel(this.offset)
-//    .then((response) => (this.games = response))
-//    .catch((error) => console.log(error));
-//  }
