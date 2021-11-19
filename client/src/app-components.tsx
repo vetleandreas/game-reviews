@@ -680,7 +680,11 @@ export class MainCarousel extends Component {
               <Carousel.Caption style={{ paddingBottom: '55px' }}>
                 <h1>{game.name}</h1>
                 <Button variant="dark">Read more</Button>{' '}
-                <Button variant="warning">Review it!</Button>
+                <Button variant="warning">
+                  {game.total_rating
+                    ? 'IGDB Score: ' + game.total_rating.toFixed(2) + '%'
+                    : 'Review this game!'}
+                </Button>
               </Carousel.Caption>
             </Carousel.Item>
           ))}
