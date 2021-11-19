@@ -60,18 +60,37 @@ router.get('/review/score/:id', (request, response) => {
 // Post review goes here! TODO -> Add gamescore func to then.
 router.post('/review/', (request, response) => {
   const data = request.body;
-  console.log(data.review_title, data.review_text, data.review_created_by, data.game_id);
+  console.log(
+    data.review_title,
+    data.review_text,
+    data.review_created_by,
+    data.game_id,
+    data.game_score
+  );
   if (
     data &&
+    data.game_score != undefined &&
+    data.game_score.length != 0 &&
+    data.review_title != undefined &&
     data.review_title.length != 0 &&
+    data.review_text != undefined &&
     data.review_text.length != 0 &&
+    data.review_created_by != undefined &&
     data.review_created_by.length != 0 &&
+    data.game_id != undefined &&
     data.game_id.length != 0
   ) {
     reviewService
       .postReview(data.review_title, data.review_text, data.review_created_by, data.game_id)
-      .then((id) => response.send({ id: id }))
-      .catch((error) => response.status(500).send(error));
+      .then((id) => {
+        reviewService
+          // @ts-ignore
+          .postReviewScore(id, data.game_id, data.game_score)
+          .then()
+          .catch((error) => response.status(500).send('An unexpected error occurred.'));
+        response.send({ id: id });
+      })
+      .catch((error) => response.status(500).send('An unexpected error occurred.'));
   } else response.status(400).send('An unexpected error occurred.');
 });
 
