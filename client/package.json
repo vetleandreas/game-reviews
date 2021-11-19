@@ -24,6 +24,7 @@
     "bootstrap": "^5.1.3",
     "react-bootstrap": "^2.0.2",
     "react-router-dom": "^5.2.0",
+    "react-router-hash-link": "^2.4.3",
     "react-simplified": "^3.0.0"
   },
   "devDependencies": {

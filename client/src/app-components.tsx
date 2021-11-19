@@ -26,6 +26,8 @@ import {
 } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { tsMethodSignature } from '@babel/types';
+// import { HashLink } from 'react-router-hash-link';
+import { HashLink } from 'react-router-hash-link';
 import gameServices, { CarouselItems, AllGamesItems, GameReviewsItems } from './game-services';
 import reviewService from './review-services';
 
@@ -393,7 +395,11 @@ export class GetGame extends Component {
                 ) : null}
               </Col>
               {/* START REVIEW FORM */}
-              <Container style={{ zIndex: 999 }} className="border-bottom pb-5 my-5">
+              <Container
+                style={{ zIndex: 999 }}
+                className="border-bottom pb-5 my-5"
+                id="write-review"
+              >
                 <h3>Write a review of this game</h3>
                 <Form id="ReviewForm">
                   <Form.Group className="mb-3" controlId="formReviewTitle">
