@@ -461,14 +461,15 @@ export class GetGame extends Component {
                     <option value="3">9</option>
                     <option value="3">10</option>
                   </Form.Select>
-                  <Form.Group
-                    className="mb-3"
-                    controlId="formReviewReviewText"
-                    value={this.formReviewText}
-                    onChange={(event) => (this.formReviewText = event.currentTarget.value)}
-                  >
+                  <Form.Group className="mb-3" controlId="formReviewReviewText">
                     <Form.Label>Example textarea</Form.Label>
-                    <Form.Control as="textarea" rows={3} required />
+                    <Form.Control
+                      as="textarea"
+                      rows={3}
+                      value={this.formReviewText}
+                      onChange={(event) => (this.formReviewText = event.currentTarget.value)}
+                      required
+                    />
                   </Form.Group>
                   <Button
                     variant="primary"
@@ -479,22 +480,22 @@ export class GetGame extends Component {
                       !this.formEmail ||
                       !this.formPassword ||
                       !this.formSelect ||
-                      this.formReviewText
+                      !this.formReviewText
                     }
-                    // Denne må endres til en funksjon!
+                    // Denne må endres til en funksjon! Må også legges inn sjekk for mail
                     onClick={(event) => {
-                      for (
-                        let i = 0;
-                        i < document.getElementById('ReviewForm').elements.length;
-                        i++
-                      ) {
-                        if (
-                          document.getElementById('ReviewForm').elements[i] === '' ||
-                          document.getElementById('ReviewForm').elements[i].hasAttribute('required')
-                        );
-                        return;
-                      }
-                      reviewService.postReview().then().catch();
+                      reviewService
+                        .postReview(
+                          this.formTitle,
+                          this.formReviewText,
+                          this.formEmail,
+                          this.game[0].id,
+                          this.formSelect
+                        )
+                        .then((response) => console.log(response))
+                        .catch();
+                      event.currentTarget.disabled = true;
+                      history.push('#/game/' + this.game[0].slug);
                     }}
                   >
                     Submit review
