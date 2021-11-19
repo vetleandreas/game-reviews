@@ -51,7 +51,6 @@ ReactDOM.render(
       <div id="content-wrapper">
         {/* <MainCarousel /> */}
         <Navigation />
-        <MainCarousel />
         <Route exact path="/" component={MainPage} />
         <Route exact path="/games" component={AllGames} />
         <Route exact path="/games/:offset" component={AllGames} /> {/* for pagination */}
