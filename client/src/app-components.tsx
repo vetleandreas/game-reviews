@@ -532,91 +532,77 @@ export class GetGame extends Component {
                     <p>There are no reviews right now. Write one yourself! </p>
                   ) : null}
                   {this.gameReview.map((review) => (
-                    // REVIEWS GOES HERE
-                    <Card text="dark" className="card-review">
-                      <Card.Title className="card-title">{review.review_title}</Card.Title>
-                      <Card.Subtitle className="mb-2 text-muted card-subtitle">
-                        Created by: {review.created_by_id} - {dateTime(review.created_at)}
-                      </Card.Subtitle>
-                      <Card.Subtitle>Rated: {review.score}</Card.Subtitle>
-                      <Card.Body>
-                        <Card.Text>{review.review_text}</Card.Text>
-                        {/* TODO: Add upvote functionality */}
-                        {this.upvotes.length > 0 ? (
-                          <Button
-                            variant="warning"
-                            onClick={(event) => {
-                              event.currentTarget.disabled = true;
-                              // Adds upvote. TODO: Needs to disable Upvotebutton if upvoted.
-                              console.log('Upvotes:', review);
-                              reviewService
-                                .upvoteReview(this.user_id, review.id, 1)
-                                .then(
-                                  // @ts-ignore
-                                  reviewService
-                                    .getUpvotes()
-                                    .then((results) => (this.upvotes = results))
-                                    .catch((error) => console.log(error))
-                                ) // history.push('/tasks/' + this.task.id))
-                                .catch((error) => console.log(error));
-                            }}
-                          >
-                            <i className="fas fa-thumbs-up"></i>
-                            <span>
-                              {' '}
-                              {
-                                this.upvotes.filter((upvote) => upvote.review_id == review.id)
-                                  .length
-                              }
-                            </span>
-                          </Button>
-                        ) : null}
-                        <ShareButton
-                          class="share-btn btn-share btn-success"
-                          buttonText="Share this review"
-                          id="sharebutton"
-                          variant="success"
-                          title="Check out my amazing review on Game Review Service!"
-                          text="I used a long time to write it - appreciate the upvotes!"
-                          url={window.location.href}
-                        />
-                      </Card.Body>
-                      <Button
-                        variant="dark"
-                        onClick={(event) => {
-                          this.showModal = !this.showModal;
-                        }}
-                      >
-                        Edit review
-                      </Button>
-                    </Card>
+                    // REVIEWS GOES HERE TODO: Add formvalidation
+                    <>
+                      <Card text="dark" className="card-review ">
+                        <Card.Title className="card-title">{review.review_title}</Card.Title>
+                        <Card.Subtitle className="mb-2 text-muted card-subtitle">
+                          Created by: {review.created_by_id} - {dateTime(review.created_at)}
+                        </Card.Subtitle>
+                        <Card.Subtitle>Rated: {review.score}</Card.Subtitle>
+                        <Card.Body>
+                          <Card.Text>{review.review_text}</Card.Text>
+                          {/* TODO: Add upvote functionality */}
+                          {this.upvotes.length > 0 ? (
+                            <Button
+                              variant="warning"
+                              onClick={(event) => {
+                                event.currentTarget.disabled = true;
+                                // Adds upvote. TODO: Needs to disable Upvotebutton if upvoted.
+                                console.log('Upvotes:', review);
+                                reviewService
+                                  .upvoteReview(this.user_id, review.id, 1)
+                                  .then(
+                                    // @ts-ignore
+                                    reviewService
+                                      .getUpvotes()
+                                      .then((results) => (this.upvotes = results))
+                                      .catch((error) => console.log(error))
+                                  ) // history.push('/tasks/' + this.task.id))
+                                  .catch((error) => console.log(error));
+                              }}
+                            >
+                              <i className="fas fa-thumbs-up"></i>
+                              <span>
+                                {' '}
+                                {
+                                  this.upvotes.filter((upvote) => upvote.review_id == review.id)
+                                    .length
+                                }
+                              </span>
+                            </Button>
+                          ) : null}
+                          <ShareButton
+                            class="share-btn btn-share btn-success"
+                            buttonText="Share this review"
+                            id="sharebutton"
+                            variant="success"
+                            title="Check out my amazing review on Game Review Service!"
+                            text="I used a long time to write it - appreciate the upvotes!"
+                            url={window.location.href}
+                          />
+                        </Card.Body>
+                        <Button
+                          variant="dark"
+                          onClick={(event) => {
+                            this.showModal = !this.showModal;
+                            this.reviewEdit = {
+                              review_title: review.review_title,
+                              created_by_id: review.created_by_id,
+                              review_score: review.score,
+                              review_text: review.review_text,
+                            };
+                          }}
+                        >
+                          Edit review
+                        </Button>
+                      </Card>
+                    </>
                   ))}
                 </Col>
               </Row>
               {/* Test review on every game */}
-              <Row style={{ marginLeft: '5px', zIndex: 999 }}>
-                <Col>
-                  <Card text="dark" className="card-review ">
-                    <Card.Title className="card-title">Alright video game</Card.Title>
-                    <Card.Subtitle className="mb-2 text-muted card-subtitle">
-                      Created by: andreas@ntnu.no - 19.11.2021 @ 18.29
-                    </Card.Subtitle>
-                    <Card.Subtitle>Rated: 5</Card.Subtitle>
-                    <Card.Body>
-                      <Card.Text>The game was alright but could be better. </Card.Text>
 
-                      <Button
-                        variant="dark"
-                        onClick={(event) => {
-                          this.showModal = !this.showModal;
-                        }}
-                      >
-                        Edit review
-                      </Button>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              </Row>
               <Row
                 className="d-flex justify-content-start"
                 style={{ marginLeft: '5px', zIndex: 999 }}
