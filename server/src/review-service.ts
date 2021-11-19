@@ -81,12 +81,13 @@ class ReviewService {
     review_title: string,
     review_text: string,
     review_created_by: string,
-    game_id: number
+    game_id: number,
+    review_password: string
   ) {
     return new Promise((resolve, reject) => {
       pool.query(
-        'INSERT INTO game_review (id, review_title, created_at, review_text, created_by_id, game_id) VALUES (NULL, ?, CURRENT_TIMESTAMP, ?, ?, ?);',
-        [review_title, review_text, review_created_by, game_id],
+        'INSERT INTO game_review (id, review_title, created_at, review_text, created_by_id, game_id, review_password) VALUES (NULL, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?);',
+        [review_title, review_text, review_created_by, game_id, review_password],
         (error, results) => {
           if (error) return reject(error);
           return resolve(results.insertId);

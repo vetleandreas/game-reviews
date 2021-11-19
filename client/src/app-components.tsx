@@ -490,12 +490,13 @@ export class GetGame extends Component {
                           this.formReviewText,
                           this.formEmail,
                           this.game[0].id,
-                          this.formSelect
+                          this.formSelect,
+                          this.formPassword
                         )
-                        .then((response) => console.log(response))
+                        .then((response) => history.push('/game/' + this.game[0].slug))
                         .catch();
                       event.currentTarget.disabled = true;
-                      history.push('#/game/' + this.game[0].slug);
+                      // history.push('/game/' + this.game[0].slug);
                     }}
                   >
                     Submit review
