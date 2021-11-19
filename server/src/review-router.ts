@@ -1,5 +1,6 @@
 import express from 'express';
 import reviewService from './review-service';
+import { sha256 } from 'js-sha256';
 
 const router = express.Router();
 
@@ -65,7 +66,9 @@ router.post('/review/', (request, response) => {
     data.review_text,
     data.review_created_by,
     data.game_id,
-    data.game_score
+    data.game_score,
+    data.password,
+    sha256(String(data.review_created_by) + String(data.password))
   );
   if (
     data &&
@@ -78,10 +81,18 @@ router.post('/review/', (request, response) => {
     data.review_created_by != undefined &&
     data.review_created_by.length != 0 &&
     data.game_id != undefined &&
-    data.game_id.length != 0
+    data.game_id.length != 0 &&
+    data.password != undefined &&
+    data.password.length != 0
   ) {
     reviewService
-      .postReview(data.review_title, data.review_text, data.review_created_by, data.game_id)
+      .postReview(
+        data.review_title,
+        data.review_text,
+        data.review_created_by,
+        data.game_id,
+        sha256(String(data.review_created_by) + String(data.password))
+      )
       .then((id) => {
         reviewService
           // @ts-ignore
