@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Component } from 'react-simplified';
 import { createHashHistory } from 'history';
+import ShareButton from 'react-web-share-button';
 import {
   Container,
   Button,
@@ -453,13 +454,13 @@ export class GetGame extends Component {
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
-                    <option value="3">4</option>
-                    <option value="3">5</option>
-                    <option value="3">6</option>
-                    <option value="3">7</option>
-                    <option value="3">8</option>
-                    <option value="3">9</option>
-                    <option value="3">10</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
                   </Form.Select>
                   <Form.Group className="mb-3" controlId="formReviewReviewText">
                     <Form.Label>Example textarea</Form.Label>
@@ -496,6 +497,7 @@ export class GetGame extends Component {
                         .catch();
                       event.currentTarget.disabled = true;
                       history.push('#/game/' + this.game[0].slug);
+                      window.location.reload(false);
                     }}
                   >
                     Submit review
@@ -548,6 +550,16 @@ export class GetGame extends Component {
                             </span>
                           </Button>
                         ) : null}
+                        <ShareButton
+                          class="share-btn btn-share btn-success"
+                          buttonText="Share this review"
+                          buttonStyle={{ color: black }}
+                          id="sharebutton"
+                          variant="success"
+                          title="Check out my amazing review on Game Review Service!"
+                          text="I used a long time to write it - appreciate the upvotes!"
+                          url={window.location.href}
+                        />
                       </Card.Body>
                     </Card>
                   ))}
@@ -737,26 +749,26 @@ export class AddGame extends Component {
               <Col>
                 <Form>
                   <Form.Group className="mb-3" controlId="formGridTitle">
-                    <Form.Label>Game title</Form.Label>
+                    <Form.Label className="text-dark">Game title</Form.Label>
                     <Form.Control type="input" placeholder="F. ex. Battlefield 4" />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formGridTitle">
-                    <Form.Label>Release date</Form.Label>
+                    <Form.Label className="text-dark">Release date</Form.Label>
                     <Form.Control type="input" placeholder="MM/DD/YYYY" />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formGridTitle">
-                    <Form.Label>Platforms</Form.Label>
+                    <Form.Label className="text-dark">Platforms</Form.Label>
                     <Form.Control
                       type="input"
                       placeholder="F. ex. PC (Windows) and/or PlayStation 3"
                     />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formGridTitle">
-                    <Form.Label>Developers / Publishers</Form.Label>
+                    <Form.Label className="text-dark">Developers / Publishers</Form.Label>
                     <Form.Control type="input" placeholder="F. ex. DICE and EA" />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formGridTitle">
-                    <Form.Label>Genre(s)</Form.Label>
+                    <Form.Label className="text-dark">Genre(s)</Form.Label>
                     <Form.Control
                       type="input"
                       name="email"
@@ -764,7 +776,7 @@ export class AddGame extends Component {
                     />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formGridDesc">
-                    <Form.Label>Game description</Form.Label>
+                    <Form.Label className="text-dark">Game description</Form.Label>
                     <Form.Control
                       placeholder="Description of the video game"
                       as="textarea"
