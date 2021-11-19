@@ -32,7 +32,6 @@ import gameServices, { CarouselItems, AllGamesItems, GameReviewsItems } from './
 import reviewService from './review-services';
 
 const history = createHashHistory();
-
 export class Navigation extends Component {
   searchQuery = '';
   render() {
@@ -207,7 +206,6 @@ export class GetGame extends Component {
   formPassword = '';
   formSelect = 0;
   formReviewText = '';
-
   render() {
     // function to prettify timestamp!
     function dateTime(timestamp: srting) {
@@ -395,12 +393,8 @@ export class GetGame extends Component {
                 ) : null}
               </Col>
               {/* START REVIEW FORM */}
-              <Container
-                style={{ zIndex: 999 }}
-                className="border-bottom pb-5 my-5"
-                id="write-review"
-              >
-                <h3>Write a review of this game</h3>
+              <Container style={{ zIndex: 999 }} className="border-bottom pb-5 my-5">
+                <h3 id="test-hash">Write a review of this game</h3>
                 <Form id="ReviewForm">
                   <Form.Group className="mb-3" controlId="formReviewTitle">
                     <Form.Label>Title</Form.Label>
