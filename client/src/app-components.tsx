@@ -446,7 +446,6 @@ export class GetGame extends Component {
                     className="me-sm-2"
                     id="inlineFormCustomSelect"
                     required
-                    value={this.formSelect}
                     onChange={(event) => (this.formSelect = event.currentTarget.value)}
                   >
                     <option value="0">Select rating</option>
@@ -493,10 +492,11 @@ export class GetGame extends Component {
                           this.formSelect,
                           this.formPassword
                         )
-                        .then((response) => history.push('/game/' + this.game[0].slug))
+                        .then((response) => {
+                          history.push('/game/' + this.game[0].slug);
+                        })
                         .catch();
                       event.currentTarget.disabled = true;
-                      // history.push('/game/' + this.game[0].slug);
                     }}
                   >
                     Submit review
