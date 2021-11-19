@@ -484,6 +484,7 @@ export class GetGame extends Component {
                     }
                     // Denne må endres til en funksjon! Må også legges inn sjekk for mail
                     onClick={(event) => {
+                      event.preventDefault();
                       reviewService
                         .postReview(
                           this.formTitle,
@@ -493,9 +494,7 @@ export class GetGame extends Component {
                           this.formSelect,
                           this.formPassword
                         )
-                        .then((response) => {
-                          history.push('/game/' + this.game[0].slug);
-                        })
+                        .then(() => location.reload())
                         .catch();
                       event.currentTarget.disabled = true;
                     }}
