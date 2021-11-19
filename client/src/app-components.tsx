@@ -195,15 +195,13 @@ export class GetGame extends Component {
   errormsg = '';
   empty = setTimeout(() => {
     this.empty = 1;
-  }, 2000);
-  // For review form.
+  }, 2000); // For review form.
   formName = '';
   formTitle = '';
   formEmail = '';
   formPassword = '';
   formSelect = 0;
   formReviewText = '';
-
   render() {
     // function to prettify timestamp!
     function dateTime(timestamp: srting) {
@@ -228,6 +226,7 @@ export class GetGame extends Component {
     function DisableButton() {
       const [disable, setDisable] = React.useState(false);
     }
+
     return (
       <>
         <Container
@@ -256,6 +255,7 @@ export class GetGame extends Component {
                   }}
                 ></div>
               ) : null}
+              {console.log(game)}
               {game.cover ? (
                 <Col sm lg="3" style={{ zIndex: 999 }}>
                   <Figure>
@@ -503,11 +503,13 @@ export class GetGame extends Component {
                 </Form>
               </Container>
               {/* END REVIEW FORM */}
+              <Row>{/* Writing reviews goes here */}</Row>
               <Row style={{ marginLeft: '5px', zIndex: 999 }}>
+                {console.log('Gamereviews', this.gameReview)}
                 <Col>
                   {this.gameReview.length != 0 ? <h3>Reviews</h3> : null}
                   {this.gameReview.map((review) => (
-                    // REVIEWS GOES HERE TODO: Add formvalidation
+                    // REVIEWS GOES HERE
                     <Card text="dark" className="card-review ">
                       <Card.Title className="card-title">{review.review_title}</Card.Title>
                       <Card.Subtitle className="mb-2 text-muted card-subtitle">
@@ -615,6 +617,7 @@ export class GetGame extends Component {
                             </Card.Title>
                             {/* Badges */}
                           </Card.Body>
+                          {console.log('Similar game: ', similar_game.cover)}
                         </Nav.Link>
                       </Card>
                     ))
@@ -626,6 +629,7 @@ export class GetGame extends Component {
       </>
     );
   }
+
   getUpvote(userId: number, reviewId: number) {
     // Get review upvotes for user. ## Not working
     reviewService
@@ -788,7 +792,7 @@ export class SubmitGame extends Component {
     return (
       <>
         <Container>
-          <Card title="noe nais">
+          <Card title="submit game">
             <Row>
               <Col>
                 <Form>
