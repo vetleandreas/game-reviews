@@ -27,11 +27,12 @@ import {
 } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { tsMethodSignature } from '@babel/types';
+// import { HashLink } from 'react-router-hash-link';
+import { HashLink } from 'react-router-hash-link';
 import gameServices, { CarouselItems, AllGamesItems, GameReviewsItems } from './game-services';
 import reviewService from './review-services';
 
 const history = createHashHistory();
-
 export class Navigation extends Component {
   searchQuery = '';
   render() {
@@ -186,6 +187,7 @@ export class AllGames extends Component {
 
 export class GetGame extends Component {
   showModal = false;
+  reviewEdit = {};
   user_id = 123456789123456789;
   upvotes = [];
   gameReview: GameReviewsItems[] = [];
@@ -688,7 +690,7 @@ export class GetGame extends Component {
             </Row>
           ))}
         </Container>
-        {/* EDIT Modal */}
+        {/* EDIT Modal BackUp if modaledit in main dont work.*/}
         <Modal
           show={this.showModal}
           onHide={() => {
@@ -696,9 +698,71 @@ export class GetGame extends Component {
           }}
         >
           <Modal.Header closeButton>
-            <Modal.Title>Edit review: NAME_OF_REVIEW</Modal.Title>
+            <Modal.Title>Edit review: {this.reviewEdit.review_title}</Modal.Title>
           </Modal.Header>
-          <Modal.Body>To be used for review edit.</Modal.Body>
+          <Modal.Body>
+            <Container style={{ zIndex: 999 }} className="border-bottom pb-5 my-5">
+              <Form id="ReviewForm">
+                <Form.Group className="mb-3" controlId="formReviewTitle">
+                  <Form.Label>Title</Form.Label>
+                  <Form.Control
+                    placeholder="Enter review title"
+                    required
+                    value={this.reviewEdit.review_title}
+                  />
+                </Form.Group>
+                <Row>
+                  <Col>
+                    <Form.Group className="mb-3" controlId="formReviewEmail">
+                      <Form.Label>Email address</Form.Label>
+                      <Form.Control
+                        type="email"
+                        placeholder="name@example.com"
+                        required
+                        value={this.reviewEdit.created_by_id}
+                      />
+                      <Form.Text className="text-muted">
+                        We'll never share your email with anyone else.
+                      </Form.Text>
+                    </Form.Group>
+                  </Col>
+                  <Col>
+                    <Form.Group className="mb-3" controlId="formReviewPassword">
+                      <Form.Label>Password</Form.Label>
+                      <Form.Control type="password" placeholder="Password" required />
+                    </Form.Group>
+                  </Col>
+                </Row>
+                <Form.Select
+                  className="me-sm-2"
+                  id="inlineFormCustomSelect"
+                  required
+                  value={this.reviewEdit.review_score}
+                >
+                  <option value="0">Select rating</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                </Form.Select>
+                <Form.Group className="mb-3" controlId="formReviewReviewText">
+                  <Form.Label>Review text</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={3}
+                    required
+                    value={this.reviewEdit.review_text}
+                  />
+                </Form.Group>
+              </Form>
+            </Container>
+          </Modal.Body>
           <Modal.Footer>
             <Button
               variant="secondary"

@@ -2,6 +2,7 @@ import ReactDOM from 'react-dom';
 import * as React from 'react';
 import { Component } from 'react-simplified';
 import { HashRouter, Route } from 'react-router-dom';
+import { HashLink } from 'react-router-hash-link';
 import {
   Container,
   Button,
