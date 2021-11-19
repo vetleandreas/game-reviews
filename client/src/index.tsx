@@ -2,7 +2,17 @@ import ReactDOM from 'react-dom';
 import * as React from 'react';
 import { Component } from 'react-simplified';
 import { HashRouter, Route } from 'react-router-dom';
-import { Container, Button, Form, FormControl, Nav, Navbar, Row, Col } from 'react-bootstrap';
+import {
+  Container,
+  Button,
+  Form,
+  FormControl,
+  Nav,
+  Navbar,
+  Row,
+  Col,
+  Carousel,
+} from 'react-bootstrap';
 import {
   AllGames,
   GetGame,

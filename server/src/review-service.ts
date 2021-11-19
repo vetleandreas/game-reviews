@@ -95,6 +95,12 @@ class ReviewService {
       );
     });
   }
+  editReview(review_id: number, review_password: string) {
+    return new Promise((resolve, reject) => {
+      pool.query();
+    });
+  }
+
   postReviewScore(score_id: number, game_id: number, score: number) {
     return new Promise((resolve, reject) => {
       pool.query(

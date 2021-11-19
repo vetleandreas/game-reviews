@@ -29,7 +29,8 @@ class GameService {
           'Client-ID': process.env.CLIENT_ID,
           Authorization: process.env.AUTHORIZATION,
         },
-        data: `fields name, cover.url, genres.name, slug; offset ${offset}; limit 5; where cover != null;`,
+        // data: `fields name, cover.url, genres.name, slug; offset ${offset}; limit 5; where cover != null;`,
+        data: `fields name, cover.url, genres.name, slug, total_rating; sort total_rating desc; offset ${offset}; limit 5; where cover != null; where rating != null;`,
       })
         .then((response) => resolve(response.data))
         .catch((error) => reject(error));
