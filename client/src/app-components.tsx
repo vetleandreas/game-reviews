@@ -196,10 +196,17 @@ export class GetGame extends Component {
   empty = setTimeout(() => {
     this.empty = 1;
   }, 2000);
+  // For review form.
+  formName = '';
+  formTitle = '';
+  formEmail = '';
+  formPassword = '';
+  formSelect = 0;
+  formReviewText = '';
 
   render() {
     // function to prettify timestamp!
-    function dateTime(timestamp) {
+    function dateTime(timestamp: srting) {
       let dt = new Date(timestamp);
       return `${
         (dt.getDay() < 10 ? '0' + dt.getDay() : dt.getDay()) +
@@ -221,7 +228,6 @@ export class GetGame extends Component {
     function DisableButton() {
       const [disable, setDisable] = React.useState(false);
     }
-
     return (
       <>
         <Container
@@ -250,7 +256,6 @@ export class GetGame extends Component {
                   }}
                 ></div>
               ) : null}
-              {console.log(game)}
               {game.cover ? (
                 <Col sm lg="3" style={{ zIndex: 999 }}>
                   <Figure>
@@ -385,13 +390,123 @@ export class GetGame extends Component {
                   </Row>
                 ) : null}
               </Col>
-              <Row>{/* Writing reviews goes here */}</Row>
+              {/* START REVIEW FORM */}
+              <Container style={{ zIndex: 999 }} className="border-bottom pb-5 my-5">
+                <h3>Write a review of this game</h3>
+                <Form id="ReviewForm">
+                  <Form.Group className="mb-3" controlId="formReviewTitle">
+                    <Form.Label>Title</Form.Label>
+                    <Form.Control
+                      placeholder="Enter review title"
+                      required
+                      value={this.formTitle}
+                      onChange={(event) => (this.formTitle = event.currentTarget.value)}
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="formReviewName">
+                    <Form.Label>Name</Form.Label>
+                    <Form.Control
+                      placeholder="Enter your name"
+                      required
+                      value={this.formName}
+                      onChange={(event) => (this.formName = event.currentTarget.value)}
+                    />
+                  </Form.Group>
+
+                  <Row>
+                    <Col>
+                      <Form.Group className="mb-3" controlId="formReviewEmail">
+                        <Form.Label>Email address</Form.Label>
+                        <Form.Control
+                          type="email"
+                          placeholder="name@example.com"
+                          required
+                          value={this.formEmail}
+                          onChange={(event) => (this.formEmail = event.currentTarget.value)}
+                        />
+                        <Form.Text className="text-muted">
+                          We'll never share your email with anyone else.
+                        </Form.Text>
+                      </Form.Group>
+                    </Col>
+                    <Col>
+                      <Form.Group className="mb-3" controlId="formReviewPassword">
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control
+                          type="password"
+                          placeholder="Password"
+                          required
+                          value={this.formPassword}
+                          onChange={(event) => (this.formPassword = event.currentTarget.value)}
+                        />
+                      </Form.Group>
+                    </Col>
+                  </Row>
+                  <Form.Select
+                    className="me-sm-2"
+                    id="inlineFormCustomSelect"
+                    required
+                    value={this.formSelect}
+                    onChange={(event) => (this.formSelect = event.currentTarget.value)}
+                  >
+                    <option value="0">Select rating</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="3">4</option>
+                    <option value="3">5</option>
+                    <option value="3">6</option>
+                    <option value="3">7</option>
+                    <option value="3">8</option>
+                    <option value="3">9</option>
+                    <option value="3">10</option>
+                  </Form.Select>
+                  <Form.Group
+                    className="mb-3"
+                    controlId="formReviewReviewText"
+                    value={this.formReviewText}
+                    onChange={(event) => (this.formReviewText = event.currentTarget.value)}
+                  >
+                    <Form.Label>Example textarea</Form.Label>
+                    <Form.Control as="textarea" rows={3} required />
+                  </Form.Group>
+                  <Button
+                    variant="primary"
+                    type="submit"
+                    disabled={
+                      !this.formTitle ||
+                      !this.formName ||
+                      !this.formEmail ||
+                      !this.formPassword ||
+                      !this.formSelect ||
+                      this.formReviewText
+                    }
+                    // Denne må endres til en funksjon!
+                    onClick={(event) => {
+                      for (
+                        let i = 0;
+                        i < document.getElementById('ReviewForm').elements.length;
+                        i++
+                      ) {
+                        if (
+                          document.getElementById('ReviewForm').elements[i] === '' ||
+                          document.getElementById('ReviewForm').elements[i].hasAttribute('required')
+                        );
+                        return;
+                      }
+                      reviewService.postReview().then().catch();
+                    }}
+                  >
+                    Submit review
+                  </Button>
+                </Form>
+              </Container>
+              {/* END REVIEW FORM */}
               <Row style={{ marginLeft: '5px', zIndex: 999 }}>
-                {console.log('Gamereviews', this.gameReview)}
                 <Col>
                   {this.gameReview.length != 0 ? <h3>Reviews</h3> : null}
                   {this.gameReview.map((review) => (
-                    // REVIEWS GOES HERE
+                    // REVIEWS GOES HERE TODO: Add formvalidation
                     <Card text="dark" className="card-review ">
                       <Card.Title className="card-title">{review.review_title}</Card.Title>
                       <Card.Subtitle className="mb-2 text-muted card-subtitle">
@@ -499,7 +614,6 @@ export class GetGame extends Component {
                             </Card.Title>
                             {/* Badges */}
                           </Card.Body>
-                          {console.log('Similar game: ', similar_game.cover)}
                         </Nav.Link>
                       </Card>
                     ))
