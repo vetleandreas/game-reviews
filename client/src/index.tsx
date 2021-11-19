@@ -9,27 +9,18 @@ import {
   MainCarousel,
   MainFooter,
   Navigation,
+  MainPage,
   SearchGame,
   AddGame,
   SubmitGame,
 } from './app-components';
 // Import components
 
-class MainPage extends Component {
-  render() {
-    return (
-      <>
-        <h1>Denne teksten va jævla cheesy</h1>
-      </>
-    );
-  }
-}
-
 class SearchPage extends Component {
   render() {
     return (
       <>
-        <div>Search page goes here!</div>
+        <div></div>
       </>
     );
   }
