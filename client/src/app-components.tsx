@@ -332,8 +332,8 @@ export class GetGame extends Component {
                         ? 'info'
                         : 'success'
                     }
-                    now={this.gameScore[0]['AVG(score)'].toFixed(2) * 10}
-                    label={`Review ratings: ${this.gameScore[0]['AVG(score)'].toFixed(2) * 10}%`}
+                    now={(this.gameScore[0]['AVG(score)'] * 10).toFixed(2)}
+                    label={`Review ratings: ${(this.gameScore[0]['AVG(score)'] * 10).toFixed(2)}%`}
                   />
                 ) : (
                   <p>Rating: No review ratings available for this game.</p>
@@ -512,7 +512,7 @@ export class GetGame extends Component {
                     <Card text="dark" className="card-review ">
                       <Card.Title className="card-title">{review.review_title}</Card.Title>
                       <Card.Subtitle className="mb-2 text-muted card-subtitle">
-                        {dateTime(review.created_at)}
+                        Created by: {review.created_by_id} - {dateTime(review.created_at)}
                       </Card.Subtitle>
                       <Card.Subtitle>Rated: {review.score}</Card.Subtitle>
                       <Card.Body>
@@ -548,6 +548,7 @@ export class GetGame extends Component {
                           </Button>
                         ) : null}
                       </Card.Body>
+                      <Button variant="dark">Edit review</Button>
                     </Card>
                   ))}
                 </Col>
