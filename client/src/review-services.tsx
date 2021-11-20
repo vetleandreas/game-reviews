@@ -29,10 +29,6 @@ export type UpvoteReview = {
 };
 
 class ReviewService {
-  // getUpvotes(reviewId: number, userId: number) {
-  //   return axios.get('/review/upvote/' + reviewId + '/' + userId).then((response) => response.data);
-  // }
-
   getUpvotes() {
     return axios.get('/review/upvote/').then((response) => response.data);
   }
@@ -46,20 +42,11 @@ class ReviewService {
   gameScores(id: number) {
     return axios.get<ReviewGamescore[]>('/review/score/' + id).then((response) => response.data);
   }
-  // postReview(review_title: string, review_text: string, created_by: number, game_id: number) {
-  //   return axios
-  //     .post('/review/', {
-  //       review_title: review_title,
-  //       review_text: review_text,
-  //       created_by: created_by,
-  //       game_id: game_id,
-  //     })
-  //     .then((response) => response.data);
-  // }
+
   postReview(
     review_title: string,
     review_text: string,
-    review_created_by: number,
+    review_created_by: string,
     game_id: number,
     game_score: number,
     password: string
@@ -76,15 +63,6 @@ class ReviewService {
       .then((response) => response.data);
   }
 
-  /*
-        "review_title" : "StringID!",
-        "review_text" : "En bowling simulator uten glede.",
-        "review_id": "123",
-        "game_id" : "149292",
-        "review_score":"1",
-        "review_created_by":"stefan@mail.mail",
-        "review_password":"test254"
-  */
   updateReview(
     review_title: string,
     review_text: string,
@@ -103,6 +81,18 @@ class ReviewService {
         review_score,
         review_created_by,
         review_password,
+      })
+      .then((response) => response.data);
+  }
+
+  deleteReview(review_id: number, review_created_by: string, review_password: string) {
+    return axios
+      .delete('/review/', {
+        data: {
+          review_id: review_id,
+          review_created_by: review_created_by,
+          review_password: review_password,
+        },
       })
       .then((response) => response.data);
   }

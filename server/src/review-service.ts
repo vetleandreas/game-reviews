@@ -90,6 +90,7 @@ class ReviewService {
         [review_title, review_text, review_created_by, game_id, review_password],
         (error, results) => {
           if (error) return reject(error);
+
           return resolve(results.insertId);
         }
       );
@@ -102,14 +103,30 @@ class ReviewService {
     review_score: number,
     review_password: string
   ) {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       pool.query(
-        // 'UPDATE gamescore, game_review SET game_review.review_title = ?, game_review.review_text = ?, gamescore.score = ? WHERE game_review.id = ? AND gamescore.score_id = ? AND game_review.review_password = ?',
         'UPDATE gamescore, game_review SET game_review.review_title = ?, game_review.review_text = ?, gamescore.score = ? WHERE game_review.id = ? AND gamescore.score_id = ? AND game_review.review_password = ?',
         [review_title, review_text, review_score, review_id, review_id, review_password],
         (error, results) => {
           if (error) return reject(error);
+          if (!results.affectedRows) reject(new Error('No row deleted'));
+
           return resolve(results);
+        }
+      );
+    });
+  }
+  deleteReview(review_id: number, review_password: string) {
+    return new Promise<void>((resolve, reject) => {
+      // Delete sql-query. Drops from game_review and gamescore
+      // SQL-query OK!
+      pool.query(
+        'DELETE game_review, gamescore FROM game_review INNER JOIN gamescore ON game_review.id = gamescore.score_id WHERE game_review.id = ? AND game_review.review_password = ?',
+        [review_id, review_password],
+        (error, results) => {
+          if (error) return reject(error);
+          if (!results.affectedRows) reject(new Error('No row deleted'));
+          return resolve();
         }
       );
     });
