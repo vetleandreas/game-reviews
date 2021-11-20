@@ -61,15 +61,6 @@ router.get('/review/score/:id', (request, response) => {
 // Post review goes here! TODO -> Add gamescore func to then.
 router.post('/review/', (request, response) => {
   const data = request.body;
-  console.log(
-    data.review_title,
-    data.review_text,
-    data.review_created_by,
-    data.game_id,
-    data.game_score,
-    data.password,
-    sha256(String(data.review_created_by) + String(data.password))
-  );
   if (
     data &&
     data.game_score != undefined &&
@@ -100,6 +91,40 @@ router.post('/review/', (request, response) => {
           .then()
           .catch((error) => response.status(500).send('An unexpected error occurred.'));
         response.send({ id: id });
+      })
+      .catch((error) => response.status(500).send('An unexpected error occurred.'));
+  } else response.status(400).send('An unexpected error occurred.');
+});
+// Update review
+router.put('/review/', (request, response) => {
+  const data = request.body;
+  if (
+    data &&
+    data.review_title != undefined &&
+    data.review_title.length != 0 &&
+    data.review_text != undefined &&
+    data.review_text.length != 0 &&
+    data.review_id != undefined &&
+    data.review_id.length != 0 &&
+    data.game_id != undefined &&
+    data.game_id.length != 0 &&
+    data.review_score != undefined &&
+    data.review_score.length != 0 &&
+    data.review_created_by != undefined &&
+    data.review_created_by.length != 0
+  ) {
+    reviewService
+      .editReview(
+        data.review_id,
+        data.review_title,
+        data.review_text,
+        data.review_score,
+        sha256(String(data.review_created_by) + String(data.review_password))
+      )
+      .then((res) => {
+        res.affectedRows == 0
+          ? response.status(500).send('An unexpected error occurred.')
+          : response.send(res);
       })
       .catch((error) => response.status(500).send('An unexpected error occurred.'));
   } else response.status(400).send('An unexpected error occurred.');
