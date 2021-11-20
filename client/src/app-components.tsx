@@ -510,7 +510,7 @@ export class GetGame extends Component {
                               .then(() => location.reload())
                               .catch();
                             event.currentTarget.disabled = true;
-                            history.push('#/game/' + this.game[0].slug);
+                            history.push('/game/' + this.game[0].slug);
                             window.location.reload(false);
                           }}
                         >
