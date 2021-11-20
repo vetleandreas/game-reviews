@@ -582,7 +582,7 @@ export class GetGame extends Component {
                               text="I used a long time to write it - appreciate the upvotes!"
                               url={window.location.href}
                             />
-                          </Button>
+                          </Button>{' '}
                           <Button
                             variant="dark"
                             style={{ float: 'right' }}
@@ -599,15 +599,14 @@ export class GetGame extends Component {
                               };
                             }}
                           >
-                            Edit review
-                          </Button>
+                            Edit
+                          </Button>{' '}
                         </Card.Body>
                       </Card>
                     </>
                   ))}
                 </Col>
               </Row>
-              {/* Test review on every game */}
 
               <Row
                 className="d-flex justify-content-start"
@@ -767,8 +766,9 @@ export class GetGame extends Component {
               </Form>
             </Container>
           </Modal.Body>
-          <Modal.Footer>
+          <Modal.Footer className="d-flex">
             <Button
+              className="d-flex justify-content-start"
               variant="secondary"
               onClick={() => {
                 this.showModal = !this.showModal;
@@ -777,7 +777,16 @@ export class GetGame extends Component {
               Close
             </Button>
             <Button
-              variant="primary"
+              className="d-flex justify-content-end"
+              variant="danger"
+              // style={{ float: 'right', margin: '0px 3px 0px 3px' }}
+              onClick={(event) => {}}
+            >
+              Delete
+            </Button>
+            <Button
+              className="d-flex justify-content-end"
+              variant="success"
               onClick={(event) => {
                 reviewService
                   .updateReview(
