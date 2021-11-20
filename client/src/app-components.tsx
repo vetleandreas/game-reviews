@@ -571,31 +571,33 @@ export class GetGame extends Component {
                                 }
                               </span>
                             </Button>
-                          ) : null}
-                          <ShareButton
-                            class="share-btn btn-share btn-success"
-                            buttonText="Share this review"
-                            id="sharebutton"
-                            variant="success"
-                            title="Check out my amazing review on Game Review Service!"
-                            text="I used a long time to write it - appreciate the upvotes!"
-                            url={window.location.href}
-                          />
+                          ) : null}{' '}
+                          <Button className="sharebutton">
+                            <ShareButton
+                              className="share-btn btn-share btn-success"
+                              buttonText="Share review"
+                              variant="success"
+                              title="Check out my amazing review on Game Review Service!"
+                              text="I used a long time to write it - appreciate the upvotes!"
+                              url={window.location.href}
+                            />
+                          </Button>
+                          <Button
+                            variant="dark"
+                            style={{ float: 'right' }}
+                            onClick={(event) => {
+                              this.showModal = !this.showModal;
+                              this.reviewEdit = {
+                                review_title: review.review_title,
+                                created_by_id: review.created_by_id,
+                                review_score: review.score,
+                                review_text: review.review_text,
+                              };
+                            }}
+                          >
+                            Edit review
+                          </Button>
                         </Card.Body>
-                        <Button
-                          variant="dark"
-                          onClick={(event) => {
-                            this.showModal = !this.showModal;
-                            this.reviewEdit = {
-                              review_title: review.review_title,
-                              created_by_id: review.created_by_id,
-                              review_score: review.score,
-                              review_text: review.review_text,
-                            };
-                          }}
-                        >
-                          Edit review
-                        </Button>
                       </Card>
                     </>
                   ))}
