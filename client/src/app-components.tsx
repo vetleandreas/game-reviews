@@ -1288,11 +1288,52 @@ export class MainPage extends Component {
               <h1 className="display-5" style={{ textAlign: 'center' }}>
                 Welcome to Game Review Service
               </h1>
+
+              <Row>
+                <Col style={{ textAlign: 'center' }}>
+                  <p>
+                    At Game Review Service, we have connected to the IGDB database and gotten
+                    information about many different video games. You can search for a video game
+                    you like, see the ratings from both IGDB and our users, read the reviews, see
+                    similar video games and even write your own review! The more feedback we get,
+                    the more users can find games of their liking. We hope you enjoy the stay at our
+                    website!
+                  </p>
+                </Col>
+              </Row>
+
+              <Row className="d-flex justify-content-between" style={{ textAlign: 'center' }}>
+                <Col>
+                  <Button className="mainpagebutton" variant="secondary" href="/#/games/" size="lg">
+                    View the highest rated games
+                  </Button>
+                </Col>
+                <Col>
+                  <Button
+                    className="mainpagebutton"
+                    variant="secondary"
+                    href="/#/search/"
+                    size="lg"
+                  >
+                    Search for a video game
+                  </Button>
+                </Col>
+                <Col>
+                  <Button
+                    className="mainpagebutton"
+                    variant="secondary"
+                    href="/#/addgames/"
+                    size="lg"
+                  >
+                    Add a new game to the library
+                  </Button>
+                </Col>
+              </Row>
               <br></br>
               {/* <Card title="homepage" className="bg-dark rounded shadow-sm bg-primaty text-light"> */}
               <Row>
                 <Col style={{ textAlign: 'center' }}>
-                  <h5>Random popular games right now</h5>
+                  <h5>Some of the popular video games right now</h5>
                 </Col>
               </Row>
               <br></br>
@@ -1327,35 +1368,9 @@ export class MainPage extends Component {
                 </Col>
                 {/* <Col className="bg-dark"> </Col> */}
               </Row>
-              {/* </Card> */}
               <br></br>
-              <Row className="d-flex justify-content-between" style={{ textAlign: 'center' }}>
-                <Col>
-                  <Button className="mainpagebutton" variant="secondary" href="/#/games/" size="lg">
-                    View the highest rated games
-                  </Button>
-                </Col>
-                <Col>
-                  <Button
-                    className="mainpagebutton"
-                    variant="secondary"
-                    href="/#/addgames/"
-                    size="lg"
-                  >
-                    Add a new game to the library
-                  </Button>
-                </Col>
-                <Col>
-                  <Button
-                    className="mainpagebutton"
-                    variant="secondary"
-                    href="/#/search/"
-                    size="lg"
-                  >
-                    Search for a video game
-                  </Button>
-                </Col>
-              </Row>
+
+              {/* </Card> */}
             </Card.Body>
           </Card>
         </Container>
