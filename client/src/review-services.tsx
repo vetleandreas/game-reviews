@@ -87,7 +87,7 @@ class ReviewService {
 
   deleteReview(review_id: number, review_created_by: string, review_password: string) {
     return axios
-      .delete('/reviews/', {
+      .delete('/review/', {
         data: {
           review_id: review_id,
           review_created_by: review_created_by,

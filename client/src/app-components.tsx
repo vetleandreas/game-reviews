@@ -803,7 +803,7 @@ export class GetGame extends Component {
                     .catch(
                       (error) =>
                         (this.reviewEditError =
-                          'An error occurred, could not delete the review. Possible causes of the error may be incorrect email and or password.')
+                          'An error occurred, could not delete review. Possible causes of the error may be incorrect email and or password. ')
                     );
                 }}
               >
