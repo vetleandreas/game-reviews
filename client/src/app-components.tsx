@@ -1342,11 +1342,13 @@ export class MainPage extends Component {
                     {console.log(this.games)}
                     {this.games.map((game) => (
                       <Carousel.Item key={game.id}>
-                        <img
-                          src={String(game.cover.url).replace('t_thumb', 't_screenshot_huge')}
-                          className="w-100 img-fluid"
-                          alt={`${game.name} image.`}
-                        />
+                        {game.cover ? (
+                          <img
+                            src={String(game.cover.url).replace('t_thumb', 't_screenshot_huge')}
+                            className="w-100 img-fluid"
+                            alt={`${game.name} image.`}
+                          />
+                        ) : null}
                         <Carousel.Caption style={{ paddingBottom: '55px' }}>
                           <h1>{game.name}</h1>
                           <Nav.Link href={'#/game/' + game.slug} className="search-link">
