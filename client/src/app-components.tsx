@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react-simplified';
 import { createHashHistory } from 'history';
-import ShareButton from 'react-web-share-button';
 import {
   Container,
   Button,
@@ -102,7 +101,7 @@ export class AllGames extends Component {
           className="my-3 p-3 bg-dark rounded shadow-sm bg-primaty text-light"
           style={{ minHeight: '500px', marginTop: '55px' }}
         >
-          <h1 className="display-5">Highest rated video games</h1>
+          <h1 className="display-5">Most recent video games </h1>
           <Row>
             {console.log(this.games)}
             {this.games[1].result.map((game) => (
@@ -200,7 +199,8 @@ export class GetGame extends Component {
   reviewEditError = '';
   empty = setTimeout(() => {
     this.empty = 1;
-  }, 2000); // For review form.
+  }, 2000);
+  // For review form.
   formName = '';
   formTitle = '';
   formEmail = '';
@@ -231,7 +231,6 @@ export class GetGame extends Component {
     function DisableButton() {
       const [disable, setDisable] = React.useState(false);
     }
-
     return (
       <>
         <Container
@@ -260,7 +259,6 @@ export class GetGame extends Component {
                   }}
                 ></div>
               ) : null}
-              {console.log(game)}
               {game.cover ? (
                 <Col sm lg="3" style={{ zIndex: 999 }}>
                   <Figure>
@@ -341,7 +339,7 @@ export class GetGame extends Component {
                     label={`Review ratings: ${(this.gameScore[0]['AVG(score)'] * 10).toFixed(2)}%`}
                   />
                 ) : (
-                  <p>GRS User Rating: No review ratings available for this game.</p>
+                  <p>Rating: No review ratings available for this game.</p>
                 )}
                 {/* End review rating */}
                 {game.platforms ? (
@@ -396,7 +394,6 @@ export class GetGame extends Component {
                 ) : null}
               </Col>
               {/* START REVIEW FORM */}
-
               <Container style={{ zIndex: 999 }} className="border-bottom pb-5 my-5">
                 <Accordion className="bg-dark">
                   <Accordion.Item className="bg-dark" eventKey="0">
@@ -522,11 +519,8 @@ export class GetGame extends Component {
                   </Accordion.Item>
                 </Accordion>
               </Container>
-
               {/* END REVIEW FORM */}
-              <Row id="reviews">{/* Writing reviews goes here */}</Row>
               <Row style={{ marginLeft: '5px', zIndex: 999 }}>
-                {console.log('Gamereviews', this.gameReview)}
                 <Col>
                   <h3>Reviews</h3>
                   {this.gameReview.length == 0 ? (
@@ -607,7 +601,6 @@ export class GetGame extends Component {
                   ))}
                 </Col>
               </Row>
-
               <Row
                 className="d-flex justify-content-start"
                 style={{ marginLeft: '5px', zIndex: 999 }}
@@ -672,7 +665,6 @@ export class GetGame extends Component {
                             </Card.Title>
                             {/* Badges */}
                           </Card.Body>
-                          {console.log('Similar game: ', similar_game.cover)}
                         </Nav.Link>
                       </Card>
                     ))
@@ -817,7 +809,6 @@ export class GetGame extends Component {
       </>
     );
   }
-
   getUpvote(userId: number, reviewId: number) {
     // Get review upvotes for user. ## Not working
     reviewService
@@ -933,26 +924,26 @@ export class AddGame extends Component {
               <Col>
                 <Form>
                   <Form.Group className="mb-3" controlId="formGridTitle">
-                    <Form.Label className="text-dark">Game title</Form.Label>
+                    <Form.Label>Game title</Form.Label>
                     <Form.Control type="input" placeholder="F. ex. Battlefield 4" />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formGridTitle">
-                    <Form.Label className="text-dark">Release date</Form.Label>
+                    <Form.Label>Release date</Form.Label>
                     <Form.Control type="input" placeholder="MM/DD/YYYY" />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formGridTitle">
-                    <Form.Label className="text-dark">Platforms</Form.Label>
+                    <Form.Label>Platforms</Form.Label>
                     <Form.Control
                       type="input"
                       placeholder="F. ex. PC (Windows) and/or PlayStation 3"
                     />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formGridTitle">
-                    <Form.Label className="text-dark">Developers / Publishers</Form.Label>
+                    <Form.Label>Developers / Publishers</Form.Label>
                     <Form.Control type="input" placeholder="F. ex. DICE and EA" />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formGridTitle">
-                    <Form.Label className="text-dark">Genre(s)</Form.Label>
+                    <Form.Label>Genre(s)</Form.Label>
                     <Form.Control
                       type="input"
                       name="email"
@@ -960,7 +951,7 @@ export class AddGame extends Component {
                     />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formGridDesc">
-                    <Form.Label className="text-dark">Game description</Form.Label>
+                    <Form.Label>Game description</Form.Label>
                     <Form.Control
                       placeholder="Description of the video game"
                       as="textarea"
@@ -988,7 +979,7 @@ export class SubmitGame extends Component {
     return (
       <>
         <Container>
-          <Card title="submit game">
+          <Card title="noe nais">
             <Row>
               <Col>
                 <Form>
