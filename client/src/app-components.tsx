@@ -671,9 +671,6 @@ export class GetGame extends Component {
                           (this.reviewEdit.created_by_id = event.currentTarget.value)
                         }
                       />
-                      <Form.Text className="text-muted">
-                        We'll never share your email with anyone else.
-                      </Form.Text>
                     </Form.Group>
                   </Col>
                   <Col>
