@@ -767,7 +767,7 @@ export class GetGame extends Component {
             </Container>
           </Modal.Body>
           <Modal.Footer>
-            <div className="pull-left">
+            <div className="pull-left" style={{ margin: '0rem 12rem 0rem 0rem' }}>
               <Button
                 variant="success"
                 onClick={(event) => {
@@ -792,8 +792,7 @@ export class GetGame extends Component {
                 }}
               >
                 Save Changes
-              </Button>
-
+              </Button>{' '}
               <Button
                 variant="danger"
                 // style={{ float: 'right', margin: '0px 3px 0px 3px' }}
@@ -804,6 +803,7 @@ export class GetGame extends Component {
             </div>
             <div className="d-flex justify-content-end flex-wrap bd-highlight example-parent">
               <Button
+                style={{ float: 'right' }}
                 variant="secondary"
                 onClick={() => {
                   this.showModal = !this.showModal;
