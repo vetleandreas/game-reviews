@@ -1300,6 +1300,7 @@ export class MainPage extends Component {
                   ))}
                 </Carousel>
               </Col>
+              <Col>testing testing</Col>
             </Row>
           </Card>
           <Card>
