@@ -592,6 +592,7 @@ export class GetGame extends Component {
                                 review_score: review.score,
                                 review_text: review.review_text,
                                 review_gameid: this.game[0].id,
+                                review_password: '',
                               };
                             }}
                           >
@@ -765,24 +766,44 @@ export class GetGame extends Component {
               <Button
                 variant="success"
                 onClick={(event) => {
-                  reviewService
-                    .updateReview(
-                      this.reviewEdit.review_title,
-                      this.reviewEdit.review_text,
-                      this.reviewEdit.review_id,
-                      this.reviewEdit.review_gameid,
-                      this.reviewEdit.review_score,
-                      this.reviewEdit.created_by_id,
-                      this.reviewEdit.review_password
-                    )
-                    .then(() => {
-                      location.reload();
-                    })
-                    .catch(
-                      (error) =>
-                        (this.reviewEditError =
-                          'An error occurred, could not update the review. Possible causes of the error may be incorrect email and or password. ')
-                    );
+                  if (
+                    this.reviewEdit.review_title != undefined &&
+                    this.reviewEdit.review_title.length != 0 &&
+                    this.reviewEdit.review_text != undefined &&
+                    this.reviewEdit.review_text.length != 0 &&
+                    this.reviewEdit.review_id != undefined &&
+                    this.reviewEdit.review_id.length != 0 &&
+                    this.reviewEdit.review_gameid != undefined &&
+                    this.reviewEdit.review_gameid.length != 0 &&
+                    this.reviewEdit.review_score != undefined &&
+                    this.reviewEdit.review_score.length != 0 &&
+                    this.reviewEdit.created_by_id != undefined &&
+                    this.reviewEdit.created_by_id.length != 0 &&
+                    this.reviewEdit.review_password != undefined &&
+                    this.reviewEdit.review_password.length != 0
+                  ) {
+                    reviewService
+                      .updateReview(
+                        this.reviewEdit.review_title,
+                        this.reviewEdit.review_text,
+                        this.reviewEdit.review_id,
+                        this.reviewEdit.review_gameid,
+                        this.reviewEdit.review_score,
+                        this.reviewEdit.created_by_id,
+                        this.reviewEdit.review_password
+                      )
+                      .then(() => {
+                        location.reload();
+                      })
+                      .catch(
+                        (error) =>
+                          (this.reviewEditError =
+                            'An error occurred, could not update the review. Possible causes of the error may be incorrect email and or password. ')
+                      );
+                  } else {
+                    this.reviewEditError =
+                      'Some or all fields are missing. Please enter all fields.';
+                  }
                 }}
               >
                 Save Changes
@@ -791,20 +812,32 @@ export class GetGame extends Component {
                 variant="danger"
                 // style={{ float: 'right', margin: '0px 3px 0px 3px' }}
                 onClick={(event) => {
-                  reviewService
-                    .deleteReview(
-                      this.reviewEdit.review_id,
-                      this.reviewEdit.created_by_id,
-                      this.reviewEdit.review_password
-                    )
-                    .then(() => {
-                      location.reload();
-                    })
-                    .catch(
-                      (error) =>
-                        (this.reviewEditError =
-                          'An error occurred, could not delete review. Possible causes of the error may be incorrect email and or password. ')
-                    );
+                  if (
+                    this.reviewEdit.review_id != undefined &&
+                    this.reviewEdit.review_id.length != 0 &&
+                    this.reviewEdit.created_by_id != undefined &&
+                    this.reviewEdit.created_by_id.length != 0 &&
+                    this.reviewEdit.review_password != undefined &&
+                    this.reviewEdit.review_password.length != 0
+                  ) {
+                    reviewService
+                      .deleteReview(
+                        this.reviewEdit.review_id,
+                        this.reviewEdit.created_by_id,
+                        this.reviewEdit.review_password
+                      )
+                      .then(() => {
+                        location.reload();
+                      })
+                      .catch(
+                        (error) =>
+                          (this.reviewEditError =
+                            'An error occurred, could not delete review. Possible causes of the error may be incorrect email and or password.')
+                      );
+                  } else {
+                    this.reviewEditError =
+                      'You must provide both email and password to be able to delete a review.';
+                  }
                 }}
               >
                 Delete
