@@ -4,7 +4,7 @@ import { sha256 } from 'js-sha256';
 
 const router = express.Router();
 
-// Get upvotes
+// Get all upvotes
 router.get('/review/upvote/', (request, response) => {
   reviewService
     .getUpvotes()
@@ -12,13 +12,13 @@ router.get('/review/upvote/', (request, response) => {
     .catch((error) => response.status(500).send(error));
 });
 
-/* UPVOTES */
+// Posts upvotes on review, returns e.g. { id: 4 }
 router.post('/review/upvote/', (request, response) => {
   const data = request.body;
   if (data) {
     reviewService
       .upvoteReview(data.userId, data.reviewId, data.upvote)
-      .then((id) => response.send({ id: id }))
+      .then((id) => response.send({ id: id.insertId }))
       .catch((error) =>
         response.status(500).send('An unexpected error occurred. Culd not post to Database.')
       );

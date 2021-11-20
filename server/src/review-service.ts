@@ -105,7 +105,6 @@ class ReviewService {
   ) {
     return new Promise<void>((resolve, reject) => {
       pool.query(
-        // 'UPDATE gamescore, game_review SET game_review.review_title = ?, game_review.review_text = ?, gamescore.score = ? WHERE game_review.id = ? AND gamescore.score_id = ? AND game_review.review_password = ?',
         'UPDATE gamescore, game_review SET game_review.review_title = ?, game_review.review_text = ?, gamescore.score = ? WHERE game_review.id = ? AND gamescore.score_id = ? AND game_review.review_password = ?',
         [review_title, review_text, review_score, review_id, review_id, review_password],
         (error, results) => {
@@ -127,7 +126,7 @@ class ReviewService {
         (error, results) => {
           if (error) return reject(error);
           if (!results.affectedRows) reject(new Error('No row deleted'));
-          return resolve();
+          return resolve(results);
         }
       );
     });
