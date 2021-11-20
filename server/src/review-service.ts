@@ -100,15 +100,17 @@ class ReviewService {
     review_title: string,
     review_text: string,
     review_score: number,
+    game_id: number,
     review_password: string
   ) {
     return new Promise((resolve, reject) => {
       pool.query(
         // 'UPDATE gamescore, game_review SET game_review.review_title = ?, game_review.review_text = ?, gamescore.score = ? WHERE game_review.id = ? AND gamescore.score_id = ? AND game_review.review_password = ?',
-        'UPDATE gamescore, game_review SET game_review.review_title = ?, game_review.review_text = ?, gamescore.score = ? WHERE game_review.id = ? AND gamescore.score_id = ? AND game_review.review_password = ?',
-        [review_title, review_text, review_score, review_id, review_id, review_password],
+        'UPDATE gamescore, game_review SET game_review.review_title = ?, game_review.review_text = ?, gamescore.score = ? WHERE game_review.id = ? AND gamescore.score_id = ? AND game_review.game_id = ? AND game_review.review_password = ?',
+        [review_title, review_text, review_score, review_id, review_id, game_id, review_password],
         (error, results) => {
           if (error) return reject(error);
+          if (!results.affectedRows) reject(new Error('Could not update'));
           return resolve(results);
         }
       );
