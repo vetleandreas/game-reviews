@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom';
 import * as React from 'react';
 import { Component } from 'react-simplified';
+import ShareButton from 'react-web-share-button';
 import { HashRouter, Route } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
 import {
@@ -21,30 +22,11 @@ import {
   MainFooter,
   Navigation,
   SearchGame,
+  MainPage,
   AddGame,
   SubmitGame,
 } from './app-components';
 // Import components
-
-class MainPage extends Component {
-  render() {
-    return (
-      <>
-        <h1>Denne teksten va jævla cheesy</h1>
-      </>
-    );
-  }
-}
-
-class SearchPage extends Component {
-  render() {
-    return (
-      <>
-        <div>Search page goes here!</div>
-      </>
-    );
-  }
-}
 
 ReactDOM.render(
   <HashRouter>

@@ -1214,3 +1214,64 @@ export class GameCarousel extends Component {
     );
   }
 }
+
+export class MainPage extends Component {
+  offset = Math.floor(Math.random() * 1000);
+  games = [];
+
+  render() {
+    if (this.games.length == 0) {
+      return null;
+    }
+
+    return (
+      <>
+        <Container className="my-3 p-3 bg-dark rounded shadow-sm bg-primaty text-light">
+          <h1 className="display-5"> Welcome to Game Review Service</h1>
+          <Card title="homepage">
+            <Card className="bg-dark rounded shadow-sm bg-primaty text-light">
+              <p className="display-7"> Recently added games: </p>
+            </Card>
+            <Row>
+              <Col>
+                {' '}
+                <Carousel>
+                  {console.log(this.games)}
+                  {this.games.map((game) => (
+                    <Carousel.Item key={game.id}>
+                      <img
+                        src={String(game.cover.url).replace('t_thumb', 't_screenshot_huge')}
+                        className="w-100 img-fluid"
+                        alt={`${game.name} image.`}
+                      />
+                      <Carousel.Caption style={{ paddingBottom: '55px' }}>
+                        <h1>{game.name}</h1>
+                        <Nav.Link href={'#/game/' + game.slug} className="search-link">
+                          <Button variant="dark">Visit game page</Button>{' '}
+                        </Nav.Link>
+                        {/* <Button variant="dark">IGDB rating her?</Button> */}
+                      </Carousel.Caption>
+                    </Carousel.Item>
+                  ))}
+                </Carousel>
+              </Col>
+              <Col>testing testing</Col>
+            </Row>
+          </Card>
+          <Card>
+            <Button variant="secondary" href="/#/addgames/">
+              Add new game to the database
+            </Button>
+          </Card>
+        </Container>
+      </>
+    );
+  }
+
+  mounted() {
+    gameServices
+      .getCarousel(this.offset)
+      .then((response) => (this.games = response))
+      .catch((error) => console.log(error));
+  }
+}
