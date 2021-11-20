@@ -721,39 +721,51 @@ export class GetGame extends Component {
             </Container>
           </Modal.Body>
           <Modal.Footer>
-            <Button
-              variant="secondary"
-              onClick={() => {
-                this.showModal = !this.showModal;
-              }}
-            >
-              Close
-            </Button>
-            <Button
-              variant="primary"
-              onClick={(event) => {
-                reviewService
-                  .updateReview(
-                    this.reviewEdit.review_title,
-                    this.reviewEdit.review_text,
-                    this.reviewEdit.review_id,
-                    this.reviewEdit.review_gameid,
-                    this.reviewEdit.review_score,
-                    this.reviewEdit.created_by_id,
-                    this.reviewEdit.review_password
-                  )
-                  .then(() => {
-                    location.reload();
-                  })
-                  .catch(
-                    (error) =>
-                      (this.reviewEditError =
-                        'An error occurred, could not update the review. Possible causes of the error may be incorrect email and or password. ')
-                  );
-              }}
-            >
-              Save Changes
-            </Button>
+            <div className="pull-left" style={{ margin: '0rem 12rem 0rem 0rem' }}>
+              <Button
+                variant="success"
+                onClick={(event) => {
+                  reviewService
+                    .updateReview(
+                      this.reviewEdit.review_title,
+                      this.reviewEdit.review_text,
+                      this.reviewEdit.review_id,
+                      this.reviewEdit.review_gameid,
+                      this.reviewEdit.review_score,
+                      this.reviewEdit.created_by_id,
+                      this.reviewEdit.review_password
+                    )
+                    .then(() => {
+                      location.reload();
+                    })
+                    .catch(
+                      (error) =>
+                        (this.reviewEditError =
+                          'An error occurred, could not update the review. Possible causes of the error may be incorrect email and or password. ')
+                    );
+                }}
+              >
+                Save Changes
+              </Button>{' '}
+              <Button
+                variant="danger"
+                // style={{ float: 'right', margin: '0px 3px 0px 3px' }}
+                onClick={(event) => {}}
+              >
+                Delete
+              </Button>
+            </div>
+            <div className="d-flex justify-content-end flex-wrap bd-highlight example-parent">
+              <Button
+                style={{ float: 'right' }}
+                variant="secondary"
+                onClick={() => {
+                  this.showModal = !this.showModal;
+                }}
+              >
+                Close
+              </Button>
+            </div>
           </Modal.Footer>
         </Modal>
       </>
