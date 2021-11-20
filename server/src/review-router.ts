@@ -4,14 +4,6 @@ import { sha256 } from 'js-sha256';
 
 const router = express.Router();
 
-// router.get('/review/score/:id', (request, response) => {
-//   const id = Number(request.params.id);
-//   reviewService
-//     .getGamescore(id)
-//     .then((rows) => response.send(rows))
-//     .catch((error) => response.status(500).send(error));
-// });
-
 // Get upvotes
 router.get('/review/upvote/', (request, response) => {
   reviewService
@@ -19,15 +11,6 @@ router.get('/review/upvote/', (request, response) => {
     .then((rows) => response.send(rows))
     .catch((error) => response.status(500).send(error));
 });
-// router.get('/review/upvote/:reviewId/:userId', (request, response) => {
-//   const userId = Number(request.params.userId);
-//   const reviewId = Number(request.params.reviewId);
-//   reviewService
-//     .getUpvotes(userId, reviewId)
-//     .then((rows) => response.send(rows))
-//     .catch((error) => response.status(500).send(error));
-// });
-// Posts upvote
 
 /* UPVOTES */
 router.post('/review/upvote/', (request, response) => {
@@ -41,15 +24,6 @@ router.post('/review/upvote/', (request, response) => {
       );
   } else response.status(400).send('An unexpected error occurred.');
 });
-
-// Updates review relevance
-// router.put('/review/upvote', (request, response) => {
-//   const data = request.body;
-//   reviewService
-//     .upvoteReviewUpdate(data.id)
-//     .then((id) => response.send(id))
-//     .catch((error) => response.status(500).send(error));
-// });
 
 router.get('/review/score/:id', (request, response) => {
   const id = Number(request.params.id);
@@ -118,9 +92,6 @@ router.put('/review/', (request, response) => {
     data.review_created_by != undefined &&
     data.review_created_by.length != 0
   ) {
-    // data.review_score < 1 ? (data.review_score = 1) : data.review_score;
-    // data.review_score > 10 ? (data.review_score = 10) : data.review_score;
-
     data.review_score > 10
       ? (data.review_score = 10)
       : data.review_score < 1
