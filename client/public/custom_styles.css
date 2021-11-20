@@ -227,3 +227,7 @@ body {
   border: none;
   font-weight: 400;
 }
+
+.mainpagebutton {
+  width: 100%;
+}

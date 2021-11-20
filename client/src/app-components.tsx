@@ -28,6 +28,7 @@ import { NavLink } from 'react-router-dom';
 import { tsMethodSignature } from '@babel/types';
 // import { HashLink } from 'react-router-hash-link';
 import { HashLink } from 'react-router-hash-link';
+import ShareButton from 'react-web-share-button';
 import gameServices, { CarouselItems, AllGamesItems, GameReviewsItems } from './game-services';
 import reviewService from './review-services';
 
@@ -529,7 +530,7 @@ export class GetGame extends Component {
                   {this.gameReview.map((review) => (
                     // REVIEWS GOES HERE TODO: Add formvalidation
                     <>
-                      <Card text="dark" className="card-review ">
+                      <Card text="dark" className="card-review">
                         <Card.Title className="card-title">{review.review_title}</Card.Title>
                         <Card.Subtitle className="mb-2 text-muted card-subtitle">
                           Created by: {review.created_by_id} - {dateTime(review.created_at)}
@@ -1262,42 +1263,84 @@ export class MainPage extends Component {
 
     return (
       <>
-        <Container className="my-3 p-3 bg-dark rounded shadow-sm bg-primaty text-light">
-          <h1 className="display-5"> Welcome to Game Review Service</h1>
-          <Card title="homepage">
-            <Card className="bg-dark rounded shadow-sm bg-primaty text-light">
-              <p className="display-7"> Recently added games: </p>
-            </Card>
-            <Row>
-              <Col>
-                {' '}
-                <Carousel>
-                  {console.log(this.games)}
-                  {this.games.map((game) => (
-                    <Carousel.Item key={game.id}>
-                      <img
-                        src={String(game.cover.url).replace('t_thumb', 't_screenshot_huge')}
-                        className="w-100 img-fluid"
-                        alt={`${game.name} image.`}
-                      />
-                      <Carousel.Caption style={{ paddingBottom: '55px' }}>
-                        <h1>{game.name}</h1>
-                        <Nav.Link href={'#/game/' + game.slug} className="search-link">
-                          <Button variant="dark">Visit game page</Button>{' '}
-                        </Nav.Link>
-                        {/* <Button variant="dark">IGDB rating her?</Button> */}
-                      </Carousel.Caption>
-                    </Carousel.Item>
-                  ))}
-                </Carousel>
-              </Col>
-              <Col>testing testing</Col>
-            </Row>
-          </Card>
-          <Card>
-            <Button variant="secondary" href="/#/addgames/">
-              Add new game to the database
-            </Button>
+        <Container className="bg-dark rounded shadow-sm bg-primaty text-light">
+          <Card className="bg-dark">
+            <Card.Body
+              className="bg-dark rounded shadow-sm bg-primaty text-light"
+              style={{ border: 'none' }}
+            >
+              <h1 className="display-5" style={{ textAlign: 'center' }}>
+                Welcome to Game Review Service
+              </h1>
+              <br></br>
+              {/* <Card title="homepage" className="bg-dark rounded shadow-sm bg-primaty text-light"> */}
+              <Row>
+                <Col style={{ textAlign: 'center' }}>
+                  <h5>Random popular games right now</h5>
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                {/* <Col className="bg-dark"> </Col> */}
+                <Col
+                  className="bg-dark mx-auto"
+                  xs={1}
+                  md={5}
+                  lg={7}
+                  style={{ textAlign: 'center' }}
+                >
+                  <Carousel>
+                    {console.log(this.games)}
+                    {this.games.map((game) => (
+                      <Carousel.Item key={game.id}>
+                        <img
+                          src={String(game.cover.url).replace('t_thumb', 't_screenshot_huge')}
+                          className="w-100 img-fluid"
+                          alt={`${game.name} image.`}
+                        />
+                        <Carousel.Caption style={{ paddingBottom: '55px' }}>
+                          <h1>{game.name}</h1>
+                          <Nav.Link href={'#/game/' + game.slug} className="search-link">
+                            <Button variant="dark">Visit game page</Button>{' '}
+                          </Nav.Link>
+                          {/* <Button variant="dark">IGDB rating her?</Button> */}
+                        </Carousel.Caption>
+                      </Carousel.Item>
+                    ))}
+                  </Carousel>
+                </Col>
+                {/* <Col className="bg-dark"> </Col> */}
+              </Row>
+              {/* </Card> */}
+              <br></br>
+              <Row className="d-flex justify-content-between" style={{ textAlign: 'center' }}>
+                <Col>
+                  <Button className="mainpagebutton" variant="secondary" href="/#/games/" size="lg">
+                    View the highest rated games
+                  </Button>
+                </Col>
+                <Col>
+                  <Button
+                    className="mainpagebutton"
+                    variant="secondary"
+                    href="/#/addgames/"
+                    size="lg"
+                  >
+                    Add a new game to the library
+                  </Button>
+                </Col>
+                <Col>
+                  <Button
+                    className="mainpagebutton"
+                    variant="secondary"
+                    href="/#/search/"
+                    size="lg"
+                  >
+                    Search for a video game
+                  </Button>
+                </Col>
+              </Row>
+            </Card.Body>
           </Card>
         </Container>
       </>
