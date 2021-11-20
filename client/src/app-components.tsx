@@ -549,10 +549,12 @@ export class GetGame extends Component {
                             this.reviewEdit = {
                               review_id: review.id,
                               review_title: review.review_title,
-                              created_by_id: review.created_by_id,
+                              // created_by_id: review.created_by_id, TEST uten epost.
+                              // created_by_id: '',
                               review_score: review.score,
                               review_text: review.review_text,
                               review_gameid: this.game[0].id,
+                              // review_password: '',
                             };
                           }}
                         >
@@ -666,7 +668,7 @@ export class GetGame extends Component {
                         type="email"
                         placeholder="name@example.com"
                         required
-                        value={this.reviewEdit.created_by_id}
+                        // value={this.reviewEdit.created_by_id}
                         onChange={(event) =>
                           (this.reviewEdit.created_by_id = event.currentTarget.value)
                         }
