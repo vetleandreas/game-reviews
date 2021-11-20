@@ -75,6 +75,37 @@ class ReviewService {
       })
       .then((response) => response.data);
   }
+
+  /*
+        "review_title" : "StringID!",
+        "review_text" : "En bowling simulator uten glede.",
+        "review_id": "123",
+        "game_id" : "149292",
+        "review_score":"1",
+        "review_created_by":"stefan@mail.mail",
+        "review_password":"test254"
+  */
+  updateReview(
+    review_title: string,
+    review_text: string,
+    review_id: number,
+    game_id: number,
+    review_score: number,
+    review_created_by: string,
+    review_password: string
+  ) {
+    return axios
+      .put('/review/', {
+        review_title,
+        review_text,
+        review_id,
+        game_id,
+        review_score,
+        review_created_by,
+        review_password,
+      })
+      .then((response) => response.data);
+  }
   gameReviews(id: number) {
     return axios.get<GameReviews[]>('/reviews/' + id).then((response) => response.data);
   }

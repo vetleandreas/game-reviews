@@ -95,9 +95,23 @@ class ReviewService {
       );
     });
   }
-  editReview(review_id: number, review_password: string) {
+  editReview(
+    review_id: number,
+    review_title: string,
+    review_text: string,
+    review_score: number,
+    review_password: string
+  ) {
     return new Promise((resolve, reject) => {
-      pool.query();
+      pool.query(
+        // 'UPDATE gamescore, game_review SET game_review.review_title = ?, game_review.review_text = ?, gamescore.score = ? WHERE game_review.id = ? AND gamescore.score_id = ? AND game_review.review_password = ?',
+        'UPDATE gamescore, game_review SET game_review.review_title = ?, game_review.review_text = ?, gamescore.score = ? WHERE game_review.id = ? AND gamescore.score_id = ? AND game_review.review_password = ?',
+        [review_title, review_text, review_score, review_id, review_id, review_password],
+        (error, results) => {
+          if (error) return reject(error);
+          return resolve(results);
+        }
+      );
     });
   }
 

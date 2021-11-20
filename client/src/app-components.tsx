@@ -196,6 +196,7 @@ export class GetGame extends Component {
   game = [];
   slug = '';
   errormsg = '';
+  reviewEditError = '';
   empty = setTimeout(() => {
     this.empty = 1;
   }, 2000);
@@ -544,11 +545,14 @@ export class GetGame extends Component {
                           variant="dark"
                           onClick={(event) => {
                             this.showModal = !this.showModal;
+                            this.reviewEditError = '';
                             this.reviewEdit = {
+                              review_id: review.id,
                               review_title: review.review_title,
                               created_by_id: review.created_by_id,
                               review_score: review.score,
                               review_text: review.review_text,
+                              review_gameid: this.game[0].id,
                             };
                           }}
                         >
@@ -631,7 +635,7 @@ export class GetGame extends Component {
             </Row>
           ))}
         </Container>
-        {/* EDIT Modal BackUp if modaledit in main dont work.*/}
+        {/* EDIT Modal.*/}
         <Modal
           show={this.showModal}
           onHide={() => {
@@ -642,25 +646,30 @@ export class GetGame extends Component {
             <Modal.Title>Edit review: {this.reviewEdit.review_title}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Container style={{ zIndex: 999 }} className="border-bottom pb-5 my-5">
+            <Container>
+              {this.reviewEditError ? <p style={{ color: 'red' }}>{this.reviewEditError}</p> : null}
               <Form id="ReviewForm">
-                <Form.Group className="mb-3" controlId="formReviewTitle">
+                <Form.Group className="mb-3" controlId="formReviewEditTitle">
                   <Form.Label>Title</Form.Label>
                   <Form.Control
                     placeholder="Enter review title"
                     required
                     value={this.reviewEdit.review_title}
+                    onChange={(event) => (this.reviewEdit.review_title = event.currentTarget.value)}
                   />
                 </Form.Group>
                 <Row>
                   <Col>
-                    <Form.Group className="mb-3" controlId="formReviewEmail">
+                    <Form.Group className="mb-3" controlId="formReviewEditEmail">
                       <Form.Label>Email address</Form.Label>
                       <Form.Control
                         type="email"
                         placeholder="name@example.com"
                         required
                         value={this.reviewEdit.created_by_id}
+                        onChange={(event) =>
+                          (this.reviewEdit.created_by_id = event.currentTarget.value)
+                        }
                       />
                       <Form.Text className="text-muted">
                         We'll never share your email with anyone else.
@@ -668,17 +677,26 @@ export class GetGame extends Component {
                     </Form.Group>
                   </Col>
                   <Col>
-                    <Form.Group className="mb-3" controlId="formReviewPassword">
+                    <Form.Group className="mb-3" controlId="formReviewEditPassword">
                       <Form.Label>Password</Form.Label>
-                      <Form.Control type="password" placeholder="Password" required />
+                      <Form.Control
+                        type="password"
+                        placeholder="Password"
+                        required
+                        value={this.reviewEdit.review_password}
+                        onChange={(event) => {
+                          this.reviewEdit.review_password = event.currentTarget.value;
+                        }}
+                      />
                     </Form.Group>
                   </Col>
                 </Row>
                 <Form.Select
                   className="me-sm-2"
-                  id="inlineFormCustomSelect"
+                  id="fomrReviewEditScore"
                   required
                   value={this.reviewEdit.review_score}
+                  onChange={(event) => (this.reviewEdit.review_score = event.currentTarget.value)}
                 >
                   <option value="0">Select rating</option>
                   <option value="1">1</option>
@@ -692,13 +710,14 @@ export class GetGame extends Component {
                   <option value="9">9</option>
                   <option value="10">10</option>
                 </Form.Select>
-                <Form.Group className="mb-3" controlId="formReviewReviewText">
+                <Form.Group className="mb-3" controlId="formReviewEditReviewText">
                   <Form.Label>Review text</Form.Label>
                   <Form.Control
                     as="textarea"
                     rows={3}
                     required
                     value={this.reviewEdit.review_text}
+                    onChange={(event) => (this.reviewEdit.review_text = event.currentTarget.value)}
                   />
                 </Form.Group>
               </Form>
@@ -713,7 +732,29 @@ export class GetGame extends Component {
             >
               Close
             </Button>
-            <Button variant="primary" onClick={() => {}}>
+            <Button
+              variant="primary"
+              onClick={(event) => {
+                reviewService
+                  .updateReview(
+                    this.reviewEdit.review_title,
+                    this.reviewEdit.review_text,
+                    this.reviewEdit.review_id,
+                    this.reviewEdit.review_gameid,
+                    this.reviewEdit.review_score,
+                    this.reviewEdit.created_by_id,
+                    this.reviewEdit.review_password
+                  )
+                  .then(() => {
+                    location.reload();
+                  })
+                  .catch(
+                    (error) =>
+                      (this.reviewEditError =
+                        'An error occurred, could not update the review. Possible causes of the error may be incorrect email and or password. ')
+                  );
+              }}
+            >
               Save Changes
             </Button>
           </Modal.Footer>
