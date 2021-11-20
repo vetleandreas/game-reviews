@@ -59,7 +59,7 @@ class ReviewService {
   postReview(
     review_title: string,
     review_text: string,
-    review_created_by: number,
+    review_created_by: string,
     game_id: number,
     game_score: number,
     password: string
