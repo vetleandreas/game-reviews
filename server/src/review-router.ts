@@ -127,11 +127,7 @@ router.delete('/review/', (request, response) => {
         data.review_id,
         sha256(String(data.review_created_by) + String(data.review_password))
       )
-      .then((res) => {
-        res.affectedRows == 0
-          ? response.status(500).send('An unexpected error occurred.')
-          : response.send(res);
-      })
+      .then((_result) => response.send())
       .catch((error) => response.status(500).send('An unexpected error occurred.'));
   } else response.status(400).send('An unexpected error occurred.');
 });

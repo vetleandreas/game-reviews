@@ -126,7 +126,7 @@ class ReviewService {
         (error, results) => {
           if (error) return reject(error);
           if (!results.affectedRows) reject(new Error('No row deleted'));
-          return resolve(results);
+          return resolve();
         }
       );
     });
