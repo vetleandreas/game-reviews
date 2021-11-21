@@ -188,7 +188,7 @@ export class AllGames extends Component {
 export class GetGame extends Component {
   showModal = false;
   reviewEdit = {};
-  user_id = 123456789123456789;
+  user_id = 123456789123456789; // Placeholder usr_id
   upvotes = [];
   gameReview: GameReviewsItems[] = [];
   gameScore = []; // TESTING ONLY
@@ -569,7 +569,19 @@ export class GetGame extends Component {
                               </span>
                             </Button>
                           ) : null}{' '}
-                          <Button className="sharebutton">
+                          {/* Kanskje bruke div og ikke button i button, siden det kommer en feilmelding med det. */}
+                          <div
+                            id="share-btn-container"
+                            className="btn share-btn btn-share btn-success"
+                          >
+                            <ShareButton
+                              className="share-btn btn-share btn-success"
+                              buttonText="Share review"
+                              variant="success"
+                              url={window.location.href}
+                            />
+                          </div>
+                          {/* <Button className="sharebutton">
                             <ShareButton
                               className="share-btn btn-share btn-success"
                               buttonText="Share review"
@@ -578,7 +590,7 @@ export class GetGame extends Component {
                               text="I used a long time to write it - appreciate the upvotes!"
                               url={window.location.href}
                             />
-                          </Button>{' '}
+                          </Button>{' '} */}
                           <Button
                             variant="dark"
                             style={{ float: 'right' }}
