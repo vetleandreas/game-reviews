@@ -63,6 +63,35 @@ export type GameReviewsItems = {
   gameId: number;
 };
 
+// ts-ignore: Ignores duplicate signature error.
+// export type ReviewEditItems = {
+//   // @ts-ignore
+//   [review_title: string]: string;
+//   // @ts-ignore
+//   [review_text: string]: string;
+//   // @ts-ignore
+//   [review_id: number]: number;
+//   // @ts-ignore
+//   [review_gameid: number]: number;
+//   // @ts-ignore
+//   [review_score: number]: number;
+//   // @ts-ignore
+//   [created_by_id: number | string]: number | string;
+//   // @ts-ignore
+//   [review_password: string]: string;
+// };
+
+export type ReviewEditItems = {
+  [k: string]: string | number;
+  review_title: string;
+  review_text: string;
+  review_id: number;
+  review_gameid: number;
+  review_score: number;
+  created_by_id: number | string;
+  review_password: string;
+};
+
 export type GameScore = {};
 
 class GameServices {

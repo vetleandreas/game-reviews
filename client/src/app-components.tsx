@@ -29,7 +29,12 @@ import { tsMethodSignature } from '@babel/types';
 // import { HashLink } from 'react-router-hash-link';
 import { HashLink } from 'react-router-hash-link';
 import ShareButton from 'react-web-share-button';
-import gameServices, { CarouselItems, AllGamesItems, GameReviewsItems } from './game-services';
+import gameServices, {
+  CarouselItems,
+  AllGamesItems,
+  GameReviewsItems,
+  ReviewEditItems,
+} from './game-services';
 import reviewService from './review-services';
 
 const history = createHashHistory();
@@ -190,7 +195,7 @@ export class AllGames extends Component<any> {
 
 export class GetGame extends Component {
   showModal = false;
-  reviewEdit = {};
+  reviewEdit: ReviewEditItems = {};
   user_id = 123456789123456789; // Placeholder usr_id
   upvotes = [];
   gameReview: GameReviewsItems[] = [];
