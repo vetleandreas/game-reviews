@@ -18,7 +18,7 @@ router.post('/review/upvote/', (request, response) => {
   if (data) {
     reviewService
       .upvoteReview(data.userId, data.reviewId, data.upvote)
-      .then((id) => response.send({ id: id.insertId }))
+      .then((id: any) => response.send({ id: id.insertId }))
       .catch((error) =>
         response.status(500).send('An unexpected error occurred. Culd not post to Database.')
       );

@@ -108,10 +108,8 @@ export class AllGames extends Component<any> {
           style={{ minHeight: '500px', marginTop: '55px' }}
         >
           {' '}
-          {console.log('This.games:', this.games)}
           <h1 className="display-5">Most recent video games </h1>
           <Row>
-            {console.log(this.games)}
             {this.games[1].result.map((game: AllGamesItems) => (
               <Card
                 key={game.id}
@@ -157,7 +155,6 @@ export class AllGames extends Component<any> {
                     Previous
                   </Button>
                 ) : null}
-                {console.log(this.games[0].count)}
                 {this.games[0].count - 20 > this.offset ? (
                   <Button
                     variant="secondary"
@@ -184,20 +181,20 @@ export class AllGames extends Component<any> {
   }
   mounted() {
     this.offset = this.props.match.params.offset ? this.props.match.params.offset : 0;
-    console.log(this.offset);
     gameServices
       .getAllGames(this.offset)
       .then((response) => (this.games = response))
-      .catch((error) => console.log(error));
+      .catch();
   }
 }
 
 // Workaroud for this.props.match.params.offset problem: property 'match' does not exist on type Readonly
 export class GetGame extends Component<any> {
   showModal = false;
+
   // @ts-ignore
   reviewEdit: ReviewEditItems = {};
-  // user_id = 123456789123456789; // Placeholder usr_id due to no user login.
+  user_id = 123456789123456789; // Placeholder usr_id due to no user login. To be used for upvotes only.
   upvotes = [];
   gameReview: GameReviewsItems[] | any = [];
   gameScore: any = [];
@@ -233,29 +230,14 @@ export class GetGame extends Component<any> {
       return null;
     }
 
-    // Function for disable button ***** Trenger vi denne funksjonen lengre? *****
-    // function DisableButton() {
-    //   const [disable, setDisable] = React.useState(false);
-    // }
     return (
       <>
         <Container
           className="my-3 p-3 bg-dark rounded shadow-sm bg-primaty text-light"
           style={{ zIndex: -999, minHeight: '550px' }}
         >
-          {/* Ikke sikkert vi har behov for dene? */}
-          {/* {this.game.length == 0 ? (
-            <div className="center-div">
-              {this.empty != 1 ? (
-                <Spinner animation="border" />
-              ) : (
-                <h3>Error: Could not locate game: {this.props.match.params.slug}</h3>
-              )}
-            </div>
-          ) : null} */}
           {this.game.map((game: GameReviewsItems) => (
             <Row style={{ zIndex: 999, position: 'relative' }}>
-              {console.log('Game:', game)}
               {game.cover ? (
                 <div
                   className="game-hero w-100"
@@ -336,13 +318,13 @@ export class GetGame extends Component<any> {
                     variant={
                       // Nested ternary to get different colours depending on game rating.
                       // TS error, no clear fix for this issue.
-                      // @ts-ignore
+                      // @ts-ignore - type error for JavaScript function .toFixed(2)
                       this.gameScore[0]['AVG(score)'].toFixed(2) * 10 < 25
                         ? 'danger'
-                        : // @ts-ignore
+                        : // @ts-ignore - type error for JavaScript function .toFixed(2)
                         this.gameScore[0]['AVG(score)'].toFixed(2) * 10 < 50
                         ? 'warning'
-                        : // @ts-ignore
+                        : // @ts-ignore - type error for JavaScript function .toFixed(2)
                         this.gameScore[0]['AVG(score)'].toFixed(2) * 10 < 75
                         ? 'info'
                         : 'success'
@@ -521,7 +503,7 @@ export class GetGame extends Component<any> {
                                 this.formPassword
                               )
                               .then(() => location.reload())
-                              .catch();
+                              .catch(() => null);
                             event.currentTarget.disabled = true;
                           }}
                         >
@@ -545,7 +527,6 @@ export class GetGame extends Component<any> {
                         <Card.Title className="card-title">{review.review_title}</Card.Title>
                         <Card.Subtitle className="mb-2 text-muted card-subtitle">
                           Created by: {review.review_name} - {dateTime(review.created_at)}{' '}
-                          {console.log(new Date(review.created_at))}
                         </Card.Subtitle>
                         <Card.Subtitle>Rated: {review.score}</Card.Subtitle>
                         <Card.Body>
@@ -556,8 +537,6 @@ export class GetGame extends Component<any> {
                               variant="warning"
                               onClick={(event) => {
                                 event.currentTarget.disabled = true;
-                                // Adds upvote. TODO: Needs to disable Upvotebutton if upvoted.
-                                console.log('Upvotes:', review);
                                 reviewService
                                   .upvoteReview(this.user_id, review.id, 1)
                                   .then(
@@ -565,9 +544,9 @@ export class GetGame extends Component<any> {
                                     reviewService
                                       .getUpvotes()
                                       .then((results) => (this.upvotes = results))
-                                      .catch((error) => console.log(error))
-                                  ) // history.push('/tasks/' + this.task.id))
-                                  .catch((error) => console.log(error));
+                                      .catch(() => null)
+                                  )
+                                  .catch(() => null);
                               }}
                             >
                               <i className="fas fa-thumbs-up"></i>
@@ -593,16 +572,6 @@ export class GetGame extends Component<any> {
                               url={window.location.href}
                             />
                           </div>
-                          {/* <Button className="sharebutton">
-                            <ShareButton
-                              className="share-btn btn-share btn-success"
-                              buttonText="Share review"
-                              variant="success"
-                              title="Check out my amazing review on Game Review Service!"
-                              text="I used a long time to write it - appreciate the upvotes!"
-                              url={window.location.href}
-                            />
-                          </Button>{' '} */}
                           <Button
                             variant="dark"
                             style={{ float: 'right' }}
@@ -891,7 +860,7 @@ export class GetGame extends Component<any> {
     reviewService
       .getUpvotes()
       .then((response) => (this.upvotes = response))
-      .catch((error) => console.log(error));
+      .catch(() => null);
   }
   mounted() {
     this.slug = this.props.match.params.slug ? this.props.match.params.slug : '';
@@ -902,17 +871,17 @@ export class GetGame extends Component<any> {
         reviewService
           .gameScores(response[0].id)
           .then((response) => (this.gameScore = response))
-          .catch((error) => console.log(error));
+          .catch(() => null);
         reviewService
           .gameReviews(response[0].id)
           .then((response) => (this.gameReview = response))
-          .catch((error) => console.log(error));
+          .catch(() => null);
       })
       .catch((error) => (this.errormsg = error));
     reviewService
       .getUpvotes()
       .then((results) => (this.upvotes = results))
-      .catch((error) => console.log(error));
+      .catch(() => null);
   }
 }
 
@@ -929,7 +898,6 @@ export class MainCarousel extends Component<any> {
       <>
         <Container>
           <Carousel>
-            {console.log(this.games)}
             {this.games.map((game) => (
               <Carousel.Item key={game.id}>
                 {game.cover ? (
@@ -959,7 +927,7 @@ export class MainCarousel extends Component<any> {
     gameServices
       .getCarousel(this.offset)
       .then((response) => (this.games = response))
-      .catch((error) => console.log(error));
+      .catch(() => null);
   }
 }
 
@@ -1090,7 +1058,7 @@ export class SearchGame extends Component<any> {
   games: GameReviewsItems[] = [];
   searchQuery = '';
   offset: string | number | any = '';
-  errormsg = '';
+  errormsg: string = '';
   render() {
     return (
       <>
@@ -1149,7 +1117,6 @@ export class SearchGame extends Component<any> {
                           <Nav.Link href={'#/game/' + game.slug} className="search-link">
                             {game.name}
                           </Nav.Link>
-                          {console.log(game)}
                           <div style={{ display: 'block' }}>
                             {game.genres
                               ? game.genres.map((genre: GameReviewsItems) => (
@@ -1370,7 +1337,6 @@ export class MainPage extends Component {
                   style={{ textAlign: 'center' }}
                 >
                   <Carousel>
-                    {console.log(this.games)}
                     {this.games.map((game) => (
                       <Carousel.Item key={game.id}>
                         {game.cover ? (
@@ -1433,6 +1399,6 @@ export class MainPage extends Component {
     gameServices
       .getCarousel(this.offset)
       .then((response) => (this.games = response))
-      .catch((error) => console.log(error));
+      .catch(() => null);
   }
 }

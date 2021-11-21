@@ -94,9 +94,6 @@ export type ReviewEditItems = {
 export type GameScore = {};
 
 class GameServices {
-  // getAllGames() {
-  //   return axios.get('/games').then((response) => response.data);
-  // }
   getAllGames(offset: number) {
     return axios.get<AllGamesItems[]>('/games/' + offset + '/').then((response) => response.data);
   }
