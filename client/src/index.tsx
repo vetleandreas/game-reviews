@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom';
 import * as React from 'react';
 import { Component } from 'react-simplified';
+// @ts-ignore - Ignores error that it can't loate node moule.
 import ShareButton from 'react-web-share-button';
 import { HashRouter, Route } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';

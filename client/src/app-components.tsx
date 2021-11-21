@@ -38,7 +38,7 @@ import reviewService from './review-services';
 
 const history = createHashHistory();
 export class Navigation extends Component {
-  searchQuery = '';
+  searchQuery: string = '';
   render() {
     return (
       <>
@@ -96,7 +96,7 @@ export class Navigation extends Component {
 // Workaroud for this.props.match.params.offset problem: property 'match' does not exist on type Readonly
 export class AllGames extends Component<any> {
   games: AllGamesItems[] = [];
-  offset = 0;
+  offset: number = 0;
   render() {
     if (this.games.length == 0) {
       return null;
@@ -197,34 +197,30 @@ export class GetGame extends Component<any> {
   showModal = false;
   // @ts-ignore
   reviewEdit: ReviewEditItems = {};
-  user_id = 123456789123456789; // Placeholder usr_id
+  // user_id = 123456789123456789; // Placeholder usr_id due to no user login.
   upvotes = [];
   gameReview: GameReviewsItems[] | any = [];
-  gameScore: any = []; // TESTING ONLY
+  gameScore: any = [];
   score = 0;
   gameId = null;
   game: GameReviewsItems[] = [];
-  slug = '';
-  errormsg = '';
-  reviewEditError = '';
-  // empty = setTimeout(() => {
-  //   this.empty = 1;
-  // }, 2000);
-  // For review form.
-  formName = '';
-  formTitle = '';
-  formEmail = '';
-  formPassword = '';
-  formSelect = 0;
-  formReviewText = '';
+  slug: string = '';
+  errormsg: string = '';
+  reviewEditError: string = '';
+  formName: string = '';
+  formTitle: string = '';
+  formEmail: string = '';
+  formPassword: string = '';
+  formSelect: number = 0;
+  formReviewText: string = '';
   render() {
     // function to prettify timestamp!
     function dateTime(timestamp: any) {
       let dt = new Date(timestamp);
       return `${
-        (dt.getDay() < 10 ? '0' + dt.getDay() : dt.getDay()) +
+        (dt.getDate() < 10 ? '0' + dt.getDate() : dt.getDate()) +
         '.' +
-        (dt.getMonth() < 10 ? '0' + dt.getMonth() : dt.getMonth()) +
+        (dt.getMonth() < 10 ? '0' + (dt.getMonth() + 1) : dt.getMonth() + 1) +
         '.' +
         dt.getFullYear()
       } @${
@@ -238,9 +234,9 @@ export class GetGame extends Component<any> {
     }
 
     // Function for disable button ***** Trenger vi denne funksjonen lengre? *****
-    function DisableButton() {
-      const [disable, setDisable] = React.useState(false);
-    }
+    // function DisableButton() {
+    //   const [disable, setDisable] = React.useState(false);
+    // }
     return (
       <>
         <Container
@@ -548,7 +544,8 @@ export class GetGame extends Component<any> {
                       <Card text="dark" className="card-review">
                         <Card.Title className="card-title">{review.review_title}</Card.Title>
                         <Card.Subtitle className="mb-2 text-muted card-subtitle">
-                          Created by: {review.review_name} - {dateTime(review.created_at)}
+                          Created by: {review.review_name} - {dateTime(review.created_at)}{' '}
+                          {console.log(new Date(review.created_at))}
                         </Card.Subtitle>
                         <Card.Subtitle>Rated: {review.score}</Card.Subtitle>
                         <Card.Body>
@@ -919,6 +916,7 @@ export class GetGame extends Component<any> {
   }
 }
 
+// Workaroud for this.props.match.params.offset problem: property 'match' does not exist on type Readonly
 export class MainCarousel extends Component<any> {
   // Bare for og få random carousel items
   offset = Math.floor(Math.random() * 1000);
@@ -1087,6 +1085,7 @@ export class SubmitGame extends Component {
   mounted() {}
 }
 
+// Workaroud for this.props.match.params.offset problem: property 'match' does not exist on type Readonly
 export class SearchGame extends Component<any> {
   games: GameReviewsItems[] = [];
   searchQuery = '';
