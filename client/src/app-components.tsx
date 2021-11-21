@@ -25,6 +25,7 @@ import {
 } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { tsMethodSignature } from '@babel/types';
+// @ts-ignore - Ignores error that it can't loate node moule.
 import ShareButton from 'react-web-share-button';
 import gameServices, {
   CarouselItems,
