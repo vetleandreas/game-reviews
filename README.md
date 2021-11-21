@@ -30,7 +30,13 @@ process.env.MYSQL_DATABASE = '...';
 
 ```
 
-## IGDB API Settings
+4. Use this SQL code to create the relevant databases:
+
+```sh
+CREATE TABBBBBELLLLLL
+```
+
+### IGDB API
 
 4. Create a configuration file called "config.ts" in the server folder. This is for the IGDB API
 Authorization.
@@ -56,3 +62,5 @@ cd game-reviews/client/
 npm run start
 
 ```
+
+6. The web page can be found on your server, or locally on your computer at the port you selected (standard port is 3000).
