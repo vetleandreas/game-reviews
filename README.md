@@ -23,16 +23,18 @@ npm install
    declarations:
 
 ```sh
+//SQL Database Authorization
 process.env.MYSQL_HOST = '...';
 process.env.MYSQL_USER= '...';
 process.env.MYSQL_PASSWORD = '...';
 process.env.MYSQL_DATABASE = '...';
 
+// IGDB Authorization
 process.env.CLIENT_ID = '...';
 process.env.AUTHORIZATION = '...';
 
 ```
-Example client ID and authorization
+#### Example client ID and authorization:
 This is for the IGDB API Authorization. Without correct API Client-ID and Authorization, the App
 will not load games.
 
