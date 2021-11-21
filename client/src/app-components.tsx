@@ -534,8 +534,7 @@ export class GetGame extends Component {
                       <Card text="dark" className="card-review">
                         <Card.Title className="card-title">{review.review_title}</Card.Title>
                         <Card.Subtitle className="mb-2 text-muted card-subtitle">
-                          Created by: {console.log(review)}
-                          {review.review_name} - {dateTime(review.created_at)}
+                          Created by: {review.review_name} - {dateTime(review.created_at)}
                         </Card.Subtitle>
                         <Card.Subtitle>Rated: {review.score}</Card.Subtitle>
                         <Card.Body>
