@@ -19,21 +19,19 @@ import {
   Modal,
   ProgressBar,
   Spinner,
-  Link,
   Accordion,
   Dropdown,
   ListGroup,
 } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { tsMethodSignature } from '@babel/types';
-// import { HashLink } from 'react-router-hash-link';
-import { HashLink } from 'react-router-hash-link';
 import ShareButton from 'react-web-share-button';
 import gameServices, {
   CarouselItems,
   AllGamesItems,
   GameReviewsItems,
   ReviewEditItems,
+  ReviewUpvoteItems,
 } from './game-services';
 import reviewService from './review-services';
 
@@ -193,16 +191,18 @@ export class AllGames extends Component<any> {
   }
 }
 
-export class GetGame extends Component {
+// Workaroud for this.props.match.params.offset problem: property 'match' does not exist on type Readonly
+export class GetGame extends Component<any> {
   showModal = false;
+  // @ts-ignore
   reviewEdit: ReviewEditItems = {};
   user_id = 123456789123456789; // Placeholder usr_id
   upvotes = [];
-  gameReview: GameReviewsItems[] = [];
-  gameScore = []; // TESTING ONLY
+  gameReview: GameReviewsItems[] | any = [];
+  gameScore: any = []; // TESTING ONLY
   score = 0;
   gameId = null;
-  game = [];
+  game: GameReviewsItems[] = [];
   slug = '';
   errormsg = '';
   reviewEditError = '';
@@ -218,7 +218,7 @@ export class GetGame extends Component {
   formReviewText = '';
   render() {
     // function to prettify timestamp!
-    function dateTime(timestamp) {
+    function dateTime(timestamp: any) {
       let dt = new Date(timestamp);
       return `${
         (dt.getDay() < 10 ? '0' + dt.getDay() : dt.getDay()) +
@@ -350,6 +350,7 @@ export class GetGame extends Component {
                         ? 'info'
                         : 'success'
                     }
+                    // @ts-ignore
                     now={(this.gameScore[0]['AVG(score)'] * 10).toFixed(2)}
                     label={`Review ratings: ${(this.gameScore[0]['AVG(score)'] * 10).toFixed(2)}%`}
                   />
@@ -510,7 +511,6 @@ export class GetGame extends Component {
                             !this.formSelect ||
                             !this.formReviewText
                           }
-                          // Denne må endres til en funksjon! Må også legges inn sjekk for mail
                           onClick={(event) => {
                             event.preventDefault();
                             reviewService
@@ -526,8 +526,6 @@ export class GetGame extends Component {
                               .then(() => location.reload())
                               .catch();
                             event.currentTarget.disabled = true;
-                            // history.push('/game/' + this.game[0].slug);
-                            // window.location.reload(false);
                           }}
                         >
                           Submit review
@@ -544,8 +542,7 @@ export class GetGame extends Component {
                   {this.gameReview.length == 0 ? (
                     <p>There are no reviews right now. Write one yourself! </p>
                   ) : null}
-                  {this.gameReview.map((review) => (
-                    // REVIEWS GOES HERE TODO: Add formvalidation
+                  {this.gameReview.map((review: GameReviewsItems) => (
                     <>
                       <Card text="dark" className="card-review">
                         <Card.Title className="card-title">{review.review_title}</Card.Title>
@@ -579,8 +576,9 @@ export class GetGame extends Component {
                               <span>
                                 {' '}
                                 {
-                                  this.upvotes.filter((upvote) => upvote.review_id == review.id)
-                                    .length
+                                  this.upvotes.filter(
+                                    (upvote: ReviewUpvoteItems) => upvote.review_id == review.id
+                                  ).length
                                 }
                               </span>
                             </Button>
@@ -644,7 +642,7 @@ export class GetGame extends Component {
                   </h1>
                 ) : null}
                 {game.expansions
-                  ? game.expansions.map((expansion) => (
+                  ? game.expansions.map((expansion: GameReviewsItems) => (
                       <Card className="card-hover" style={{ width: '200px' }}>
                         <Nav.Link
                           href={'#/game/' + expansion.slug + '/'}
@@ -676,7 +674,7 @@ export class GetGame extends Component {
                   </h1>
                 ) : null}
                 {game.similar_games
-                  ? game.similar_games.map((similar_game) => (
+                  ? game.similar_games.map((similar_game: GameReviewsItems) => (
                       <Card className="card-hover" style={{ width: '200px' }}>
                         <Nav.Link
                           href={'#/game/' + similar_game.slug + '/'}
@@ -763,7 +761,9 @@ export class GetGame extends Component {
                   id="fomrReviewEditScore"
                   required
                   value={this.reviewEdit.review_score}
-                  onChange={(event) => (this.reviewEdit.review_score = event.currentTarget.value)}
+                  onChange={(event) =>
+                    (this.reviewEdit.review_score = Number(event.currentTarget.value))
+                  }
                 >
                   <option value="0">Select rating</option>
                   <option value="1">1</option>
@@ -888,10 +888,10 @@ export class GetGame extends Component {
       </>
     );
   }
-  getUpvote(userId: number, reviewId: number) {
+  getUpvote() {
     // Get review upvotes for user. ## Not working
     reviewService
-      .getUpvotes(reviewId, userId)
+      .getUpvotes()
       .then((response) => (this.upvotes = response))
       .catch((error) => console.log(error));
   }
@@ -918,10 +918,10 @@ export class GetGame extends Component {
   }
 }
 
-export class MainCarousel extends Component {
+export class MainCarousel extends Component<any> {
   // Bare for og få random carousel items
   offset = Math.floor(Math.random() * 1000);
-  games = [];
+  games: GameReviewsItems[] = [];
   render() {
     if (this.games.length == 0) {
       return null;
@@ -981,7 +981,7 @@ export class MainFooter extends Component {
 }
 
 export class AddGame extends Component {
-  constructor(props) {
+  constructor(props: any) {
     super(props);
 
     this.state = {
@@ -989,7 +989,7 @@ export class AddGame extends Component {
     };
   }
 
-  handleChange = (event) => {
+  handleChange = (event: any) => {
     this.setState({ name: event.target.value });
   };
 
@@ -1041,6 +1041,7 @@ export class AddGame extends Component {
                 </Form>
               </Col>
             </Row>
+            {/* @ts-ignore */}
             <Button disabled={!this.state.name} variant="secondary" href="/#/submitgame/">
               Submit new game
             </Button>
@@ -1085,10 +1086,10 @@ export class SubmitGame extends Component {
   mounted() {}
 }
 
-export class SearchGame extends Component {
-  games = [];
+export class SearchGame extends Component<any> {
+  games: GameReviewsItems[] = [];
   searchQuery = '';
-  offset = '';
+  offset: string | number | any = '';
   errormsg = '';
   render() {
     return (
@@ -1151,7 +1152,7 @@ export class SearchGame extends Component {
                           {console.log(game)}
                           <div style={{ display: 'block' }}>
                             {game.genres
-                              ? game.genres.map((genre) => (
+                              ? game.genres.map((genre: GameReviewsItems) => (
                                   <Badge
                                     bg="warning"
                                     text="dark"
@@ -1332,7 +1333,7 @@ export class GameCarousel extends Component {
 }
 
 export class MainPage extends Component {
-  offset = Math.floor(Math.random() * 1000);
+  offset: string | number | any = Math.floor(Math.random() * 1000);
   games: CarouselItems[] = [];
 
   render() {

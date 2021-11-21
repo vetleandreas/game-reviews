@@ -24,25 +24,35 @@ export type AllGamesItems = {
   count: number;
   result: [];
 };
+// need to add any so there is no type error on JavaScript functions.
 export type GameReviewsItems = {
   id: number;
   name: string;
   parent_game: { id: number; name: string; slug: string; cover: { id: number; url: string } };
-  expansions: { id: number; name: string; slug: string; cover: { id: number; url: string } };
+  expansions:
+    | Object[]
+    | { id: number; name: string; slug: string; cover: { id: number; url: string } }
+    | any;
   slug: string;
   cover: { id: number; url: string; height: number; width: number };
   genres: Object[] | { id: number; name: string } | any;
   involved_companies: Object[] | { id: number; company: { id: number; name: string } } | any;
   company: { name: string };
-  platforms: { id: number; name: string; platform_logo: { id: number; url: string } };
+  platforms:
+    | Object[]
+    | { id: number; name: string; platform_logo: { id: number; url: string } }
+    | any;
   release_dates: any | { id: number; human: string };
-  similar_games: {
-    id: number;
-    name: string;
-    slug: string;
-    cover: { id: number; url: string };
-    genres: { id: number; name: string };
-  };
+  similar_games:
+    | Object[]
+    | {
+        id: number;
+        name: string;
+        slug: string;
+        cover: { id: number; url: string };
+        genres: { id: number; name: string };
+      }
+    | any;
   summary: string;
   storyline: string;
   total_rating: number;
@@ -57,38 +67,27 @@ export type GameReviewsItems = {
     url: string;
   };
   review_title: string;
+  review_name: string;
+  score: number;
   created_at: string;
   review_text: string;
   created_by_id: number;
   gameId: number;
 };
 
-// ts-ignore: Ignores duplicate signature error.
-// export type ReviewEditItems = {
-//   // @ts-ignore
-//   [review_title: string]: string;
-//   // @ts-ignore
-//   [review_text: string]: string;
-//   // @ts-ignore
-//   [review_id: number]: number;
-//   // @ts-ignore
-//   [review_gameid: number]: number;
-//   // @ts-ignore
-//   [review_score: number]: number;
-//   // @ts-ignore
-//   [created_by_id: number | string]: number | string;
-//   // @ts-ignore
-//   [review_password: string]: string;
-// };
+export type ReviewUpvoteItems = {
+  review_id: number;
+};
 
+// need to add any so there is no type error on JavaScript functions.
 export type ReviewEditItems = {
   [k: string]: string | number;
   review_title: string;
   review_text: string;
-  review_id: number;
-  review_gameid: number;
-  review_score: number;
-  created_by_id: number | string;
+  review_id: number | any;
+  review_gameid: number | any;
+  review_score: number | any;
+  created_by_id: string | number | any;
   review_password: string;
 };
 
