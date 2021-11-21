@@ -42,6 +42,9 @@ class ReviewService {
   gameScores(id: number) {
     return axios.get<ReviewGamescore[]>('/review/score/' + id).then((response) => response.data);
   }
+  addGame() {
+    return axios.post('/game/add');
+  }
 
   postReview(
     review_title: string,

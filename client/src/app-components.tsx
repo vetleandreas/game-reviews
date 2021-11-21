@@ -537,7 +537,7 @@ export class GetGame extends Component<any> {
                         <Card.Body>
                           <Card.Text>{review.review_text}</Card.Text>
                           {/* TODO: Add upvote functionality */}
-                          {this.upvotes.length > 0 ? (
+                          {this.upvotes.length >= 0 ? (
                             <Button
                               variant="warning"
                               onClick={(event) => {
@@ -953,6 +953,7 @@ export class MainFooter extends Component {
 }
 
 export class AddGame extends Component {
+  submitMsg: string = '';
   constructor(props: any) {
     super(props);
 

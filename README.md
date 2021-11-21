@@ -1,6 +1,6 @@
-# Web Development Project INFT2002: Game Review
+# Welcome to the Game Review Service!
 
-Web development project course INFT2002.
+This is a project in INFT2002 at NTNU to review video games connected to a database.
 
 ## Instructions
 
@@ -20,18 +20,33 @@ cd game-reviews/client/
 npm install
 ```
 
-3. Create a database configuration file called "config.ts" in the root directory with the following
-   declarations:
+3. Create a database / IGDB configuration file called "config.ts" in the Server directory with the
+   following declarations:
 
 ```sh
+//SQL Database Authorization
 process.env.MYSQL_HOST = '...';
 process.env.MYSQL_USER= '...';
 process.env.MYSQL_PASSWORD = '...';
 process.env.MYSQL_DATABASE = '...';
 
+// IGDB Authorization
+process.env.CLIENT_ID = '...';
+process.env.AUTHORIZATION = '...';
+
 ```
 
-4. Setup MySQL-db
+#### Example client ID and authorization:
+
+This is for the IGDB API Authorization. Without correct API Client-ID and Authorization, the App
+will not load games.
+
+- Example Client-ID: `"retgzhvpsxjwun0rvrb1rfwheegu1yw"`
+- Example Authorization: `"Bearer prau3ol6mg5glgek8m89ec2s9q5i3i"`
+
+4. Create an empty "config.ts" in the root directory.
+
+5. Use this SQL code to create the relevant databases:
 
 ```
 CREATE TABLE `gamescore` (
@@ -67,23 +82,7 @@ CREATE TABLE `game_review_relevance` (
 )
 ```
 
-## IGDB API Settings
-
-Create a configuration file called "config.ts" in the server folder. This is for the IGDB API
-Authorization
-
-```sh
-process.env.CLIENT_ID = '...';
-process.env.AUTHORIZATION = '...';
-
-```
-
-### Example client id and authorization
-
-- Example Client-ID: `"retgzhvpsxjwun0rvrb1rfwheegu1yw"`
-- Example Authorization: `"Bearer prau3ol6mg5glgek8m89ec2s9q5i3i"`
-
-4. Run the API:
+6. Run the API:
 
 ```sh
 cd game-reviews/server/
@@ -93,3 +92,6 @@ cd game-reviews/client/
 npm run start
 
 ```
+
+7. The web page can be found on your server, or locally on your computer at the port you selected
+   (standard port is 3000).

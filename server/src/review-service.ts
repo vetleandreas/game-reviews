@@ -28,7 +28,32 @@ export type UpvoteReview = {
   upvote: number;
 };
 
+export type AddGame = {
+  id: number;
+};
+
 class ReviewService {
+  // Add game to DB
+  addGame(
+    game_title: string,
+    release_date: string,
+    platforms: string,
+    developers: string,
+    genres: string,
+    description: string
+  ) {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        'INSERT INTO add_game (id, game_title, release_date, platforms, developers, genres, description) VALUES (NULL, ?,?,?,?,?,?)',
+        [game_title, release_date, platforms, developers, genres, description],
+        (error, results) => {
+          if (error) return reject(error);
+          resolve(results);
+        }
+      );
+    });
+  }
+
   // Post upvote on review
   upvoteReview(userId: number, reviewId: number, upvote: number) {
     return new Promise((resolve, reject) => {
