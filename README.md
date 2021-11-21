@@ -116,4 +116,4 @@ If you want to delete a review, press the "Delete" button in the edit menu - thi
 Review ratings are based on the score of the reviews sent in. The IGDB rating will also show beside our rating, so you have more information to go on when wanting to try a game.
 
 ### Adding a game
-To add a game, you can click on the "add new game to the library" button on the home page, the "add game" button on the navigation bar or the "Add it yourself" button on the search page. Fill in the form and submit it. As IGDB doesn't make it possible for us to just add games through our user authorization, this instead thanks the user for the submission, while we are waiting for IGDB to add the game themselves. 
+To add a game, you can click on the "add new game to the library" button on the home page, the "add game" button on the navigation bar or the "Add it yourself" button on the search page. Fill in the form and submit it. As IGDB doesn't make it possible for us to just add games through our user authorization, this instead sends the submission to our database, so we can look into why the game is not on IGDB and notify them. It also thanks the user for the submission. 
