@@ -89,7 +89,8 @@ export class Navigation extends Component {
   }
 }
 
-export class AllGames extends Component {
+// Workaroud for this.props.match.params.offset problem: property 'match' does not exist on type Readonly
+export class AllGames extends Component<any> {
   games: AllGamesItems[] = [];
   offset = 0;
   render() {
@@ -102,10 +103,12 @@ export class AllGames extends Component {
           className="my-3 p-3 bg-dark rounded shadow-sm bg-primaty text-light"
           style={{ minHeight: '500px', marginTop: '55px' }}
         >
+          {' '}
+          {console.log('This.games:', this.games)}
           <h1 className="display-5">Most recent video games </h1>
           <Row>
             {console.log(this.games)}
-            {this.games[1].result.map((game) => (
+            {this.games[1].result.map((game: AllGamesItems) => (
               <Card
                 key={game.id}
                 style={{ width: '320px' }}
@@ -122,7 +125,7 @@ export class AllGames extends Component {
                   <Card.Body className="text-shadow-1">
                     <Card.Title style={{ fontSize: '18px' }}>{game.name}</Card.Title>
                     {game.genres
-                      ? game.genres.map((genres) => (
+                      ? game.genres.map((genres: AllGamesItems) => (
                           <Badge style={{ marginRight: '5px' }}>{genres.name}</Badge>
                         ))
                       : null}
@@ -198,9 +201,9 @@ export class GetGame extends Component {
   slug = '';
   errormsg = '';
   reviewEditError = '';
-  empty = setTimeout(() => {
-    this.empty = 1;
-  }, 2000);
+  // empty = setTimeout(() => {
+  //   this.empty = 1;
+  // }, 2000);
   // For review form.
   formName = '';
   formTitle = '';
@@ -210,7 +213,7 @@ export class GetGame extends Component {
   formReviewText = '';
   render() {
     // function to prettify timestamp!
-    function dateTime(timestamp: srting) {
+    function dateTime(timestamp) {
       let dt = new Date(timestamp);
       return `${
         (dt.getDay() < 10 ? '0' + dt.getDay() : dt.getDay()) +
@@ -228,7 +231,7 @@ export class GetGame extends Component {
       return null;
     }
 
-    // Function for disable button
+    // Function for disable button ***** Trenger vi denne funksjonen lengre? *****
     function DisableButton() {
       const [disable, setDisable] = React.useState(false);
     }
@@ -238,7 +241,8 @@ export class GetGame extends Component {
           className="my-3 p-3 bg-dark rounded shadow-sm bg-primaty text-light"
           style={{ zIndex: -999, minHeight: '550px' }}
         >
-          {this.game.length == 0 ? (
+          {/* Ikke sikkert vi har behov for dene? */}
+          {/* {this.game.length == 0 ? (
             <div className="center-div">
               {this.empty != 1 ? (
                 <Spinner animation="border" />
@@ -246,9 +250,10 @@ export class GetGame extends Component {
                 <h3>Error: Could not locate game: {this.props.match.params.slug}</h3>
               )}
             </div>
-          ) : null}
-          {this.game.map((game: Foo | null) => (
+          ) : null} */}
+          {this.game.map((game: GameReviewsItems) => (
             <Row style={{ zIndex: 999, position: 'relative' }}>
+              {console.log('Game:', game)}
               {game.cover ? (
                 <div
                   className="game-hero w-100"
@@ -328,11 +333,15 @@ export class GetGame extends Component {
                     style={{ height: '32px' }}
                     variant={
                       // Nested ternary to get different colours depending on game rating.
+                      // TS error, no clear fix for this issue.
+                      // @ts-ignore
                       this.gameScore[0]['AVG(score)'].toFixed(2) * 10 < 25
                         ? 'danger'
-                        : this.gameScore[0]['AVG(score)'].toFixed(2) * 10 < 50
+                        : // @ts-ignore
+                        this.gameScore[0]['AVG(score)'].toFixed(2) * 10 < 50
                         ? 'warning'
-                        : this.gameScore[0]['AVG(score)'].toFixed(2) * 10 < 75
+                        : // @ts-ignore
+                        this.gameScore[0]['AVG(score)'].toFixed(2) * 10 < 75
                         ? 'info'
                         : 'success'
                     }
@@ -347,7 +356,7 @@ export class GetGame extends Component {
                   <Row>
                     <Col>
                       <strong>Platforms: </strong>
-                      {game.platforms.map((platform) => (
+                      {game.platforms.map((platform: GameReviewsItems) => (
                         <Badge
                           bg="warning"
                           text="dark"
@@ -364,7 +373,7 @@ export class GetGame extends Component {
                   <Row>
                     <Col>
                       <strong>Developers / Publishers: </strong>
-                      {game.involved_companies.map((company) => (
+                      {game.involved_companies.map((company: GameReviewsItems) => (
                         <Badge
                           bg="info"
                           text="dark"
@@ -381,7 +390,7 @@ export class GetGame extends Component {
                   <Row>
                     <Col>
                       <strong>Genres: </strong>
-                      {game.genres.map((genre) => (
+                      {game.genres.map((genre: GameReviewsItems) => (
                         <Badge
                           bg="light"
                           text="dark"
@@ -459,7 +468,9 @@ export class GetGame extends Component {
                           id="inlineFormCustomSelect"
                           required
                           value={this.formSelect}
-                          onChange={(event) => (this.formSelect = event.currentTarget.value)}
+                          onChange={(event) =>
+                            (this.formSelect = Number(event.currentTarget.value))
+                          }
                         >
                           <option value="0">Select rating</option>
                           <option value="1">1</option>
@@ -1209,6 +1220,7 @@ export class SearchGame extends Component {
   }
 }
 
+// Denne tror jeg vi kan slette, den brukes vel ikke noen plass?
 export class GameCarousel extends Component {
   render() {
     return (
@@ -1316,7 +1328,7 @@ export class GameCarousel extends Component {
 
 export class MainPage extends Component {
   offset = Math.floor(Math.random() * 1000);
-  games = [];
+  games: CarouselItems[] = [];
 
   render() {
     if (this.games.length == 0) {
