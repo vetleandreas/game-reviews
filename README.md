@@ -78,23 +78,7 @@ CREATE TABLE `game_review_relevance` (
 )
 ```
 
-### IGDB API
-
-4. Create a configuration file called "config.ts" in the server folder. This is for the IGDB API
-Authorization.
-
-```sh
-process.env.CLIENT_ID = '...';
-process.env.AUTHORIZATION = '...';
-
-```
-
-### Example IGDB authorization
-
-- Example Client-ID: `"retgzhvpsxjwun0rvrb1rfwheegu1yw"`
-- Example Authorization: `"Bearer prau3ol6mg5glgek8m89ec2s9q5i3i"`
-
-4. Run the API:
+5. Run the API:
 
 ```sh
 cd game-reviews/server/
