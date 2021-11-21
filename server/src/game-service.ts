@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const ROOT_URL = 'https://api.igdb.com/v4/';
+const ROOT_URL_IGDB = 'https://api.igdb.com/v4/';
 
 export type Carousel = {
   id: number;
@@ -24,7 +24,7 @@ class GameService {
   Carousel(offset: number) {
     return new Promise((resolve, reject) => {
       axios({
-        url: process.env.IGDB_URL + 'games',
+        url: ROOT_URL_IGDB + 'games',
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -42,7 +42,7 @@ class GameService {
   getAllGames(offset: number) {
     return new Promise((resolve, reject) => {
       axios({
-        url: process.env.IGDB_URL + 'multiquery',
+        url: ROOT_URL_IGDB + 'multiquery',
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -59,7 +59,7 @@ class GameService {
   getAllPlatforms() {
     return new Promise((resolve, reject) => {
       axios({
-        url: process.env.IGDB_URL + 'platforms',
+        url: ROOT_URL_IGDB + 'platforms',
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -76,7 +76,7 @@ class GameService {
   getSelectedGame(slug: string) {
     return new Promise((resolve, reject) => {
       axios({
-        url: process.env.IGDB_URL + 'games',
+        url: ROOT_URL_IGDB + 'games',
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -92,7 +92,7 @@ class GameService {
   getSearch(query: string, offset: number) {
     return new Promise((resolve, reject) => {
       axios({
-        url: process.env.IGDB_URL + 'games',
+        url: ROOT_URL_IGDB + 'games',
         method: 'POST',
         headers: {
           Accept: 'application/json',
