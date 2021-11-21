@@ -941,26 +941,26 @@ export class AddGame extends Component {
               <Col>
                 <Form>
                   <Form.Group className="mb-3" controlId="formGridTitle">
-                    <Form.Label>Game title</Form.Label>
+                    <Form.Label className="text-dark">Game title</Form.Label>
                     <Form.Control type="input" placeholder="F. ex. Battlefield 4" />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formGridTitle">
-                    <Form.Label>Release date</Form.Label>
+                    <Form.Label className="text-dark">Release date</Form.Label>
                     <Form.Control type="input" placeholder="MM/DD/YYYY" />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formGridTitle">
-                    <Form.Label>Platforms</Form.Label>
+                    <Form.Label className="text-dark">Platforms</Form.Label>
                     <Form.Control
                       type="input"
                       placeholder="F. ex. PC (Windows) and/or PlayStation 3"
                     />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formGridTitle">
-                    <Form.Label>Developers / Publishers</Form.Label>
+                    <Form.Label className="text-dark">Developers / Publishers</Form.Label>
                     <Form.Control type="input" placeholder="F. ex. DICE and EA" />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formGridTitle">
-                    <Form.Label>Genre(s)</Form.Label>
+                    <Form.Label className="text-dark">Genre(s)</Form.Label>
                     <Form.Control
                       type="input"
                       name="email"
@@ -968,7 +968,7 @@ export class AddGame extends Component {
                     />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formGridDesc">
-                    <Form.Label>Game description</Form.Label>
+                    <Form.Label className="text-dark">Game description</Form.Label>
                     <Form.Control
                       placeholder="Description of the video game"
                       as="textarea"
