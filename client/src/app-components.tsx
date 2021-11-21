@@ -952,6 +952,12 @@ export class MainFooter extends Component {
 
 export class AddGame extends Component {
   submitMsg: string = '';
+  formTitle: string = '';
+  formDate: string = '';
+  formPlatforms: string = '';
+  formPublishers: string = '';
+  formGenre: string = '';
+  formDescription: string = '';
   constructor(props: any) {
     super(props);
 
@@ -1048,6 +1054,24 @@ export class AddGame extends Component {
                 !this.formGenre ||
                 !this.formDescription
               }
+              onClick={(event) => {
+                reviewService
+                  .addGame(
+                    this.formTitle,
+                    this.formDate,
+                    this.formPlatforms,
+                    this.formPublishers,
+                    this.formGenre,
+                    this.formDescription
+                  )
+                  .then(() => {
+                    window.location.href('/#/submitgame/');
+                    console.log('Alt ok');
+                  })
+                  .catch(() => {
+                    console.log('Fatal føøkup');
+                  });
+              }}
               variant="secondary"
               href="/#/submitgame/"
             >

@@ -9,7 +9,6 @@ router.post('/game/add', (request, response) => {
   const data = request.body;
   if (data) {
     reviewService
-      // game_title, release_date, platforms, developers, genres, description]
       .addGame(
         data.game_title,
         data.release_date,
