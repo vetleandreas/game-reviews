@@ -1067,6 +1067,7 @@ export class AddGame extends Component {
                     this.formDescription
                   )
                   .then(() => {
+                    // @ts-ignore - Ignores missing type on JavaScript function.
                     window.location.href('/#/submitgame/');
                     console.log('Alt ok');
                   })
