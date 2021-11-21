@@ -951,6 +951,7 @@ export class MainFooter extends Component {
 }
 
 export class AddGame extends Component {
+  errorMsg: string = '';
   submitMsg: string = '';
   formTitle: string = '';
   formDate: string = '';
@@ -975,6 +976,7 @@ export class AddGame extends Component {
       <>
         <Container className="my-3 p-3 bg-dark rounded shadow-sm bg-primaty text-light">
           <h1 className="display-5"> Add a missing video game</h1>
+          {this.errorMsg ? <p style={{ color: 'red' }}>{this.errorMsg}</p> : null}
           <Card title="Add a new video game">
             <Row>
               <Col>
@@ -1069,7 +1071,7 @@ export class AddGame extends Component {
                     console.log('Alt ok');
                   })
                   .catch(() => {
-                    console.log('Fatal føøkup');
+                    this.errorMsg = 'An error occured, could not add game. Please try again.';
                   });
               }}
               variant="secondary"

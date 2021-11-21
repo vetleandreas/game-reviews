@@ -7,7 +7,21 @@ const router = express.Router();
 // Adds game to db
 router.post('/game/add', (request, response) => {
   const data = request.body;
-  if (data) {
+  if (
+    data &&
+    data.game_title != undefined &&
+    data.game_title.length != 0 &&
+    data.release_date != undefined &&
+    data.release_date.length != 0 &&
+    data.platforms != undefined &&
+    data.platforms.length != 0 &&
+    data.data.developers != undefined &&
+    data.data.developers.length != 0 &&
+    data.data.genres != undefined &&
+    data.data.genres.length != 0 &&
+    data.data.description != undefined &&
+    data.data.description.length != 0
+  ) {
     reviewService
       .addGame(
         data.game_title,
