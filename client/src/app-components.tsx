@@ -128,7 +128,9 @@ export class AllGames extends Component<any> {
                     <Card.Title style={{ fontSize: '18px' }}>{game.name}</Card.Title>
                     {game.genres
                       ? game.genres.map((genres: AllGamesItems) => (
-                          <Badge style={{ marginRight: '5px' }}>{genres.name}</Badge>
+                          <Badge key={genres.id} style={{ marginRight: '5px' }}>
+                            {genres.name}
+                          </Badge>
                         ))
                       : null}
                   </Card.Body>
@@ -343,6 +345,7 @@ export class GetGame extends Component<any> {
                       <strong>Platforms: </strong>
                       {game.platforms.map((platform: GameReviewsItems) => (
                         <Badge
+                          key={platform.id}
                           bg="warning"
                           text="dark"
                           style={{ marginRight: '5px', marginBottom: '5px' }}
@@ -360,6 +363,7 @@ export class GetGame extends Component<any> {
                       <strong>Developers / Publishers: </strong>
                       {game.involved_companies.map((company: GameReviewsItems) => (
                         <Badge
+                          key={company.id}
                           bg="info"
                           text="dark"
                           style={{ marginRight: '5px', marginBottom: '5px' }}
@@ -377,6 +381,7 @@ export class GetGame extends Component<any> {
                       <strong>Genres: </strong>
                       {game.genres.map((genre: GameReviewsItems) => (
                         <Badge
+                          key={genre.id}
                           bg="light"
                           text="dark"
                           style={{ marginRight: '5px', marginBottom: '5px' }}
@@ -523,7 +528,7 @@ export class GetGame extends Component<any> {
                   ) : null}
                   {this.gameReview.map((review: GameReviewsItems) => (
                     <>
-                      <Card text="dark" className="card-review">
+                      <Card text="dark" className="card-review" key={review.id}>
                         <Card.Title className="card-title">{review.review_title}</Card.Title>
                         <Card.Subtitle className="mb-2 text-muted card-subtitle">
                           Created by: {review.review_name} - {dateTime(review.created_at)}{' '}
@@ -610,7 +615,7 @@ export class GetGame extends Component<any> {
                 ) : null}
                 {game.expansions
                   ? game.expansions.map((expansion: GameReviewsItems) => (
-                      <Card className="card-hover" style={{ width: '200px' }}>
+                      <Card className="card-hover" style={{ width: '200px' }} key={expansion.id}>
                         <Nav.Link
                           href={'#/game/' + expansion.slug + '/'}
                           style={{ color: '#000', padding: 0, margin: 0 }}
@@ -642,7 +647,7 @@ export class GetGame extends Component<any> {
                 ) : null}
                 {game.similar_games
                   ? game.similar_games.map((similar_game: GameReviewsItems) => (
-                      <Card className="card-hover" style={{ width: '200px' }}>
+                      <Card className="card-hover" style={{ width: '200px' }} key={similar_game.id}>
                         <Nav.Link
                           href={'#/game/' + similar_game.slug + '/'}
                           style={{ color: '#000', padding: 0, margin: 0 }}
