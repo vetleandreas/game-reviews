@@ -28,6 +28,14 @@ export type UpvoteReview = {
   upvote: number;
 };
 
+export type AddGame = {
+  game_title: string;
+  release_date: string;
+  platforms: string;
+  developers: string;
+  genres: string;
+  description: string;
+};
 class ReviewService {
   getUpvotes() {
     return axios.get('/review/upvote/').then((response) => response.data);
@@ -42,8 +50,24 @@ class ReviewService {
   gameScores(id: number) {
     return axios.get<ReviewGamescore[]>('/review/score/' + id).then((response) => response.data);
   }
-  addGame() {
-    return axios.post('/game/add');
+  addGame(
+    game_title: string,
+    release_date: string,
+    platforms: string,
+    developers: string,
+    genres: string,
+    description: string
+  ) {
+    return axios
+      .post('/game/add', {
+        game_title: game_title,
+        release_date: release_date,
+        platforms: platforms,
+        developers: developers,
+        genres: genres,
+        description: description,
+      })
+      .then((response) => response.data);
   }
 
   postReview(
