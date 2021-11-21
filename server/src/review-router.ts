@@ -15,12 +15,12 @@ router.post('/game/add', (request, response) => {
     data.release_date.length != 0 &&
     data.platforms != undefined &&
     data.platforms.length != 0 &&
-    data.data.developers != undefined &&
-    data.data.developers.length != 0 &&
-    data.data.genres != undefined &&
-    data.data.genres.length != 0 &&
-    data.data.description != undefined &&
-    data.data.description.length != 0
+    data.developers != undefined &&
+    data.developers.length != 0 &&
+    data.genres != undefined &&
+    data.genres.length != 0 &&
+    data.description != undefined &&
+    data.description.length != 0
   ) {
     reviewService
       .addGame(
