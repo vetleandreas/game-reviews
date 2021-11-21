@@ -78,6 +78,19 @@ CREATE TABLE `game_review_relevance` (
 )
 ```
 
+```
+CREATE TABLE `add_game` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `game_title` varchar(255) NOT NULL,
+ `release_date` varchar(255) NOT NULL,
+ `platforms` text NOT NULL,
+ `developers` text NOT NULL,
+ `genres` text NOT NULL,
+ `description` text NOT NULL,
+ PRIMARY KEY (`id`)
+)
+```
+
 5. Run the API:
 
 ```sh
