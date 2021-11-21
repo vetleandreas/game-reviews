@@ -1069,7 +1069,7 @@ export class AddGame extends Component {
                     console.log('Alt ok');
                   })
                   .catch(() => {
-                    console.log('Fatal føøkup');
+                    console.log('Error: Could not reach database');
                   });
               }}
               variant="secondary"
