@@ -4,6 +4,40 @@ import { sha256 } from 'js-sha256';
 
 const router = express.Router();
 
+// Adds game to db
+router.post('/game/add', (request, response) => {
+  const data = request.body;
+  if (
+    data &&
+    data.game_title != undefined &&
+    data.game_title.length != 0 &&
+    data.release_date != undefined &&
+    data.release_date.length != 0 &&
+    data.platforms != undefined &&
+    data.platforms.length != 0 &&
+    data.data.developers != undefined &&
+    data.data.developers.length != 0 &&
+    data.data.genres != undefined &&
+    data.data.genres.length != 0 &&
+    data.data.description != undefined &&
+    data.data.description.length != 0
+  ) {
+    reviewService
+      .addGame(
+        data.game_title,
+        data.release_date,
+        data.platforms,
+        data.developers,
+        data.genres,
+        data.description
+      )
+      .then((id: any) => response.send({ id: id }))
+      .catch((error) =>
+        response.status(500).send('An unexpected error occurred. Culd not add game to Database.')
+      );
+  } else response.status(400).send('An unexpected error occurred. Culd not add game to Database.');
+});
+
 // Get all upvotes
 router.get('/review/upvote/', (request, response) => {
   reviewService

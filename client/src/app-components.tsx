@@ -537,7 +537,7 @@ export class GetGame extends Component<any> {
                         <Card.Body>
                           <Card.Text>{review.review_text}</Card.Text>
                           {/* TODO: Add upvote functionality */}
-                          {this.upvotes.length > 0 ? (
+                          {this.upvotes.length >= 0 ? (
                             <Button
                               variant="warning"
                               onClick={(event) => {
@@ -565,7 +565,6 @@ export class GetGame extends Component<any> {
                               </span>
                             </Button>
                           ) : null}{' '}
-                          {/* Kanskje bruke div og ikke button i button, siden det kommer en feilmelding med det. */}
                           <div
                             id="share-btn-container"
                             className="btn share-btn btn-share btn-success"
@@ -811,7 +810,6 @@ export class GetGame extends Component<any> {
               </Button>{' '}
               <Button
                 variant="danger"
-                // style={{ float: 'right', margin: '0px 3px 0px 3px' }}
                 onClick={(event) => {
                   if (
                     this.reviewEdit.review_id != undefined &&
@@ -861,7 +859,7 @@ export class GetGame extends Component<any> {
     );
   }
   getUpvote() {
-    // Get review upvotes for user. ## Not working
+    // Get review upvotes for user.
     reviewService
       .getUpvotes()
       .then((response) => (this.upvotes = response))
@@ -892,7 +890,7 @@ export class GetGame extends Component<any> {
 
 // Workaroud for this.props.match.params.offset problem: property 'match' does not exist on type Readonly
 export class MainCarousel extends Component<any> {
-  // Bare for og få random carousel items
+  // Bare for å få random populære carousel items
   offset = Math.floor(Math.random() * 1000);
   games: GameReviewsItems[] = [];
   render() {
@@ -953,6 +951,14 @@ export class MainFooter extends Component {
 }
 
 export class AddGame extends Component {
+  errorMsg: string = '';
+  submitMsg: string = '';
+  formTitle: string = '';
+  formDate: string = '';
+  formPlatforms: string = '';
+  formPublishers: string = '';
+  formGenre: string = '';
+  formDescription: string = '';
   constructor(props: any) {
     super(props);
 
@@ -970,34 +976,59 @@ export class AddGame extends Component {
       <>
         <Container className="my-3 p-3 bg-dark rounded shadow-sm bg-primaty text-light">
           <h1 className="display-5"> Add a missing video game</h1>
+          {this.errorMsg ? <p style={{ color: 'red' }}>{this.errorMsg}</p> : null}
           <Card title="Add a new video game">
             <Row>
               <Col>
                 <Form>
                   <Form.Group className="mb-3" controlId="formGridTitle">
                     <Form.Label className="text-dark">Game title</Form.Label>
-                    <Form.Control type="input" placeholder="F. ex. Battlefield 4" />
+                    <Form.Control
+                      type="input"
+                      required
+                      value={this.formTitle}
+                      onChange={(event) => (this.formTitle = event.currentTarget.value)}
+                      placeholder="F. ex. Battlefield 4"
+                    />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formGridTitle">
                     <Form.Label className="text-dark">Release date</Form.Label>
-                    <Form.Control type="input" placeholder="MM/DD/YYYY" />
+                    <Form.Control
+                      type="input"
+                      required
+                      value={this.formDate}
+                      onChange={(event) => (this.formDate = event.currentTarget.value)}
+                      placeholder="MM/DD/YYYY"
+                    />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formGridTitle">
                     <Form.Label className="text-dark">Platforms</Form.Label>
                     <Form.Control
                       type="input"
+                      required
+                      value={this.formPlatforms}
+                      onChange={(event) => (this.formPlatforms = event.currentTarget.value)}
                       placeholder="F. ex. PC (Windows) and/or PlayStation 3"
                     />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formGridTitle">
                     <Form.Label className="text-dark">Developers / Publishers</Form.Label>
-                    <Form.Control type="input" placeholder="F. ex. DICE and EA" />
+                    <Form.Control
+                      type="input"
+                      required
+                      value={this.formPublishers}
+                      onChange={(event) => (this.formPublishers = event.currentTarget.value)}
+                      placeholder="F. ex. DICE and EA"
+                    />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formGridTitle">
                     <Form.Label className="text-dark">Genre(s)</Form.Label>
                     <Form.Control
                       type="input"
-                      name="email"
+                      name="genre"
+                      required
+                      value={this.formGenre}
+                      onChange={(event) => (this.formGenre = event.currentTarget.value)}
                       placeholder="F. ex. Shooter, Simulator or Strategy"
                     />
                   </Form.Group>
@@ -1006,7 +1037,9 @@ export class AddGame extends Component {
                     <Form.Control
                       placeholder="Description of the video game"
                       as="textarea"
-                      onChange={this.handleChange}
+                      required
+                      value={this.formDescription}
+                      onChange={(event) => (this.formDescription = event.currentTarget.value)}
                       rows={3}
                     />
                   </Form.Group>
@@ -1014,7 +1047,36 @@ export class AddGame extends Component {
               </Col>
             </Row>
             {/* @ts-ignore */}
-            <Button disabled={!this.state.name} variant="secondary" href="/#/submitgame/">
+            <Button
+              disabled={
+                !this.formTitle ||
+                !this.formDate ||
+                !this.formPlatforms ||
+                !this.formPublishers ||
+                !this.formGenre ||
+                !this.formDescription
+              }
+              onClick={(event) => {
+                reviewService
+                  .addGame(
+                    this.formTitle,
+                    this.formDate,
+                    this.formPlatforms,
+                    this.formPublishers,
+                    this.formGenre,
+                    this.formDescription
+                  )
+                  .then(() => {
+                    window.location.href('/#/submitgame/');
+                    console.log('Alt ok');
+                  })
+                  .catch(() => {
+                    this.errorMsg = 'An error occured, could not add game. Please try again.';
+                  });
+              }}
+              variant="secondary"
+              href="/#/submitgame/"
+            >
               Submit new game
             </Button>
           </Card>
@@ -1198,112 +1260,6 @@ export class SearchGame extends Component<any> {
   }
 }
 
-// Denne tror jeg vi kan slette, den brukes vel ikke noen plass?
-export class GameCarousel extends Component {
-  render() {
-    return (
-      <>
-        <Container>
-          <Carousel>
-            <Carousel.Item>
-              <Card style={{ float: 'left' }} className="col-md-3">
-                <Card.Img variant="top" src="./backgrounds/carousel_background.jpg" />
-                <Card.Body>
-                  <Card.Title>Card Title 1</Card.Title>
-                  <Card.Text>
-                    Some quick example text to build on the card title and make up the bulk of the
-                    card's content.
-                  </Card.Text>
-                  <Button variant="primary">Go somewhere</Button>
-                </Card.Body>
-              </Card>
-              <Card style={{ float: 'left' }} className="col-md-3">
-                <Card.Img variant="top" src="./backgrounds/carousel_background.jpg" />
-                <Card.Body>
-                  <Card.Title>Card Title 1</Card.Title>
-                  <Card.Text>
-                    Some quick example text to build on the card title and make up the bulk of the
-                    card's content.
-                  </Card.Text>
-                  <Button variant="primary">Go somewhere</Button>
-                </Card.Body>
-              </Card>
-              <Card style={{ float: 'left' }} className="col-md-3">
-                <Card.Img variant="top" src="./backgrounds/carousel_background.jpg" />
-                <Card.Body>
-                  <Card.Title>Card Title 1</Card.Title>
-                  <Card.Text>
-                    Some quick example text to build on the card title and make up the bulk of the
-                    card's content.
-                  </Card.Text>
-                  <Button variant="primary">Go somewhere</Button>
-                </Card.Body>
-              </Card>
-              <Card style={{ float: 'left' }} className="col-md-3">
-                <Card.Img variant="top" src="./backgrounds/carousel_background.jpg" />
-                <Card.Body>
-                  <Card.Title>Card Title 1</Card.Title>
-                  <Card.Text>
-                    Some quick example text to build on the card title and make up the bulk of the
-                    card's content.
-                  </Card.Text>
-                  <Button variant="primary">Go somewhere</Button>
-                </Card.Body>
-              </Card>
-            </Carousel.Item>
-            <Carousel.Item>
-              <Card style={{ float: 'left' }} className="col-md-3">
-                <Card.Img variant="top" src="./backgrounds/carousel_background.jpg" />
-                <Card.Body>
-                  <Card.Title>Card Title 1</Card.Title>
-                  <Card.Text>
-                    Some quick example text to build on the card title and make up the bulk of the
-                    card's content.
-                  </Card.Text>
-                  <Button variant="primary">Go somewhere</Button>
-                </Card.Body>
-              </Card>
-              <Card style={{ float: 'left' }} className="col-md-3">
-                <Card.Img variant="top" src="./backgrounds/carousel_background.jpg" />
-                <Card.Body>
-                  <Card.Title>Card Title 1</Card.Title>
-                  <Card.Text>
-                    Some quick example text to build on the card title and make up the bulk of the
-                    card's content.
-                  </Card.Text>
-                  <Button variant="primary">Go somewhere</Button>
-                </Card.Body>
-              </Card>
-              <Card style={{ float: 'left' }} className="col-md-3">
-                <Card.Img variant="top" src="./backgrounds/carousel_background.jpg" />
-                <Card.Body>
-                  <Card.Title>Card Title 1</Card.Title>
-                  <Card.Text>
-                    Some quick example text to build on the card title and make up the bulk of the
-                    card's content.
-                  </Card.Text>
-                  <Button variant="primary">Go somewhere</Button>
-                </Card.Body>
-              </Card>
-              <Card style={{ float: 'left' }} className="col-md-3">
-                <Card.Img variant="top" src="./backgrounds/carousel_background.jpg" />
-                <Card.Body>
-                  <Card.Title>Card Title 1</Card.Title>
-                  <Card.Text>
-                    Some quick example text to build on the card title and make up the bulk of the
-                    card's content.
-                  </Card.Text>
-                  <Button variant="primary">Go somewhere</Button>
-                </Card.Body>
-              </Card>
-            </Carousel.Item>
-          </Carousel>
-        </Container>
-      </>
-    );
-  }
-}
-
 export class MainPage extends Component {
   offset: string | number | any = Math.floor(Math.random() * 1000);
   games: CarouselItems[] = [];
@@ -1366,7 +1322,7 @@ export class MainPage extends Component {
                 </Col>
               </Row>
               <br></br>
-              {/* <Card title="homepage" className="bg-dark rounded shadow-sm bg-primaty text-light"> */}
+
               <Row>
                 <Col style={{ textAlign: 'center' }}>
                   <h5>Some of the popular video games right now</h5>
@@ -1374,7 +1330,6 @@ export class MainPage extends Component {
               </Row>
               <br></br>
               <Row>
-                {/* <Col className="bg-dark"> </Col> */}
                 <Col
                   className="bg-dark mx-auto"
                   xs={1}
@@ -1397,17 +1352,13 @@ export class MainPage extends Component {
                           <Nav.Link href={'#/game/' + game.slug} className="search-link">
                             <Button variant="dark">Visit game page</Button>{' '}
                           </Nav.Link>
-                          {/* <Button variant="dark">IGDB rating her?</Button> */}
                         </Carousel.Caption>
                       </Carousel.Item>
                     ))}
                   </Carousel>
                 </Col>
-                {/* <Col className="bg-dark"> </Col> */}
               </Row>
               <br></br>
-
-              {/* </Card> */}
             </Card.Body>
           </Card>
         </Container>
