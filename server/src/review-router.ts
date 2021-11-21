@@ -41,6 +41,8 @@ router.post('/review/', (request, response) => {
     data.game_score.length != 0 &&
     data.review_title != undefined &&
     data.review_title.length != 0 &&
+    data.review_name != undefined &&
+    data.review_name.length != 0 &&
     data.review_text != undefined &&
     data.review_text.length != 0 &&
     data.review_created_by != undefined &&
@@ -58,6 +60,7 @@ router.post('/review/', (request, response) => {
     reviewService
       .postReview(
         data.review_title,
+        data.review_name,
         data.review_text,
         data.review_created_by,
         data.game_id,

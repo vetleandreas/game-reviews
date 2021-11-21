@@ -79,6 +79,7 @@ class ReviewService {
   // Post review
   postReview(
     review_title: string,
+    review_name: string,
     review_text: string,
     review_created_by: string,
     game_id: number,
@@ -86,8 +87,8 @@ class ReviewService {
   ) {
     return new Promise((resolve, reject) => {
       pool.query(
-        'INSERT INTO game_review (id, review_title, created_at, review_text, created_by_id, game_id, review_password) VALUES (NULL, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?);',
-        [review_title, review_text, review_created_by, game_id, review_password],
+        'INSERT INTO game_review (id, review_title, review_name, created_at, review_text, created_by_id, game_id, review_password) VALUES (NULL, ?, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?);',
+        [review_title, review_name, review_text, review_created_by, game_id, review_password],
         (error, results) => {
           if (error) return reject(error);
 
@@ -149,7 +150,7 @@ class ReviewService {
   getReviews(gameId: number) {
     return new Promise((resolve, reject) => {
       pool.query(
-        'SELECT game_review.id, game_review.review_title, game_review.created_at, game_review.review_text, game_review.created_by_id, game_review.game_id, gamescore.score_id, gamescore.game_id, gamescore.score FROM game_review INNER JOIN gamescore ON game_review.id = gamescore.score_id WHERE game_review.game_id = ? ORDER BY game_review.id DESC',
+        'SELECT game_review.id, game_review.review_name, game_review.review_title, game_review.created_at, game_review.review_text, game_review.created_by_id, game_review.game_id, gamescore.score_id, gamescore.game_id, gamescore.score FROM game_review INNER JOIN gamescore ON game_review.id = gamescore.score_id WHERE game_review.game_id = ? ORDER BY game_review.id DESC',
         [gameId],
         (error, results) => {
           if (error) return reject(error);
