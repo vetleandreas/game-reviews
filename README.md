@@ -32,14 +32,13 @@ process.env.CLIENT_ID = '...';
 process.env.AUTHORIZATION = '...';
 
 ```
-
-### Example client id and authorization
-
+Example client ID and authorization
 This is for the IGDB API Authorization. Without correct API Client-ID and Authorization, the App
 will not load games.
 
 - Example Client-ID: `"retgzhvpsxjwun0rvrb1rfwheegu1yw"`
 - Example Authorization: `"Bearer prau3ol6mg5glgek8m89ec2s9q5i3i"`
+
 
 4. Use this SQL code to create the relevant databases:
 
