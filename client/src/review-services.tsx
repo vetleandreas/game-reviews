@@ -45,6 +45,7 @@ class ReviewService {
 
   postReview(
     review_title: string,
+    review_name: string,
     review_text: string,
     review_created_by: string,
     game_id: number,
@@ -54,6 +55,7 @@ class ReviewService {
     return axios
       .post('/review/', {
         review_title: review_title,
+        review_name: review_name,
         review_text: review_text,
         review_created_by: review_created_by,
         game_id: game_id,

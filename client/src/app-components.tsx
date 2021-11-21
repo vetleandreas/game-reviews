@@ -500,6 +500,7 @@ export class GetGame extends Component {
                             reviewService
                               .postReview(
                                 this.formTitle,
+                                this.formName,
                                 this.formReviewText,
                                 this.formEmail,
                                 this.game[0].id,
@@ -509,8 +510,8 @@ export class GetGame extends Component {
                               .then(() => location.reload())
                               .catch();
                             event.currentTarget.disabled = true;
-                            history.push('/game/' + this.game[0].slug);
-                            window.location.reload(false);
+                            // history.push('/game/' + this.game[0].slug);
+                            // window.location.reload(false);
                           }}
                         >
                           Submit review
@@ -533,7 +534,8 @@ export class GetGame extends Component {
                       <Card text="dark" className="card-review">
                         <Card.Title className="card-title">{review.review_title}</Card.Title>
                         <Card.Subtitle className="mb-2 text-muted card-subtitle">
-                          Created by: {review.created_by_id} - {dateTime(review.created_at)}
+                          Created by: {console.log(review)}
+                          {review.review_name} - {dateTime(review.created_at)}
                         </Card.Subtitle>
                         <Card.Subtitle>Rated: {review.score}</Card.Subtitle>
                         <Card.Body>

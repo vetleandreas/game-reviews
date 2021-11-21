@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const ROOT_URL = 'https://api.igdb.com/v4/';
+
 export type Carousel = {
   id: number;
   name: string;
