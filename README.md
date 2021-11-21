@@ -32,8 +32,38 @@ process.env.MYSQL_DATABASE = '...';
 
 4. Use this SQL code to create the relevant databases:
 
-```sh
-CREATE TABBBBBELLLLLL
+```
+CREATE TABLE `gamescore` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `score_id` int(11) NOT NULL,
+ `game_id` varchar(255) NOT NULL,
+ `score` int(11) NOT NULL,
+ PRIMARY KEY (`id`)
+)
+```
+
+```
+CREATE TABLE `game_review` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `review_name` varchar(255) NOT NULL,
+ `review_title` varchar(255) NOT NULL,
+ `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+ `review_text` text NOT NULL,
+ `created_by_id` varchar(255) NOT NULL,
+ `game_id` varchar(255) NOT NULL,
+ `review_password` varchar(255) NOT NULL,
+ PRIMARY KEY (`id`)
+)
+```
+
+```
+CREATE TABLE `game_review_relevance` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `user_id` varchar(255) NOT NULL,
+ `review_id` varchar(255) NOT NULL,
+ `upvote` tinyint(1) NOT NULL,
+ PRIMARY KEY (`id`)
+)
 ```
 
 ### IGDB API
