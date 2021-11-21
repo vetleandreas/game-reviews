@@ -1,9 +1,8 @@
-# Web Development Project INFT2002: Game Review
+# Welcome to the Game Review Service!
 
-Web development project course INFT2002.
+This is a project in INFT2002 at NTNU to review video games connected to a database.
 
 ## Instructions
-
 1. Download the project:
 
 ```sh
@@ -33,8 +32,8 @@ process.env.MYSQL_DATABASE = '...';
 
 ## IGDB API Settings
 
-Create a configuration file called "config.ts" in the server folder. This is for the IGDB API
-Authorization
+4. Create a configuration file called "config.ts" in the server folder. This is for the IGDB API
+Authorization.
 
 ```sh
 process.env.CLIENT_ID = '...';
@@ -42,7 +41,7 @@ process.env.AUTHORIZATION = '...';
 
 ```
 
-### Example client id and authorization
+### Example IGDB authorization
 
 - Example Client-ID: `"retgzhvpsxjwun0rvrb1rfwheegu1yw"`
 - Example Authorization: `"Bearer prau3ol6mg5glgek8m89ec2s9q5i3i"`
